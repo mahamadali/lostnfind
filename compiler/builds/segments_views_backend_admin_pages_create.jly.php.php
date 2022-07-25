@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title><?php echo setting('app.title', 'Faq'); ?></title>
+    <title><?php echo setting('app.title', 'Pages'); ?></title>
     
     <link rel="stylesheet" href="<?php echo url('assets/vendors/feather/feather.css'); ?>">
     <link rel="stylesheet" href="<?php echo url('assets/vendors/ti-icons/css/themify-icons.css'); ?>">
@@ -176,60 +176,40 @@
     <span><?php echo session()->flash('info'); ?></span>
   </div>
 <?php } ?>
-                    <div class="row">
-  <div class="col-md-12">
-    <div class="card card-inverse-light-with-black-text flatten-border">
-      <div class="card-header">
+                    <div class="card card-inverse-light-with-black-text flatten-border">
+    <div class="card-header">
+      Create Page
+    </div>
+    <div class="card-body">
+      <form method="post" action="<?php echo route('admin.pages.store'); ?>">
         <div class="row">
-          <div class="col-md-2">
-            <h6>Faq</h6>
-          </div>
           <div class="col">
-            <a class="btn btn-md btn-primary float-right" href="<?php echo route('admin.faq.create'); ?>">
-              Add Faq
-            </a>
+            <div class="form-group">
+              <label>Title</label>
+              <input type="text" class="form-control" name="title" value="<?php echo old('title'); ?>" />
+            </div>
           </div>
         </div>
-      </div>
-      <div class="card-body">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php if(count($faqs) > 0) { ?>
-              <?php foreach($faqs as $faq) { ?>
-              <tr>
-                <td><?php echo $faq->title; ?></td>
-                <td><?php echo $faq->description; ?></td>
-                <td>
-                  <a href="<?php echo url('admin/faq/edit/'.$faq->id); ?>" class="btn btn-sm btn-info">
-                    <span><i class="ti-pencil"></i></span>
-                  </a>
-                  <form method="post" action="<?php echo url('admin/faq/delete/'.$faq->id); ?>" class="d-inline-block">
-                    <input type="hidden" name="_method" value="DELETE" />
-                    <button type="submit" class="btn btn-sm btn-danger">
-                      <span><i class="ti-trash"></i></span>
-                      </a>
-                  </form>
-                </td>
-              </tr>
-              <?php } ?>
-            <?php } else { ?>
-              <tr>
-                <td colspan="3" class="text-center text-muted">No data found</td>
-              </tr>
-            <?php } ?>
-          </tbody>
-        </table>
-      </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label>Description</label>
+              <textarea class="form-control" name="description" id="description" cols="5" rows="5"><?php echo old('description'); ?></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col">
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary btn-lg">Save</button>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
-</div>
                 </div>
                 <footer class="footer">
   <div class="d-sm-flex justify-content-center justify-content-sm-between">
@@ -248,7 +228,13 @@
     <script type="text/javascript">
         var APP_BASE_URL = '<?php echo url("/"); ?>';
     </script>
-    
+    <script src="https://cdn.tiny.cloud/1/1oygzsxmj2z65b12oe2xsmopyeb339ctejhzi5fgpu8ftp4r/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+tinymce.init({
+  selector:'textarea',
+  menubar :false,
+});
+</script>
 </body>
 
 </html>

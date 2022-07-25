@@ -1,6 +1,6 @@
 @extends('backend/app')
 
-@block("title") {{ setting('app.title', 'Faq') }} @endblock
+@block("title") {{ setting('app.title', 'Pages') }} @endblock
 
 @block("styles")
 @endblock
@@ -9,16 +9,15 @@
 
   <div class="card card-inverse-light-with-black-text flatten-border">
     <div class="card-header">
-      Edit Faq
+      Create Page
     </div>
     <div class="card-body">
-      <form method="post" action="{{ route('admin.faq.update') }}">
-        <input type="hidden" name="id" value="{{ $faq->id }}" />
+      <form method="post" action="{{ route('admin.pages.store') }}">
         <div class="row">
           <div class="col">
             <div class="form-group">
               <label>Title</label>
-              <input type="text" class="form-control" name="title" value="{{ $faq->title }}" />
+              <input type="text" class="form-control" name="title" value="{{ old('title') }}" />
             </div>
           </div>
         </div>
@@ -27,7 +26,7 @@
           <div class="col">
             <div class="form-group">
               <label>Description</label>
-              <textarea class="form-control" name="description" id="description" cols="5" rows="5">{{ $faq->description }}</textarea>
+              <textarea class="form-control" name="description" id="description" cols="5" rows="5">{{ old('description') }}</textarea>
             </div>
           </div>
         </div>

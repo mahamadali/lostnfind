@@ -80,6 +80,13 @@
         </a>
       </li>
 
+      <li class="nav-item {{ (request()->currentPage() == '/admin/pages/index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.pages.list') }}">
+          <i class="ti-file menu-icon"></i>
+          <span class="menu-title">Pages</span>
+        </a>
+      </li>
+
     @endif
     @if (auth()->role->name == 'user'):
       <li class="nav-item {{ (request()->currentPage() == '/user/dashboard') ? 'active' : '' }}">

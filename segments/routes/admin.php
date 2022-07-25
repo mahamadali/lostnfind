@@ -9,6 +9,7 @@ use Controllers\Backend\SubscriptionController;
 use Controllers\Backend\SmsSettingController;
 use Controllers\Backend\SocialmediaController;
 use Controllers\Backend\FaqController;
+use Controllers\Backend\PagesController;
 use Controllers\AuthController;
 use Barriers\Admin\IsAuthenticated;
 
@@ -67,6 +68,15 @@ Router::bunch('/admin', ['as' => 'admin.', 'barrier' => [IsAuthenticated::class]
 		Router::get('/edit/{category}', [ FaqController::class, 'edit' ])->name('edit');
 		Router::post('/update', [ FaqController::class, 'update' ])->name('update');
 		Router::post('/delete/{category}', [ FaqController::class, 'delete' ])->name('delete');
+	});
+
+	Router::bunch('/pages', ['as' => 'pages.'], function() {
+		Router::get('/list', [ PagesController::class, 'index' ])->name('list');
+		Router::get('/create', [ PagesController::class, 'create' ])->name('create');
+		Router::post('/store', [ PagesController::class, 'store' ])->name('store');
+		Router::get('/edit/{category}', [ PagesController::class, 'edit' ])->name('edit');
+		Router::post('/update', [ PagesController::class, 'update' ])->name('update');
+		Router::post('/delete/{category}', [ PagesController::class, 'delete' ])->name('delete');
 	});
 
 });

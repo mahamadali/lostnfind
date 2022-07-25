@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title><?php echo setting('app.title', 'Faq'); ?></title>
+    <title><?php echo setting('app.title', 'Pages'); ?></title>
     
     <link rel="stylesheet" href="<?php echo url('assets/vendors/feather/feather.css'); ?>">
     <link rel="stylesheet" href="<?php echo url('assets/vendors/ti-icons/css/themify-icons.css'); ?>">
@@ -182,11 +182,11 @@
       <div class="card-header">
         <div class="row">
           <div class="col-md-2">
-            <h6>Faq</h6>
+            <h6>Pages</h6>
           </div>
           <div class="col">
-            <a class="btn btn-md btn-primary float-right" href="<?php echo route('admin.faq.create'); ?>">
-              Add Faq
+            <a class="btn btn-md btn-primary float-right" href="<?php echo route('admin.pages.create'); ?>">
+              Add Page
             </a>
           </div>
         </div>
@@ -201,16 +201,16 @@
             </tr>
           </thead>
           <tbody>
-            <?php if(count($faqs) > 0) { ?>
-              <?php foreach($faqs as $faq) { ?>
+            <?php if(count($pages) > 0) { ?>
+              <?php foreach($pages as $page) { ?>
               <tr>
-                <td><?php echo $faq->title; ?></td>
-                <td><?php echo $faq->description; ?></td>
+                <td><?php echo $page->title; ?></td>
+                <td><?php echo $page->description; ?></td>
                 <td>
-                  <a href="<?php echo url('admin/faq/edit/'.$faq->id); ?>" class="btn btn-sm btn-info">
+                  <a href="<?php echo url('admin/pages/edit/'.$page->id); ?>" class="btn btn-sm btn-info">
                     <span><i class="ti-pencil"></i></span>
                   </a>
-                  <form method="post" action="<?php echo url('admin/faq/delete/'.$faq->id); ?>" class="d-inline-block">
+                  <form method="post" action="<?php echo url('admin/pages/delete/'.$page->id); ?>" class="d-inline-block">
                     <input type="hidden" name="_method" value="DELETE" />
                     <button type="submit" class="btn btn-sm btn-danger">
                       <span><i class="ti-trash"></i></span>
