@@ -251,7 +251,7 @@ class Router
             return null;
         }
 
-        return $aliases['barriers'][$barrier];
+        return !empty($aliases['barriers'][$barrier]) ? $aliases['barriers'][$barrier] : $barrier;
     }
 
     public static function checkRoutePatternMatch($pageRoute)

@@ -97,27 +97,6 @@
           <span class="menu-title">Company</span>
         </a>
       </li>
-      <li class="nav-item <?php echo (request()->currentPage() == '/admin/smssetting/index') ? 'active' : ''; ?>">
-        <a class="nav-link" href="<?php echo route('admin.smssetting.index'); ?>">
-          <i class="icon-grid menu-icon"></i>
-          <span class="menu-title">SMS Account Setting</span>
-        </a>
-      </li>
-
-      <li class="nav-item <?php echo (Bones\Str::contains(request()->currentPage(), '/admin/category/')) ? 'active' : ''; ?>">
-        <a class="nav-link" data-toggle="collapse" href="#socialmedia" aria-expanded="false" aria-controls="socialmedia">
-          <i class="ti-list menu-icon"></i>
-          <span class="menu-title">Social Media</span>
-          <i class="menu-arrow"></i>
-        </a>
-        <div class="collapse <?php echo (Bones\Str::contains(request()->currentPage(), '/admin/socialmedia/')) ? 'show' : ''; ?>" id="socialmedia">
-          <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="<?php echo route('admin.socialmedia.create'); ?>"> Add </a></li>
-            <li class="nav-item"> <a class="nav-link" href="<?php echo route('admin.socialmedia.list'); ?>"> Social Media </a></li>
-          </ul>
-        </div>
-      </li>
-
     <?php } ?>
     <?php if(auth()->role->name == 'user') { ?>
       <li class="nav-item <?php echo (request()->currentPage() == '/user/dashboard') ? 'active' : ''; ?>">
@@ -167,11 +146,11 @@
       <div class="card-header">
         <div class="row">
           <div class="col-md-2">
-            <h6>Categories</h6>
+            <h6>Subscriptions Plan</h6>
           </div>
           <div class="col">
-            <a class="btn btn-md btn-primary float-right" href="<?php echo route('admin.category.create'); ?>">
-              Add Category
+            <a class="btn btn-md btn-primary float-right" href="<?php echo route('admin.subscriptions.create'); ?>">
+              Add Plan
             </a>
           </div>
         </div>
@@ -180,20 +159,26 @@
         <table class="table">
           <thead>
             <tr>
-              <th>Name</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Days</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            <?php if(count($categories) > 0) { ?>
-              <?php foreach($categories as $category) { ?>
+            <?php if(count($subscriptions) > 0) { ?>
+              <?php foreach($subscriptions as $subscription) { ?>
               <tr>
-                <td><?php echo $category->title; ?></td>
+                <td><?php echo $subscription->title; ?></td>
+                <td><?php echo $subscription->description; ?></td>
+                <td>$<?php echo $subscription->price; ?></td>
+                <td><?php echo $subscription->days; ?></td>
                 <td>
-                  <a href="<?php echo url('admin/category/edit/'.$category->id); ?>" class="btn btn-sm btn-info">
+                  <a href="<?php echo url('admin/subscriptions/edit/'.$subscription->id); ?>" class="btn btn-sm btn-info">
                     <span><i class="ti-pencil"></i></span>
                   </a>
-                  <form method="post" action="<?php echo url('admin/category/delete/'.$category->id); ?>" class="d-inline-block">
+                  <form method="post" action="<?php echo url('admin/subscriptions/delete/'.$subscription->id); ?>" class="d-inline-block">
                     <input type="hidden" name="_method" value="DELETE" />
                     <button type="submit" class="btn btn-sm btn-danger">
                       <span><i class="ti-trash"></i></span>

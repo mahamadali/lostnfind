@@ -97,27 +97,6 @@
           <span class="menu-title">Company</span>
         </a>
       </li>
-      <li class="nav-item <?php echo (request()->currentPage() == '/admin/smssetting/index') ? 'active' : ''; ?>">
-        <a class="nav-link" href="<?php echo route('admin.smssetting.index'); ?>">
-          <i class="icon-grid menu-icon"></i>
-          <span class="menu-title">SMS Account Setting</span>
-        </a>
-      </li>
-
-      <li class="nav-item <?php echo (Bones\Str::contains(request()->currentPage(), '/admin/category/')) ? 'active' : ''; ?>">
-        <a class="nav-link" data-toggle="collapse" href="#socialmedia" aria-expanded="false" aria-controls="socialmedia">
-          <i class="ti-list menu-icon"></i>
-          <span class="menu-title">Social Media</span>
-          <i class="menu-arrow"></i>
-        </a>
-        <div class="collapse <?php echo (Bones\Str::contains(request()->currentPage(), '/admin/socialmedia/')) ? 'show' : ''; ?>" id="socialmedia">
-          <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="<?php echo route('admin.socialmedia.create'); ?>"> Add </a></li>
-            <li class="nav-item"> <a class="nav-link" href="<?php echo route('admin.socialmedia.list'); ?>"> Social Media </a></li>
-          </ul>
-        </div>
-      </li>
-
     <?php } ?>
     <?php if(auth()->role->name == 'user') { ?>
       <li class="nav-item <?php echo (request()->currentPage() == '/user/dashboard') ? 'active' : ''; ?>">
@@ -161,58 +140,54 @@
     <span><?php echo session()->flash('info'); ?></span>
   </div>
 <?php } ?>
-                    <div class="row">
-  <div class="col-md-12">
-    <div class="card card-inverse-light-with-black-text flatten-border">
-      <div class="card-header">
+                    <div class="card card-inverse-light-with-black-text flatten-border">
+    <div class="card-header">
+      Create Subscription Plan
+    </div>
+    <div class="card-body">
+      <form method="post" action="<?php echo route('admin.subscriptions.store'); ?>">
         <div class="row">
-          <div class="col-md-2">
-            <h6>Categories</h6>
-          </div>
           <div class="col">
-            <a class="btn btn-md btn-primary float-right" href="<?php echo route('admin.category.create'); ?>">
-              Add Category
-            </a>
+            <div class="form-group">
+              <label>Title</label>
+              <input type="text" class="form-control" name="title" value="<?php echo old('title'); ?>" />
+            </div>
           </div>
         </div>
-      </div>
-      <div class="card-body">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php if(count($categories) > 0) { ?>
-              <?php foreach($categories as $category) { ?>
-              <tr>
-                <td><?php echo $category->title; ?></td>
-                <td>
-                  <a href="<?php echo url('admin/category/edit/'.$category->id); ?>" class="btn btn-sm btn-info">
-                    <span><i class="ti-pencil"></i></span>
-                  </a>
-                  <form method="post" action="<?php echo url('admin/category/delete/'.$category->id); ?>" class="d-inline-block">
-                    <input type="hidden" name="_method" value="DELETE" />
-                    <button type="submit" class="btn btn-sm btn-danger">
-                      <span><i class="ti-trash"></i></span>
-                      </a>
-                  </form>
-                </td>
-              </tr>
-              <?php } ?>
-            <?php } else { ?>
-              <tr>
-                <td colspan="3" class="text-center text-muted">No data found</td>
-              </tr>
-            <?php } ?>
-          </tbody>
-        </table>
-      </div>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label>Description</label>
+              <textarea class="form-control" name="description"><?php echo old('description'); ?></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label>Price</label>
+              <input type="text" class="form-control" name="price" value="<?php echo old('price'); ?>" />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label>Days</label>
+              <input type="text" class="form-control" name="days" value="<?php echo old('days'); ?>" />
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col">
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary btn-lg">Save</button>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
-</div>
                 </div>
                 <footer class="footer">
   <div class="d-sm-flex justify-content-center justify-content-sm-between">

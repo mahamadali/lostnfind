@@ -5,11 +5,13 @@ use Controllers\Backend\DashboardController;
 use Controllers\Backend\UserController;
 use Controllers\Backend\CompanyController;
 use Controllers\Backend\CategoryController;
+use Controllers\Backend\SubscriptionController;
 use Controllers\Backend\SmsSettingController;
 use Controllers\Backend\SocialmediaController;
 use Controllers\AuthController;
+use Barriers\Admin\IsAuthenticated;
 
-Router::bunch('/admin', ['as' => 'admin.', 'barrier' => ['is-auth']], function() {
+Router::bunch('/admin', ['as' => 'admin.', 'barrier' => [IsAuthenticated::class]], function() {
 	Router::get('/dashboard', [ DashboardController::class, 'index' ])->name('dashboard');
 	Router::bunch('/users', ['as' => 'users.'], function() {
 		Router::get('/list', [ UserController::class, 'index' ])->name('list');
@@ -27,6 +29,15 @@ Router::bunch('/admin', ['as' => 'admin.', 'barrier' => ['is-auth']], function()
 		Router::get('/edit/{category}', [ CategoryController::class, 'edit' ])->name('edit');
 		Router::post('/update', [ CategoryController::class, 'update' ])->name('update');
 		Router::post('/delete/{category}', [ CategoryController::class, 'delete' ])->name('delete');
+	});
+
+	Router::bunch('/subscriptions', ['as' => 'subscriptions.'], function() {
+		Router::get('/list', [ SubscriptionController::class, 'index' ])->name('list');
+		Router::get('/create', [ SubscriptionController::class, 'create' ])->name('create');
+		Router::post('/store', [ SubscriptionController::class, 'store' ])->name('store');
+		Router::get('/edit/{subscription}', [ SubscriptionController::class, 'edit' ])->name('edit');
+		Router::post('/update', [ SubscriptionController::class, 'update' ])->name('update');
+		Router::post('/delete/{subscription}', [ SubscriptionController::class, 'delete' ])->name('delete');
 	});
 
 	Router::bunch('/company', ['as' => 'company.'], function() {
