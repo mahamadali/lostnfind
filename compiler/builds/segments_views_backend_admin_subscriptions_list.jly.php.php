@@ -140,49 +140,64 @@
     <span><?php echo session()->flash('info'); ?></span>
   </div>
 <?php } ?>
-                    <div class="card card-inverse-light-with-black-text flatten-border">
-    <div class="card-header">
-      Company Profile
-    </div>
-    <div class="card-body">
-      <form method="post" action="<?php echo route('admin.company.store'); ?>" enctype="multipart/form-data">
+                    <div class="row">
+  <div class="col-md-12">
+    <div class="card card-inverse-light-with-black-text flatten-border">
+      <div class="card-header">
         <div class="row">
-          <div class="col">
-            <div class="form-group">
-              <label>Name</label>
-              <input type="text" class="form-control" name="name" value="<?php echo $company->name ?? ''; ?>" />
-            </div>
+          <div class="col-md-2">
+            <h6>Subscriptions Plan</h6>
           </div>
           <div class="col">
-            <div class="form-group">
-              <label>Logo</label>
-              <input type="file" class="form-control" name="logo" />
-              <?php if(!empty($company->logo)) { ?>
-              <img src="<?php echo url($company->logo); ?>" height="70" class="mt-2">
+            <a class="btn btn-md btn-primary float-right" href="<?php echo route('admin.subscriptions.create'); ?>">
+              Add Plan
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Days</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php if(count($subscriptions) > 0) { ?>
+              <?php foreach($subscriptions as $subscription) { ?>
+              <tr>
+                <td><?php echo $subscription->title; ?></td>
+                <td><?php echo $subscription->description; ?></td>
+                <td>$<?php echo $subscription->price; ?></td>
+                <td><?php echo $subscription->days; ?></td>
+                <td>
+                  <a href="<?php echo url('admin/subscriptions/edit/'.$subscription->id); ?>" class="btn btn-sm btn-info">
+                    <span><i class="ti-pencil"></i></span>
+                  </a>
+                  <form method="post" action="<?php echo url('admin/subscriptions/delete/'.$subscription->id); ?>" class="d-inline-block">
+                    <input type="hidden" name="_method" value="DELETE" />
+                    <button type="submit" class="btn btn-sm btn-danger">
+                      <span><i class="ti-trash"></i></span>
+                      </a>
+                  </form>
+                </td>
+              </tr>
               <?php } ?>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col">
-            <div class="form-group">
-              <label>Address</label>
-              <input type="text" class="form-control" name="address" value="<?php echo $company->address ?? ''; ?>" />
-            </div>
-          </div>
-        </div>
-
-        <div class="row mt-2">
-          <div class="col">
-            <div class="form-group">
-              <button type="submit" class="btn btn-primary btn-lg">Save</button>
-            </div>
-          </div>
-        </div>
-      </form>
+            <?php } else { ?>
+              <tr>
+                <td colspan="3" class="text-center text-muted">No data found</td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
+</div>
                 </div>
                 <footer class="footer">
   <div class="d-sm-flex justify-content-center justify-content-sm-between">

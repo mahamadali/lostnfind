@@ -30624,3 +30624,8 @@ span.error {
 a.underline {
   text-decoration: underline;
 }
+
+.main-panel .card-header .col-md-2 {
+  margin-top: auto;
+  margin-bottom: auto;
+}

@@ -33,6 +33,19 @@
           </ul>
         </div>
       </li>
+      <li class="nav-item {{ (Bones\Str::contains(request()->currentPage(), '/admin/subscriptions/')) ? 'active' : '' }}">
+        <a class="nav-link" data-toggle="collapse" href="#subscription_menu" aria-expanded="false" aria-controls="subscription_menu">
+          <i class="ti-list menu-icon"></i>
+          <span class="menu-title">Subscriptions</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse {{ (Bones\Str::contains(request()->currentPage(), '/admin/subscriptions/')) ? 'show' : '' }}" id="subscription_menu">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="{{ route('admin.subscriptions.create') }}"> Add </a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('admin.subscriptions.list') }}"> Subscriptions </a></li>
+          </ul>
+        </div>
+      </li>
       <li class="nav-item {{ (request()->currentPage() == '/admin/company/index') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.company.index') }}">
           <i class="icon-grid menu-icon"></i>

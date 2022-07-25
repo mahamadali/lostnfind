@@ -142,37 +142,43 @@
 <?php } ?>
                     <div class="card card-inverse-light-with-black-text flatten-border">
     <div class="card-header">
-      Company Profile
+      Edit Subscription Plan
     </div>
     <div class="card-body">
-      <form method="post" action="<?php echo route('admin.company.store'); ?>" enctype="multipart/form-data">
+      <form method="post" action="<?php echo route('admin.subscriptions.update'); ?>">
+        <input type="hidden" name="id" value="<?php echo $subscription->id; ?>" />
         <div class="row">
           <div class="col">
             <div class="form-group">
-              <label>Name</label>
-              <input type="text" class="form-control" name="name" value="<?php echo $company->name ?? ''; ?>" />
-            </div>
-          </div>
-          <div class="col">
-            <div class="form-group">
-              <label>Logo</label>
-              <input type="file" class="form-control" name="logo" />
-              <?php if(!empty($company->logo)) { ?>
-              <img src="<?php echo url($company->logo); ?>" height="70" class="mt-2">
-              <?php } ?>
+              <label>Title</label>
+              <input type="text" class="form-control" name="title" value="<?php echo $subscription->title; ?>" />
             </div>
           </div>
         </div>
-
         <div class="row">
           <div class="col">
             <div class="form-group">
-              <label>Address</label>
-              <input type="text" class="form-control" name="address" value="<?php echo $company->address ?? ''; ?>" />
+              <label>Description</label>
+              <textarea class="form-control" name="description"><?php echo $subscription->description; ?></textarea>
             </div>
           </div>
         </div>
-
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label>Price</label>
+              <input type="text" class="form-control" name="price" value="<?php echo $subscription->price; ?>" />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label>Days</label>
+              <input type="text" class="form-control" name="days" value="<?php echo $subscription->days; ?>" />
+            </div>
+          </div>
+        </div>
         <div class="row mt-2">
           <div class="col">
             <div class="form-group">
