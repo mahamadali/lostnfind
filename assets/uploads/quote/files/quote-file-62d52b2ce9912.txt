@@ -1,0 +1,6 @@
+Hasanali
+
+- Item edit popup - Select other in team dropdown and enter the team name and save the info and close the popup. When we open the edit popup again then 
+  team name is not showing
+- Order of picture does not maintain in coming back to edit popup after organize and general as well
+

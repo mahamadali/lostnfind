@@ -1,0 +1,20 @@
+<?php
+
+return [
+
+    // Set base url of your project
+    'BASE_URL' => 'http://localhost',
+
+    // Please set it blank if your project is on root or enter your sub directory
+    'SUB_DIR' => 'lostnfound', 
+
+    // Set application stage (local || production)
+    'STAGE' => 'production',
+
+    'TITLE' => 'Lost and Found - Find your losted things here',
+
+    'AUTHOR' => [
+        'NAME' => 'Mohammad Ali Manknojiya'
+    ],
+    
+];

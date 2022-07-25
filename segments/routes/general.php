@@ -1,0 +1,3 @@
+<?php
+
+use Bones\Router;
