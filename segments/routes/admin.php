@@ -7,6 +7,11 @@ use Controllers\Backend\CompanyController;
 use Controllers\Backend\CategoryController;
 use Controllers\Backend\SubscriptionController;
 use Controllers\Backend\SmsSettingController;
+use Controllers\Backend\SocialmediaController;
+use Controllers\Backend\FaqController;
+use Controllers\Backend\PagesController;
+use Controllers\Backend\MessageSettingController;
+use Controllers\Backend\RenewalMailSettingController;
 use Controllers\AuthController;
 use Barriers\Admin\IsAuthenticated;
 
@@ -48,6 +53,44 @@ Router::bunch('/admin', ['as' => 'admin.', 'barrier' => [IsAuthenticated::class]
 		Router::get('/index', [ SmsSettingController::class, 'index' ])->name('index');
 		Router::post('/store', [ SmsSettingController::class, 'store' ])->name('store');
 	});
+
+	Router::bunch('/messagesetting', ['as' => 'messagesetting.'], function() {
+		Router::get('/index', [ MessageSettingController::class, 'index' ])->name('index');
+		Router::post('/store', [ MessageSettingController::class, 'store' ])->name('store');
+	});
+
+	Router::bunch('/renewalmailsetting', ['as' => 'renewalmailsetting.'], function() {
+		Router::get('/index', [ RenewalMailSettingController::class, 'index' ])->name('index');
+		Router::post('/store', [ RenewalMailSettingController::class, 'store' ])->name('store');
+	});
+
+	Router::bunch('/socialmedia', ['as' => 'socialmedia.'], function() {
+		Router::get('/list', [ SocialmediaController::class, 'index' ])->name('list');
+		Router::get('/create', [ SocialmediaController::class, 'create' ])->name('create');
+		Router::post('/store', [ SocialmediaController::class, 'store' ])->name('store');
+		Router::get('/edit/{category}', [ SocialmediaController::class, 'edit' ])->name('edit');
+		Router::post('/update', [ SocialmediaController::class, 'update' ])->name('update');
+		Router::post('/delete/{category}', [ SocialmediaController::class, 'delete' ])->name('delete');
+	});
+
+	Router::bunch('/faq', ['as' => 'faq.'], function() {
+		Router::get('/list', [ FaqController::class, 'index' ])->name('list');
+		Router::get('/create', [ FaqController::class, 'create' ])->name('create');
+		Router::post('/store', [ FaqController::class, 'store' ])->name('store');
+		Router::get('/edit/{category}', [ FaqController::class, 'edit' ])->name('edit');
+		Router::post('/update', [ FaqController::class, 'update' ])->name('update');
+		Router::post('/delete/{category}', [ FaqController::class, 'delete' ])->name('delete');
+	});
+
+	Router::bunch('/pages', ['as' => 'pages.'], function() {
+		Router::get('/list', [ PagesController::class, 'index' ])->name('list');
+		Router::get('/create', [ PagesController::class, 'create' ])->name('create');
+		Router::post('/store', [ PagesController::class, 'store' ])->name('store');
+		Router::get('/edit/{category}', [ PagesController::class, 'edit' ])->name('edit');
+		Router::post('/update', [ PagesController::class, 'update' ])->name('update');
+		Router::post('/delete/{category}', [ PagesController::class, 'delete' ])->name('delete');
+	});
+
 });
 
 Router::get('/logout', [ AuthController::class, 'logout' ])->name('auth.logout');

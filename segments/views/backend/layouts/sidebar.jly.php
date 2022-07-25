@@ -52,10 +52,53 @@
           <span class="menu-title">Company</span>
         </a>
       </li>
+
+      <li class="nav-item {{ (request()->currentPage() == '/admin/pages/index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.pages.list') }}">
+          <i class="ti-file menu-icon"></i>
+          <span class="menu-title">Pages</span>
+        </a>
+      </li>
+
+      <li class="nav-item {{ (request()->currentPage() == '/admin/faq/index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.faq.list') }}">
+          <i class="ti-help menu-icon"></i>
+          <span class="menu-title">Faq</span>
+        </a>
+      </li>
+
+      <li class="nav-item {{ (Bones\Str::contains(request()->currentPage(), '/admin/socialmedia/')) ? 'active' : '' }}">
+        <a class="nav-link" data-toggle="collapse" href="#socialmedia" aria-expanded="false" aria-controls="socialmedia">
+          <i class="ti-list menu-icon"></i>
+          <span class="menu-title">Social Media</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse {{ (Bones\Str::contains(request()->currentPage(), '/admin/socialmedia/')) ? 'show' : '' }}" id="socialmedia">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="{{ route('admin.socialmedia.create') }}"> Add </a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('admin.socialmedia.list') }}"> Social Media </a></li>
+          </ul>
+        </div>
+      </li>
+
       <li class="nav-item {{ (request()->currentPage() == '/admin/smssetting/index') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.smssetting.index') }}">
-          <i class="icon-grid menu-icon"></i>
+          <i class="ti-email menu-icon"></i>
           <span class="menu-title">SMS Account Setting</span>
+        </a>
+      </li>
+
+      <li class="nav-item {{ (request()->currentPage() == '/admin/messagesetting/index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.messagesetting.index') }}">
+          <i class="ti-email menu-icon"></i>
+          <span class="menu-title">Message Setting</span>
+        </a>
+      </li>
+
+      <li class="nav-item {{ (request()->currentPage() == '/admin/renewalmailsetting/index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.renewalmailsetting.index') }}">
+          <i class="ti-email menu-icon"></i>
+          <span class="menu-title">Renewal Mail Setting</span>
         </a>
       </li>
     @endif
