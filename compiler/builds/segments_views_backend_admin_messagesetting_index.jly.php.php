@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title><?php echo setting('app.title', 'SMS Setting'); ?></title>
+    <title><?php echo setting('app.title', 'Message Setting'); ?></title>
     
     <link rel="stylesheet" href="<?php echo url('assets/vendors/feather/feather.css'); ?>">
     <link rel="stylesheet" href="<?php echo url('assets/vendors/ti-icons/css/themify-icons.css'); ?>">
@@ -193,30 +193,15 @@
 <?php } ?>
                     <div class="card card-inverse-light-with-black-text flatten-border">
     <div class="card-header">
-      Sms Setting
+      Message Setting
     </div>
     <div class="card-body">
-      <form method="post" action="<?php echo route('admin.smssetting.store'); ?>" enctype="multipart/form-data">
+      <form method="post" action="<?php echo route('admin.messagesetting.store'); ?>" enctype="multipart/form-data">
         <div class="row">
           <div class="col">
             <div class="form-group">
-              <label>SID</label>
-              <input type="text" class="form-control" name="sid" value="<?php echo $smssetting->sid ?? ''; ?>" />
-            </div>
-          </div>
-          <div class="col">
-            <div class="form-group">
-              <label>Token</label>
-              <input type="text" class="form-control" name="token" value="<?php echo $smssetting->token ?? ''; ?>" />
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col">
-            <div class="form-group">
-              <label>From No</label>
-              <input type="text" class="form-control" name="from_no" value="<?php echo $smssetting->from_no ?? ''; ?>" />
+              <label>Content</label>
+              <textarea class="form-control" name="content" id="content" cols="5" rows="5"><?php echo $messagesetting->content ?? ''; ?></textarea>
             </div>
           </div>
         </div>
@@ -249,7 +234,13 @@
     <script type="text/javascript">
         var APP_BASE_URL = '<?php echo url("/"); ?>';
     </script>
-    
+    <script src="https://cdn.tiny.cloud/1/1oygzsxmj2z65b12oe2xsmopyeb339ctejhzi5fgpu8ftp4r/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+tinymce.init({
+  selector:'textarea',
+  menubar :false,
+});
+</script>
 </body>
 
 </html>

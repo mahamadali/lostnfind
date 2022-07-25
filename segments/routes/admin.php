@@ -10,6 +10,8 @@ use Controllers\Backend\SmsSettingController;
 use Controllers\Backend\SocialmediaController;
 use Controllers\Backend\FaqController;
 use Controllers\Backend\PagesController;
+use Controllers\Backend\MessageSettingController;
+use Controllers\Backend\RenewalMailSettingController;
 use Controllers\AuthController;
 use Barriers\Admin\IsAuthenticated;
 
@@ -50,6 +52,16 @@ Router::bunch('/admin', ['as' => 'admin.', 'barrier' => [IsAuthenticated::class]
 	Router::bunch('/smssetting', ['as' => 'smssetting.'], function() {
 		Router::get('/index', [ SmsSettingController::class, 'index' ])->name('index');
 		Router::post('/store', [ SmsSettingController::class, 'store' ])->name('store');
+	});
+
+	Router::bunch('/messagesetting', ['as' => 'messagesetting.'], function() {
+		Router::get('/index', [ MessageSettingController::class, 'index' ])->name('index');
+		Router::post('/store', [ MessageSettingController::class, 'store' ])->name('store');
+	});
+
+	Router::bunch('/renewalmailsetting', ['as' => 'renewalmailsetting.'], function() {
+		Router::get('/index', [ RenewalMailSettingController::class, 'index' ])->name('index');
+		Router::post('/store', [ RenewalMailSettingController::class, 'store' ])->name('store');
 	});
 
 	Router::bunch('/socialmedia', ['as' => 'socialmedia.'], function() {

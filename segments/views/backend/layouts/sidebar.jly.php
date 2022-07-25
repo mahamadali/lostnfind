@@ -59,7 +59,22 @@
         </a>
       </li>
 
-      <li class="nav-item {{ (Bones\Str::contains(request()->currentPage(), '/admin/category/')) ? 'active' : '' }}">
+      <li class="nav-item {{ (request()->currentPage() == '/admin/messagesetting/index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.messagesetting.index') }}">
+          <i class="ti-email menu-icon"></i>
+          <span class="menu-title">Message Setting</span>
+        </a>
+      </li>
+
+      <li class="nav-item {{ (request()->currentPage() == '/admin/renewalmailsetting/index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.renewalmailsetting.index') }}">
+          <i class="ti-email menu-icon"></i>
+          <span class="menu-title">Renewal Mail Setting</span>
+        </a>
+      </li>
+
+
+      <li class="nav-item {{ (Bones\Str::contains(request()->currentPage(), '/admin/socialmedia/')) ? 'active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#socialmedia" aria-expanded="false" aria-controls="socialmedia">
           <i class="ti-list menu-icon"></i>
           <span class="menu-title">Social Media</span>
