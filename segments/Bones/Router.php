@@ -245,13 +245,14 @@ class Router
 
     public static function findBarrierByName($barrier)
     {
+        if (class_exists($barrier)) {
+            return $barrier;
+        }
         $aliases = Str::array_change_key_case_recursive(setting('aliases', []), CASE_LOWER);
-
         if (empty($aliases) || empty($aliases['barriers'])) {
             return null;
         }
-
-        return !empty($aliases['barriers'][$barrier]) ? $aliases['barriers'][$barrier] : $barrier;
+        return $aliases['barriers'][$barrier];
     }
 
     public static function checkRoutePatternMatch($pageRoute)

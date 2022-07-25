@@ -66,6 +66,12 @@
           <span class="menu-title">Dashboard</span>
         </a>
       </li>
+      <li class="nav-item {{ (request()->currentPage() == '/user/items') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('user.items.index') }}">
+          <i class="icon-grid menu-icon"></i>
+          <span class="menu-title">My Items</span>
+        </a>
+      </li>
     @endif
 
     <li class="nav-item">

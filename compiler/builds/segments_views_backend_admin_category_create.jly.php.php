@@ -100,7 +100,7 @@
       <li class="nav-item <?php echo (request()->currentPage() == '/admin/smssetting/index') ? 'active' : ''; ?>">
         <a class="nav-link" href="<?php echo route('admin.smssetting.index'); ?>">
           <i class="icon-grid menu-icon"></i>
-          <span class="menu-title">Sms Setting</span>
+          <span class="menu-title">SMS Account Setting</span>
         </a>
       </li>
     <?php } ?>
@@ -109,6 +109,12 @@
         <a class="nav-link" href="<?php echo route('user.dashboard'); ?>">
           <i class="icon-grid menu-icon"></i>
           <span class="menu-title">Dashboard</span>
+        </a>
+      </li>
+      <li class="nav-item <?php echo (request()->currentPage() == '/user/items') ? 'active' : ''; ?>">
+        <a class="nav-link" href="<?php echo route('user.items.index'); ?>">
+          <i class="icon-grid menu-icon"></i>
+          <span class="menu-title">My Items</span>
         </a>
       </li>
     <?php } ?>
@@ -157,6 +163,14 @@
             <div class="form-group">
               <label>Cateogry Title</label>
               <input type="text" class="form-control" name="title" value="<?php echo old('title'); ?>" />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label>Prefix</label>
+              <input type="text" class="form-control" name="prefix" value="<?php echo old('prefix'); ?>" />
             </div>
           </div>
         </div>

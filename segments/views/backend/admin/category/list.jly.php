@@ -27,6 +27,7 @@
           <thead>
             <tr>
               <th>Name</th>
+              <th>Prefix</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -35,6 +36,7 @@
               @foreach ($categories as $category):
               <tr>
                 <td>{{ $category->title }}</td>
+                <td>{{ $category->prefix }}</td>
                 <td>
                   <a href="{{ url('admin/category/edit/'.$category->id) }}" class="btn btn-sm btn-info">
                     <span><i class="ti-pencil"></i></span>

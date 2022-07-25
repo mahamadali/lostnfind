@@ -21,6 +21,14 @@
             </div>
           </div>
         </div>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label>Prefix</label>
+              <input type="text" class="form-control" name="prefix" value="{{ old('prefix') }}" />
+            </div>
+          </div>
+        </div>
         <div class="row mt-2">
           <div class="col">
             <div class="form-group">

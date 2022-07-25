@@ -6,7 +6,7 @@ return [
     'BASE_URL' => 'http://localhost',
 
     // Please set it blank if your project is on root or enter your sub directory
-    'SUB_DIR' => 'lostnfind', 
+    'SUB_DIR' => 'lostnfound', 
 
     // Set application stage (local || production)
     'STAGE' => 'production',

@@ -97,12 +97,24 @@
           <span class="menu-title">Company</span>
         </a>
       </li>
+      <li class="nav-item <?php echo (request()->currentPage() == '/admin/smssetting/index') ? 'active' : ''; ?>">
+        <a class="nav-link" href="<?php echo route('admin.smssetting.index'); ?>">
+          <i class="icon-grid menu-icon"></i>
+          <span class="menu-title">SMS Account Setting</span>
+        </a>
+      </li>
     <?php } ?>
     <?php if(auth()->role->name == 'user') { ?>
       <li class="nav-item <?php echo (request()->currentPage() == '/user/dashboard') ? 'active' : ''; ?>">
         <a class="nav-link" href="<?php echo route('user.dashboard'); ?>">
           <i class="icon-grid menu-icon"></i>
           <span class="menu-title">Dashboard</span>
+        </a>
+      </li>
+      <li class="nav-item <?php echo (request()->currentPage() == '/user/items') ? 'active' : ''; ?>">
+        <a class="nav-link" href="<?php echo route('user.items.index'); ?>">
+          <i class="icon-grid menu-icon"></i>
+          <span class="menu-title">My Items</span>
         </a>
       </li>
     <?php } ?>
@@ -160,6 +172,7 @@
           <thead>
             <tr>
               <th>Name</th>
+              <th>Prefix</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -168,6 +181,7 @@
               <?php foreach($categories as $category) { ?>
               <tr>
                 <td><?php echo $category->title; ?></td>
+                <td><?php echo $category->prefix; ?></td>
                 <td>
                   <a href="<?php echo url('admin/category/edit/'.$category->id); ?>" class="btn btn-sm btn-info">
                     <span><i class="ti-pencil"></i></span>

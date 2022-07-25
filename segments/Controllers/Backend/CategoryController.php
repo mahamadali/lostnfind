@@ -25,13 +25,14 @@ class CategoryController
 	{
 		$validator = $request->validate([
 			'title' => 'required|min:2|max:30',
+			'prefix' => 'required|min:2|max:30',
 		]);
 
 		if ($validator->hasError()) {
 			return redirect()->withFlashError(implode('<br>', $validator->errors()))->with('old', $request->all())->back();
 		}
 
-		$categoryData = $request->getOnly(['title']);
+		$categoryData = $request->getOnly(['title', 'prefix']);
 
 		$category = Category::create($categoryData);
 
@@ -54,13 +55,14 @@ class CategoryController
 	{
 		$validator = $request->validate([
 			'title' => 'required|min:2|max:30',
+			'prefix' => 'required|min:2|max:30',
 		]);
 
 		if ($validator->hasError()) {
 			return redirect()->withFlashError(implode('<br>', $validator->errors()))->with('old', $request->all())->back();
 		}
 
-		$categoryData = $request->getOnly(['title']);
+		$categoryData = $request->getOnly(['title', 'prefix']);
 
 		if (Category::where('id', $request->id)->update($categoryData)) {
 			return redirect()->withFlashSuccess('Category updated successfully!')->with('old', $request->all())->back();
