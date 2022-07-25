@@ -5,6 +5,7 @@ use Controllers\Backend\DashboardController;
 use Controllers\Backend\UserController;
 use Controllers\Backend\CompanyController;
 use Controllers\Backend\CategoryController;
+use Controllers\Backend\SmsSettingController;
 use Controllers\AuthController;
 
 Router::bunch('/admin', ['as' => 'admin.', 'barrier' => ['is-auth']], function() {
@@ -30,6 +31,11 @@ Router::bunch('/admin', ['as' => 'admin.', 'barrier' => ['is-auth']], function()
 	Router::bunch('/company', ['as' => 'company.'], function() {
 		Router::get('/index', [ CompanyController::class, 'index' ])->name('index');
 		Router::post('/store', [ CompanyController::class, 'store' ])->name('store');
+	});
+
+	Router::bunch('/smssetting', ['as' => 'smssetting.'], function() {
+		Router::get('/index', [ SmsSettingController::class, 'index' ])->name('index');
+		Router::post('/store', [ SmsSettingController::class, 'store' ])->name('store');
 	});
 });
 
