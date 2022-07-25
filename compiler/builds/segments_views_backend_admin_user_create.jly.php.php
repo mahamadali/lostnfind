@@ -84,6 +84,12 @@
           <span class="menu-title">Company</span>
         </a>
       </li>
+      <li class="nav-item <?php echo (request()->currentPage() == '/admin/smssetting/index') ? 'active' : ''; ?>">
+        <a class="nav-link" href="<?php echo route('admin.smssetting.index'); ?>">
+          <i class="icon-grid menu-icon"></i>
+          <span class="menu-title">Sms Setting</span>
+        </a>
+      </li>
     <?php } ?>
     <?php if(auth()->role->name == 'user') { ?>
       <li class="nav-item <?php echo (request()->currentPage() == '/user/dashboard') ? 'active' : ''; ?>">

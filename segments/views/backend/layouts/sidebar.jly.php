@@ -52,6 +52,12 @@
           <span class="menu-title">Company</span>
         </a>
       </li>
+      <li class="nav-item {{ (request()->currentPage() == '/admin/smssetting/index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.smssetting.index') }}">
+          <i class="icon-grid menu-icon"></i>
+          <span class="menu-title">SMS Account Setting</span>
+        </a>
+      </li>
     @endif
     @if (auth()->role->name == 'user'):
       <li class="nav-item {{ (request()->currentPage() == '/user/dashboard') ? 'active' : '' }}">

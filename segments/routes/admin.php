@@ -6,6 +6,7 @@ use Controllers\Backend\UserController;
 use Controllers\Backend\CompanyController;
 use Controllers\Backend\CategoryController;
 use Controllers\Backend\SubscriptionController;
+use Controllers\Backend\SmsSettingController;
 use Controllers\AuthController;
 use Barriers\Admin\IsAuthenticated;
 
@@ -41,6 +42,11 @@ Router::bunch('/admin', ['as' => 'admin.', 'barrier' => [IsAuthenticated::class]
 	Router::bunch('/company', ['as' => 'company.'], function() {
 		Router::get('/index', [ CompanyController::class, 'index' ])->name('index');
 		Router::post('/store', [ CompanyController::class, 'store' ])->name('store');
+	});
+
+	Router::bunch('/smssetting', ['as' => 'smssetting.'], function() {
+		Router::get('/index', [ SmsSettingController::class, 'index' ])->name('index');
+		Router::post('/store', [ SmsSettingController::class, 'store' ])->name('store');
 	});
 });
 

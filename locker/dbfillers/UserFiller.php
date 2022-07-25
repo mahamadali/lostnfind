@@ -14,6 +14,8 @@ return new class
 			'last_name' => 'admin',
 			'email' => 'admin@admin.com',
 			'password' => md5('secret'),
+			'expiration_date' => null,
+			'role_id' => 1
 		]);
 
 		$user->role_id = Role::where('name', 'admin')->first()->id;
