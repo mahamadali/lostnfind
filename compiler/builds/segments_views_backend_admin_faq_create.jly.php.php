@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title><?php echo setting('app.title', 'SMS Setting'); ?></title>
+    <title><?php echo setting('app.title', 'Quotations'); ?></title>
     
     <link rel="stylesheet" href="<?php echo url('assets/vendors/feather/feather.css'); ?>">
     <link rel="stylesheet" href="<?php echo url('assets/vendors/ti-icons/css/themify-icons.css'); ?>">
@@ -121,7 +121,7 @@
 
       <li class="nav-item <?php echo (request()->currentPage() == '/admin/faq/index') ? 'active' : ''; ?>">
         <a class="nav-link" href="<?php echo route('admin.faq.list'); ?>">
-          <i class="ti-email menu-icon"></i>
+          <i class="ti-help menu-icon"></i>
           <span class="menu-title">Faq</span>
         </a>
       </li>
@@ -171,21 +171,15 @@
 <?php } ?>
                     <div class="card card-inverse-light-with-black-text flatten-border">
     <div class="card-header">
-      Sms Setting
+      Create Faq
     </div>
     <div class="card-body">
-      <form method="post" action="<?php echo route('admin.smssetting.store'); ?>" enctype="multipart/form-data">
+      <form method="post" action="<?php echo route('admin.faq.store'); ?>">
         <div class="row">
           <div class="col">
             <div class="form-group">
-              <label>SID</label>
-              <input type="text" class="form-control" name="sid" value="<?php echo $smssetting->sid ?? ''; ?>" />
-            </div>
-          </div>
-          <div class="col">
-            <div class="form-group">
-              <label>Token</label>
-              <input type="text" class="form-control" name="token" value="<?php echo $smssetting->token ?? ''; ?>" />
+              <label>Title</label>
+              <input type="text" class="form-control" name="title" value="<?php echo old('title'); ?>" />
             </div>
           </div>
         </div>
@@ -193,8 +187,8 @@
         <div class="row">
           <div class="col">
             <div class="form-group">
-              <label>From No</label>
-              <input type="text" class="form-control" name="from_no" value="<?php echo $smssetting->from_no ?? ''; ?>" />
+              <label>Description</label>
+              <textarea class="form-control" name="description" id="description" cols="5" rows="5"><?php echo old('description'); ?></textarea>
             </div>
           </div>
         </div>
@@ -227,7 +221,13 @@
     <script type="text/javascript">
         var APP_BASE_URL = '<?php echo url("/"); ?>';
     </script>
-    
+    <script src="https://cdn.tiny.cloud/1/1oygzsxmj2z65b12oe2xsmopyeb339ctejhzi5fgpu8ftp4r/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+tinymce.init({
+  selector:'textarea',
+  menubar :false,
+});
+</script>
 </body>
 
 </html>

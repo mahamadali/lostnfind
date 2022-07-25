@@ -73,6 +73,13 @@
         </div>
       </li>
 
+      <li class="nav-item {{ (request()->currentPage() == '/admin/faq/index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.faq.list') }}">
+          <i class="ti-help menu-icon"></i>
+          <span class="menu-title">Faq</span>
+        </a>
+      </li>
+
     @endif
     @if (auth()->role->name == 'user'):
       <li class="nav-item {{ (request()->currentPage() == '/user/dashboard') ? 'active' : '' }}">

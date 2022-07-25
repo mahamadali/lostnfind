@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title><?php echo setting('app.title', 'SMS Setting'); ?></title>
+    <title><?php echo setting('app.title', 'Quotations'); ?></title>
     
     <link rel="stylesheet" href="<?php echo url('assets/vendors/feather/feather.css'); ?>">
     <link rel="stylesheet" href="<?php echo url('assets/vendors/ti-icons/css/themify-icons.css'); ?>">
@@ -121,7 +121,7 @@
 
       <li class="nav-item <?php echo (request()->currentPage() == '/admin/faq/index') ? 'active' : ''; ?>">
         <a class="nav-link" href="<?php echo route('admin.faq.list'); ?>">
-          <i class="ti-email menu-icon"></i>
+          <i class="ti-help menu-icon"></i>
           <span class="menu-title">Faq</span>
         </a>
       </li>
@@ -169,46 +169,60 @@
     <span><?php echo session()->flash('info'); ?></span>
   </div>
 <?php } ?>
-                    <div class="card card-inverse-light-with-black-text flatten-border">
-    <div class="card-header">
-      Sms Setting
-    </div>
-    <div class="card-body">
-      <form method="post" action="<?php echo route('admin.smssetting.store'); ?>" enctype="multipart/form-data">
+                    <div class="row">
+  <div class="col-md-12">
+    <div class="card card-inverse-light-with-black-text flatten-border">
+      <div class="card-header">
         <div class="row">
-          <div class="col">
-            <div class="form-group">
-              <label>SID</label>
-              <input type="text" class="form-control" name="sid" value="<?php echo $smssetting->sid ?? ''; ?>" />
-            </div>
+          <div class="col-md-2">
+            <h6>Faq</h6>
           </div>
           <div class="col">
-            <div class="form-group">
-              <label>Token</label>
-              <input type="text" class="form-control" name="token" value="<?php echo $smssetting->token ?? ''; ?>" />
-            </div>
+            <a class="btn btn-md btn-primary float-right" href="<?php echo route('admin.faq.create'); ?>">
+              Add Faq
+            </a>
           </div>
         </div>
-
-        <div class="row">
-          <div class="col">
-            <div class="form-group">
-              <label>From No</label>
-              <input type="text" class="form-control" name="from_no" value="<?php echo $smssetting->from_no ?? ''; ?>" />
-            </div>
-          </div>
-        </div>
-
-        <div class="row mt-2">
-          <div class="col">
-            <div class="form-group">
-              <button type="submit" class="btn btn-primary btn-lg">Save</button>
-            </div>
-          </div>
-        </div>
-      </form>
+      </div>
+      <div class="card-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php if(count($faqs) > 0) { ?>
+              <?php foreach($faqs as $faq) { ?>
+              <tr>
+                <td><?php echo $faq->title; ?></td>
+                <td><?php echo $faq->description; ?></td>
+                <td>
+                  <a href="<?php echo url('admin/faq/edit/'.$faq->id); ?>" class="btn btn-sm btn-info">
+                    <span><i class="ti-pencil"></i></span>
+                  </a>
+                  <form method="post" action="<?php echo url('admin/faq/delete/'.$faq->id); ?>" class="d-inline-block">
+                    <input type="hidden" name="_method" value="DELETE" />
+                    <button type="submit" class="btn btn-sm btn-danger">
+                      <span><i class="ti-trash"></i></span>
+                      </a>
+                  </form>
+                </td>
+              </tr>
+              <?php } ?>
+            <?php } else { ?>
+              <tr>
+                <td colspan="3" class="text-center text-muted">No data found</td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
+</div>
                 </div>
                 <footer class="footer">
   <div class="d-sm-flex justify-content-center justify-content-sm-between">

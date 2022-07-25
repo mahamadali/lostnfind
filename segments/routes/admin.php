@@ -8,6 +8,7 @@ use Controllers\Backend\CategoryController;
 use Controllers\Backend\SubscriptionController;
 use Controllers\Backend\SmsSettingController;
 use Controllers\Backend\SocialmediaController;
+use Controllers\Backend\FaqController;
 use Controllers\AuthController;
 use Barriers\Admin\IsAuthenticated;
 
@@ -58,6 +59,16 @@ Router::bunch('/admin', ['as' => 'admin.', 'barrier' => [IsAuthenticated::class]
 		Router::post('/update', [ SocialmediaController::class, 'update' ])->name('update');
 		Router::post('/delete/{category}', [ SocialmediaController::class, 'delete' ])->name('delete');
 	});
+
+	Router::bunch('/faq', ['as' => 'faq.'], function() {
+		Router::get('/list', [ FaqController::class, 'index' ])->name('list');
+		Router::get('/create', [ FaqController::class, 'create' ])->name('create');
+		Router::post('/store', [ FaqController::class, 'store' ])->name('store');
+		Router::get('/edit/{category}', [ FaqController::class, 'edit' ])->name('edit');
+		Router::post('/update', [ FaqController::class, 'update' ])->name('update');
+		Router::post('/delete/{category}', [ FaqController::class, 'delete' ])->name('delete');
+	});
+
 });
 
 Router::get('/logout', [ AuthController::class, 'logout' ])->name('auth.logout');
