@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title><?php echo setting('app.title', 'Quotations'); ?></title>
+    <title><?php echo setting('app.title', 'Social Media'); ?></title>
     
     <link rel="stylesheet" href="<?php echo url('assets/vendors/feather/feather.css'); ?>">
     <link rel="stylesheet" href="<?php echo url('assets/vendors/ti-icons/css/themify-icons.css'); ?>">
@@ -86,7 +86,7 @@
       </li>
       <li class="nav-item <?php echo (request()->currentPage() == '/admin/smssetting/index') ? 'active' : ''; ?>">
         <a class="nav-link" href="<?php echo route('admin.smssetting.index'); ?>">
-          <i class="icon-grid menu-icon"></i>
+          <i class="ti-email menu-icon"></i>
           <span class="menu-title">SMS Account Setting</span>
         </a>
       </li>
@@ -100,7 +100,7 @@
         <div class="collapse <?php echo (Bones\Str::contains(request()->currentPage(), '/admin/socialmedia/')) ? 'show' : ''; ?>" id="socialmedia">
           <ul class="nav flex-column sub-menu">
             <li class="nav-item"> <a class="nav-link" href="<?php echo route('admin.socialmedia.create'); ?>"> Add </a></li>
-            <li class="nav-item"> <a class="nav-link" href="<?php echo route('admin.category.list'); ?>"> Social Media </a></li>
+            <li class="nav-item"> <a class="nav-link" href="<?php echo route('admin.socialmedia.list'); ?>"> Social Media </a></li>
           </ul>
         </div>
       </li>
@@ -150,19 +150,35 @@
 <?php } ?>
                     <div class="card card-inverse-light-with-black-text flatten-border">
     <div class="card-header">
-      Edit Category
+      Create Social Media Footer Menu
     </div>
     <div class="card-body">
-      <form method="post" action="<?php echo route('admin.category.update'); ?>">
-        <input type="hidden" name="id" value="<?php echo $category->id; ?>" />
+      <form method="post" action="<?php echo route('admin.socialmedia.store'); ?>">
         <div class="row">
           <div class="col">
             <div class="form-group">
               <label>Title</label>
-              <input type="text" class="form-control" name="title" value="<?php echo $category->title; ?>" />
+              <input type="text" class="form-control" name="title" value="<?php echo old('title'); ?>" />
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="form-group">
+              <label>Icon</label>
+              <input type="text" class="form-control" name="icon" value="<?php echo old('icon'); ?>" />
             </div>
           </div>
         </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label>Url</label>
+              <input type="text" class="form-control" name="url" value="<?php echo old('url'); ?>" />
+            </div>
+          </div>
+        </div>
+
         <div class="row mt-2">
           <div class="col">
             <div class="form-group">

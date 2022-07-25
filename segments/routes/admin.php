@@ -6,6 +6,7 @@ use Controllers\Backend\UserController;
 use Controllers\Backend\CompanyController;
 use Controllers\Backend\CategoryController;
 use Controllers\Backend\SmsSettingController;
+use Controllers\Backend\SocialmediaController;
 use Controllers\AuthController;
 
 Router::bunch('/admin', ['as' => 'admin.', 'barrier' => ['is-auth']], function() {
@@ -36,6 +37,15 @@ Router::bunch('/admin', ['as' => 'admin.', 'barrier' => ['is-auth']], function()
 	Router::bunch('/smssetting', ['as' => 'smssetting.'], function() {
 		Router::get('/index', [ SmsSettingController::class, 'index' ])->name('index');
 		Router::post('/store', [ SmsSettingController::class, 'store' ])->name('store');
+	});
+
+	Router::bunch('/socialmedia', ['as' => 'socialmedia.'], function() {
+		Router::get('/list', [ SocialmediaController::class, 'index' ])->name('list');
+		Router::get('/create', [ SocialmediaController::class, 'create' ])->name('create');
+		Router::post('/store', [ SocialmediaController::class, 'store' ])->name('store');
+		Router::get('/edit/{category}', [ SocialmediaController::class, 'edit' ])->name('edit');
+		Router::post('/update', [ SocialmediaController::class, 'update' ])->name('update');
+		Router::post('/delete/{category}', [ SocialmediaController::class, 'delete' ])->name('delete');
 	});
 });
 
