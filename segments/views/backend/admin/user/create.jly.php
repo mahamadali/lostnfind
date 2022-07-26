@@ -55,6 +55,14 @@
             </div>
           </div>
         </div>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label>Contact Number</label>
+              <input type="text" class="form-control" name="contact_number" />
+            </div>
+          </div>
+        </div>
         <div class="row mt-2">
           <div class="col">
             <div class="form-group">

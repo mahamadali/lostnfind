@@ -98,6 +98,35 @@
           <span class="menu-title">Company</span>
         </a>
       </li>
+
+      <li class="nav-item <?php echo (request()->currentPage() == '/admin/pages/index') ? 'active' : ''; ?>">
+        <a class="nav-link" href="<?php echo route('admin.pages.list'); ?>">
+          <i class="ti-file menu-icon"></i>
+          <span class="menu-title">Pages</span>
+        </a>
+      </li>
+
+      <li class="nav-item <?php echo (request()->currentPage() == '/admin/faq/index') ? 'active' : ''; ?>">
+        <a class="nav-link" href="<?php echo route('admin.faq.list'); ?>">
+          <i class="ti-help menu-icon"></i>
+          <span class="menu-title">Faq</span>
+        </a>
+      </li>
+
+      <li class="nav-item <?php echo (Bones\Str::contains(request()->currentPage(), '/admin/socialmedia/')) ? 'active' : ''; ?>">
+        <a class="nav-link" data-toggle="collapse" href="#socialmedia" aria-expanded="false" aria-controls="socialmedia">
+          <i class="ti-list menu-icon"></i>
+          <span class="menu-title">Social Media</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse <?php echo (Bones\Str::contains(request()->currentPage(), '/admin/socialmedia/')) ? 'show' : ''; ?>" id="socialmedia">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="<?php echo route('admin.socialmedia.create'); ?>"> Add </a></li>
+            <li class="nav-item"> <a class="nav-link" href="<?php echo route('admin.socialmedia.list'); ?>"> Social Media </a></li>
+          </ul>
+        </div>
+      </li>
+
       <li class="nav-item <?php echo (request()->currentPage() == '/admin/smssetting/index') ? 'active' : ''; ?>">
         <a class="nav-link" href="<?php echo route('admin.smssetting.index'); ?>">
           <i class="ti-email menu-icon"></i>
@@ -118,36 +147,6 @@
           <span class="menu-title">Renewal Mail Setting</span>
         </a>
       </li>
-
-
-      <li class="nav-item <?php echo (Bones\Str::contains(request()->currentPage(), '/admin/socialmedia/')) ? 'active' : ''; ?>">
-        <a class="nav-link" data-toggle="collapse" href="#socialmedia" aria-expanded="false" aria-controls="socialmedia">
-          <i class="ti-list menu-icon"></i>
-          <span class="menu-title">Social Media</span>
-          <i class="menu-arrow"></i>
-        </a>
-        <div class="collapse <?php echo (Bones\Str::contains(request()->currentPage(), '/admin/socialmedia/')) ? 'show' : ''; ?>" id="socialmedia">
-          <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="<?php echo route('admin.socialmedia.create'); ?>"> Add </a></li>
-            <li class="nav-item"> <a class="nav-link" href="<?php echo route('admin.socialmedia.list'); ?>"> Social Media </a></li>
-          </ul>
-        </div>
-      </li>
-
-      <li class="nav-item <?php echo (request()->currentPage() == '/admin/faq/index') ? 'active' : ''; ?>">
-        <a class="nav-link" href="<?php echo route('admin.faq.list'); ?>">
-          <i class="ti-help menu-icon"></i>
-          <span class="menu-title">Faq</span>
-        </a>
-      </li>
-
-      <li class="nav-item <?php echo (request()->currentPage() == '/admin/pages/index') ? 'active' : ''; ?>">
-        <a class="nav-link" href="<?php echo route('admin.pages.list'); ?>">
-          <i class="ti-file menu-icon"></i>
-          <span class="menu-title">Pages</span>
-        </a>
-      </li>
-
     <?php } ?>
     <?php if(auth()->role->name == 'user') { ?>
       <li class="nav-item <?php echo (request()->currentPage() == '/user/dashboard') ? 'active' : ''; ?>">
