@@ -113,7 +113,7 @@ class ItemController
 
     public function delete(Request $request, Item $item) {
         $item->images()->remove();
-        Item::where('id', $item->id)->delete();
+        $item->delete();
         return redirect()->withFlashError('Item deleted successfully!')->with('old', $request->all())->back();
     }
 }
