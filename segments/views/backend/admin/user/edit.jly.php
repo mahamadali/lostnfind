@@ -29,12 +29,20 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-6">
+          <div class="col">
             <div class="form-group">
               <label>Email</label>
               <input type="email" class="form-control" name="email" value="{{ $user->email }}" />
             </div>
           </div>
+
+          <div class="col">
+            <div class="form-group">
+              <label>Contact Number</label>
+              <input type="text" class="form-control" name="contact_number" value="{{ $user->contact_number }}" />
+            </div>
+          </div>
+
         </div>
         <div class="row">
           <div class="col">
@@ -50,6 +58,7 @@
             </div>
           </div>
         </div>
+        
         <div class="row mt-2">
           <div class="col">
             <div class="form-group">

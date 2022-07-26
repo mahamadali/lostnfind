@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="{{ url('assets/vendors/ti-icons/css/themify-icons.css') }}">
     <link rel="stylesheet" href="{{ url('assets/vendors/css/vendor.bundle.base.css') }}">
     <link rel="stylesheet" href="{{ url('assets/css/vertical-layout-light/style.css') }}">
+    <link rel="stylesheet" href="{{ url('assets/vendors/dataTables.net-bs4/dataTables.bootstrap4.css') }}">
+
+    
+
     <link rel="shortcut icon" href="{{ url(company()->logo) }}" />
 </head>
 
@@ -33,6 +37,13 @@
     <script src="{{ url('assets/js/template.js') }}"></script>
     <script src="{{ url('assets/js/settings.js') }}"></script>
     <script src="{{ url('assets/js/todolist.js') }}"></script>
+    <script src="{{ url('assets/js/tabs.js') }}"></script>
+    <script src="{{ url('assets/vendors/datatables.net/jquery.dataTables.js') }}"></script>
+    <script src="{{ url('assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js') }}"></script>
+
+    
+    
+
     <script type="text/javascript">
         var APP_BASE_URL = '{{ url("/") }}';
     </script>

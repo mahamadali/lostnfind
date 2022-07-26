@@ -4,6 +4,7 @@ namespace Models;
 
 use Models\Base\Model;
 use Models\Role;
+use Models\Item;
 
 class User extends Model
 {
@@ -16,6 +17,7 @@ class User extends Model
 		'email',
 		'password',
 		'expiration_date',
+		'contact_number',
 		'role_id'
 	];
 	
@@ -33,5 +35,16 @@ class User extends Model
 	{
 		return $this->first_name . ' ' . $this->last_name;
 	}
+
+	public function getAvatarProperty()
+    {
+        return 'https://i2.wp.com/ui-avatars.com/api/'.urlencode($this->first_name.$this->last_name).'/64?ssl=1';
+    }
+
+	public function items()
+	{
+		return $this->hasMany(Item::class, 'user_id')->get();
+	}
+
 
 }

@@ -56,7 +56,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col">
+          <div class="col-md-6">
             <div class="form-group">
               <label>Contact Number</label>
               <input type="text" class="form-control" name="contact_number" />
