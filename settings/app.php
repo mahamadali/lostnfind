@@ -11,7 +11,9 @@ return [
     // Set application stage (local || production)
     'STAGE' => 'production',
 
-    'TITLE' => 'Lost and Found - Find your losted things here',
+    'TITLE' => 'Lost N FIND',
+
+    'DESCRIPTION' => 'Find your losted things here',
 
     'AUTHOR' => [
         'NAME' => 'Mohammad Ali Manknojiya'

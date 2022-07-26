@@ -115,6 +115,24 @@
           <span class="menu-title">My Items</span>
         </a>
       </li>
+      <li class="nav-item {{ (request()->currentPage() == '/user/additional-contacts') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('user.additional-contacts.index') }}">
+          <i class="icon-grid menu-icon"></i>
+          <span class="menu-title">Additional Contacts</span>
+        </a>
+      </li>
+      <li class="nav-item {{ (request()->currentPage() == '/user/my-plans') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('user.my-plans.index') }}">
+          <i class="icon-grid menu-icon"></i>
+          <span class="menu-title">My Plan</span>
+        </a>
+      </li>
+      <li class="nav-item {{ (request()->currentPage() == '/user/transactions') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('user.transactions.index') }}">
+          <i class="icon-grid menu-icon"></i>
+          <span class="menu-title">Transactions</span>
+        </a>
+      </li>
     @endif
 
     <li class="nav-item">

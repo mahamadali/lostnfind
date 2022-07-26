@@ -4,7 +4,11 @@ namespace Models;
 
 use Models\Base\Model;
 use Models\Role;
+<<<<<<< HEAD
 use Models\Item;
+=======
+use Models\AdditionalContact;
+>>>>>>> 6bc22c96fb2052b4e15e62d4cd3dae2da4d57743
 
 class User extends Model
 {
@@ -26,9 +30,9 @@ class User extends Model
 		return $this->parallelTo(Role::class, 'role_id');
 	}
 
-	public function supplierQuotes()
+	public function contacts()
 	{
-		return $this->hasMany(QuoteSupplier::class, 'supplier_id')->leftJoin('quotations', 'quotations.id = quotation_suppliers.quotation_id')->where('quotations.status', 'approved', '!=');
+		return $this->hasMany(AdditionalContact::class, 'user_id');
 	}
 
 	public function getFullNameProperty()

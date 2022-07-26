@@ -96,7 +96,7 @@ class Request extends Validation
      */
     public function hasFile($fileName)
     {
-        if (!empty($this->files[$fileName]) && !empty($this->files[$fileName][0])) {
+        if (!empty($this->files[$fileName]) && (is_array($this->files[$fileName])) && !empty($this->files[$fileName][0])) {
             return (!empty($this->files)) ? (array_key_exists($fileName, $this->files) && !empty($this->files[$fileName][0]->file['tmp_name'])) : false;
         }
         else {
