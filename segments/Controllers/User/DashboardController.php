@@ -5,6 +5,7 @@ namespace Controllers\User;
 use Bones\Request;
 use Models\User;
 use Models\Item;
+use Models\AdditionalContact;
 
 class DashboardController
 {
@@ -12,8 +13,11 @@ class DashboardController
 	{
 		$items = count(Item::where('user_id', auth()->id)->where('status', 'Active')->get());
 
+		$contacts = count(AdditionalContact::where('user_id', auth()->id)->get());
+
 		return render('backend/user/dashboard', [
 			'items' => $items,
+			'contacts' => $contacts,
 		]);
 	}
 }

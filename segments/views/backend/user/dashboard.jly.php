@@ -50,7 +50,7 @@
         <div class="card card-light-blue">
           <div class="card-body">
             <p class="mb-4">Additional Contacts</p>
-            <p class="fs-30 mb-2">0</p>
+            <p class="fs-30 mb-2">{{ $contacts }}</p>
           </div>
         </div>
       </div>

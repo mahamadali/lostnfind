@@ -45,9 +45,6 @@ class UserController
 			return redirect()->withFlashError(implode('<br>', $validator->errors()))->with('old', $request->all())->back();
         }
 
-		
-
-
 		$role = Role::where('name', 'user')->first()->id;
 		$userData = $request->getOnly(['first_name', 'last_name', 'email', 'password', 'expiration_date','contact_number','role_id','logo']);
 		$userData['password'] = md5($userData['password']);
