@@ -53,15 +53,6 @@
                 </div>
             </div>
             <div class="col-lg-8">
-                <div class="d-block d-md-flex justify-content-between mt-4 mt-md-0">
-                <div class="text-center mt-4 mt-md-0">
-                    <button class="btn btn-outline-primary">Update</button>
-                    <button class="btn btn-primary">Send Message</button>
-                    <button class="btn btn-primary">Send Email </button>
-                    <button class="btn btn-primary">Resend Activation Link</button>
-                </div>
-                </div>
-              
               <div class="card">
                 <div class="card-body">
                   <ul class="nav nav-pills nav-pills-success" id="pills-tab" role="tablist">
