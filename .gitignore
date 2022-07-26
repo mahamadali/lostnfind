@@ -1,5 +1,5 @@
 .htaccess
-vendor
+/vendor
 readme.md
 settings/app.php
 settings/database.php
