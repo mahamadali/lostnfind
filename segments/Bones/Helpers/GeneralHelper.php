@@ -68,5 +68,28 @@ if (! function_exists('company')) {
     }
 }
 
+if (! function_exists('keyNumber')) {
+    function keyNumber($length)
+    {
+        $random_string = '';
+        for($i = 0; $i < $length; $i++) {
+            $number = random_int(0, 36);
+            $character = base_convert($number, 10, 36);
+            $random_string .= $character;
+        }
+    
+        return strtoupper($random_string);
+    }
+}
+
+if (! function_exists('dd')) {
+    function dd($data)
+    {
+        echo "<pre>";
+        print_r($data);
+        exit;
+    }
+}
+
 
 

@@ -26676,7 +26676,7 @@ table.dataTable tbody td.select-checkbox:after {
 }
 
 /* Dropzone */
-.dropzone {
+/* .dropzone {
   border: 1px solid #CED4DA;
   min-height: 200px;
 }
@@ -26715,7 +26715,7 @@ table.dataTable tbody td.select-checkbox:after {
 .dropzone .dz-preview .dz-error-mark svg {
   width: 35px;
   height: 35px;
-}
+} */
 
 /* Flot chart */
 .flot-chart-container {

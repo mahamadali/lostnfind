@@ -1,4 +1,4 @@
-@extends('app')
+@extends('backend/app')
 
 @block("title") {{ setting('app.title', 'Quotations') }} @endblock
 
@@ -25,7 +25,31 @@
       <div class="col-md-3 mb-4 stretch-card transparent">
         <div class="card card-tale">
           <div class="card-body">
-            <p class="mb-4">Today’s Quotations</p>
+            <p class="mb-4">My Items</p>
+            <p class="fs-30 mb-2">{{ $items }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-4 stretch-card transparent">
+        <div class="card card-light-blue">
+          <div class="card-body">
+            <p class="mb-4">Total Transactions</p>
+            <p class="fs-30 mb-2">0</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-4 stretch-card transparent">
+        <div class="card card-dark-blue">
+          <div class="card-body">
+            <p class="mb-4">Current Plan</p>
+            <p class="fs-30 mb-2">0</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-4 stretch-card transparent">
+        <div class="card card-light-blue">
+          <div class="card-body">
+            <p class="mb-4">Additional Contacts</p>
             <p class="fs-30 mb-2">0</p>
           </div>
         </div>

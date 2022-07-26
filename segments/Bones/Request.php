@@ -36,7 +36,7 @@ class Request extends Validation
                     $fileObj = [
                         'tmp_name' => $file['tmp_name'][$fileIndex],
                         'name' => $file['name'][$fileIndex],
-                        'full_path' => $file['full_path'][$fileIndex],
+                        // 'full_path' => $file['full_path'][$fileIndex],
                         'error' => $file['error'][$fileIndex],
                         'type' => $file['type'][$fileIndex],
                         'size' => $file['size'][$fileIndex]
@@ -96,7 +96,12 @@ class Request extends Validation
      */
     public function hasFile($fileName)
     {
-        return (!empty($this->files)) ? (array_key_exists($fileName, $this->files) && !empty($this->files[$fileName]->file['tmp_name'])) : false;
+        if (!empty($this->files[$fileName]) && !empty($this->files[$fileName][0])) {
+            return (!empty($this->files)) ? (array_key_exists($fileName, $this->files) && !empty($this->files[$fileName][0]->file['tmp_name'])) : false;
+        }
+        else {
+            return (!empty($this->files)) ? (array_key_exists($fileName, $this->files) && !empty($this->files[$fileName]->file['tmp_name'])) : false;   
+        }
     }
 
     /**
