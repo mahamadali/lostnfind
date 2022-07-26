@@ -4,11 +4,8 @@ namespace Models;
 
 use Models\Base\Model;
 use Models\Role;
-<<<<<<< HEAD
 use Models\Item;
-=======
 use Models\AdditionalContact;
->>>>>>> 6bc22c96fb2052b4e15e62d4cd3dae2da4d57743
 
 class User extends Model
 {
