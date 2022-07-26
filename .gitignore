@@ -1,3 +1,4 @@
+.htaccess
 /vendor
 readme.md
 settings/app.php
