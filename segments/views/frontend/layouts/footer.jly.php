@@ -4,13 +4,13 @@
 <div class="container">
   <div class="row gy-4">
     <div class="col-lg-5 col-md-12 footer-info">
-      <a href="{{ route('home') }}" class="logo d-flex align-items-center">
+      <a href="{{ url('/') }}" class="logo d-flex align-items-center">
         <!-- <span>Logis</span> -->
         <img src="{{ url(company()->logo) }}" height="50">
       </a>
       <p>{{ setting('app.description') }}</p>
       <div class="social-links d-flex mt-4">
-        @foreach($social_icons as $icon): 
+        @foreach(social_icons() as $icon): 
             <a href="{{ $icon->url }}" class="{{ $icon->title }}"><i class="bi {{ $icon->icon }}"></i></a>
         @endforeach
       </div>
@@ -19,7 +19,7 @@
     <div class="col-lg-2 col-6 footer-links">
       <h4>Useful Links</h4>
       <ul>
-        @foreach($pages as $page): 
+        @foreach(pages() as $page): 
         <li><a href="{{ route('cms.page', ['page' => $page->id]) }}">{{ $page->title }}</a></li>
         @endforeach
         <!-- <li><a href="#">Home</a></li>
