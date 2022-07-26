@@ -19,6 +19,7 @@ class User extends Model
 		'password',
 		'expiration_date',
 		'contact_number',
+		'logo',
 		'role_id'
 	];
 	

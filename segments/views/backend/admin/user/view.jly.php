@@ -15,7 +15,7 @@
             <div class="row">
             <div class="col-lg-4">
                 <div class="border-bottom text-center pb-4">
-                <img src="{{ $user->getAvatarProperty()  }}" alt="profile" class="img-lg rounded-circle mb-3"/>
+                <img src="{{ $user->logo ? url($user->logo) : $user->getAvatarProperty() }}" alt="profile" class="img-lg rounded-circle mb-3"/>
                 
                 <div class="mb-3">
                     <h3>{{ $user->getFullNameProperty()  }}</h3>

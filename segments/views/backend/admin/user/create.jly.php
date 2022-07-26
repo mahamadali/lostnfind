@@ -12,7 +12,7 @@
       Create User
     </div>
     <div class="card-body">
-      <form method="post" action="{{ route('admin.users.store') }}">
+      <form method="post" action="{{ route('admin.users.store') }}" enctype="multipart/form-data">
         <div class="row">
           <div class="col">
             <div class="form-group">
@@ -56,12 +56,19 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-6">
+          <div class="col">
             <div class="form-group">
               <label>Contact Number</label>
               <input type="text" class="form-control" name="contact_number" />
             </div>
           </div>
+          <div class="col">
+            <div class="form-group">
+              <label>Logo</label>
+              <input type="file" class="form-control" name="logo" />
+            </div>
+          </div>
+
         </div>
         <div class="row mt-2">
           <div class="col">

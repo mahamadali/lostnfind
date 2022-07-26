@@ -12,7 +12,7 @@
       Edit User
     </div>
     <div class="card-body">
-      <form method="post" action="{{ route('admin.users.update') }}">
+      <form method="post" action="{{ route('admin.users.update') }}" enctype="multipart/form-data">
         <input type="hidden" name="id" value="{{ $user->id }}" />
         <div class="row">
           <div class="col">
@@ -56,6 +56,20 @@
               <label>Confirm Password</label>
               <input type="password" class="form-control" name="confirm_password" />
             </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label>Logo</label>
+              <input type="file" class="form-control" name="logo" />
+            </div>
+          </div>
+          <div class="col">
+              @if(!empty($user->logo)):
+              <img src="{{ url($user->logo) }}" height="70" class="mt-2">
+              @endif
           </div>
         </div>
         
