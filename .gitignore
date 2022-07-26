@@ -1,0 +1,9 @@
+.htaccess
+vendor
+readme.md
+settings/app.php
+settings/database.php
+composer.lock
+assets/uploads/item
+assets/uploads/company-logos
+compiler/builds
