@@ -24,6 +24,7 @@ Router::bunch('/admin', ['as' => 'admin.', 'barrier' => [IsAuthenticated::class]
 		Router::get('/edit/{user}', [ UserController::class, 'edit' ])->name('edit');
 		Router::post('/update', [ UserController::class, 'update' ])->name('update');
 		Router::post('/delete/{user}', [ UserController::class, 'delete' ])->name('delete');
+		Router::get('/view/{user}', [ UserController::class, 'view' ])->name('view');
 	});
 
 	Router::bunch('/category', ['as' => 'category.'], function() {

@@ -36,16 +36,44 @@ class UserController
 			'email' => 'required|max:70|email|unique:users,email',
 			'expiration_date' => 'required',
             'password' => ['required', 'min:6', 'max:12', 'eqt:confirm_password'],
+			'contact_number' => 'required|min:10|max:20',
 		]);
+
+		
 
 		if ($validator->hasError()) {
 			return redirect()->withFlashError(implode('<br>', $validator->errors()))->with('old', $request->all())->back();
         }
 
+		
+
+
 		$role = Role::where('name', 'user')->first()->id;
-		$userData = $request->getOnly(['first_name', 'last_name', 'email', 'password', 'expiration_date', 'role_id']);
+		$userData = $request->getOnly(['first_name', 'last_name', 'email', 'password', 'expiration_date','contact_number','role_id','logo']);
 		$userData['password'] = md5($userData['password']);
 		$userData['role_id'] = $role;
+
+
+		$logoPath = null;
+		if ($request->hasFile('logo')) {
+			$logo = $request->files('logo');
+			if (!$logo->isImage()) {
+				return redirect()->withFlashError('Logo must be type of image')->with('old', $request->all())->back();
+			} else {
+				$uploadTo = 'assets/uploads/user-logos/';
+				$uploadAs = 'user-logos-' . uniqid() . '.' . $logo->extension;
+				if ($logo->save(pathWith($uploadTo), $uploadAs)) {
+                    if(!empty($userData['logo']) && file_exists($userData['logo'])) {
+                        unlink($userData['logo']);
+                    }
+					$logoPath = $uploadTo . $uploadAs;
+                    $userData['logo'] = $logoPath;
+				} else {
+					return redirect()->withFlashError('Logo upload failed!')->with('old', $request->all())->back();
+				}
+			}
+		}
+
 
 		$user = User::create($userData);
 
@@ -71,13 +99,36 @@ class UserController
 			'last_name' => 'required|min:2|max:18',
 			'email' => 'required|max:70|email|unique:users,email,' . $request->id,
             'password' => ['eqt:confirm_password'],
+			'contact_number' => 'required|min:10|max:20',
 		]);
 
 		if ($validator->hasError()) {
             return redirect()->withFlashError(implode('<br>', $validator->errors()))->with('old', $request->all())->back();
         }
 
-		$userData = $request->getOnly(['first_name', 'last_name', 'email', 'password']);
+		$userData = $request->getOnly(['first_name', 'last_name', 'email', 'password','contact_number','logo']);
+
+		$logoPath = null;
+		if ($request->hasFile('logo')) {
+			$logo = $request->files('logo');
+			if (!$logo->isImage()) {
+				return redirect()->withFlashError('Logo must be type of image')->with('old', $request->all())->back();
+			} else {
+				$uploadTo = 'assets/uploads/user-logos/';
+				$uploadAs = 'user-logos-' . uniqid() . '.' . $logo->extension;
+				if ($logo->save(pathWith($uploadTo), $uploadAs)) {
+                    if(!empty($userData['logo']) && file_exists($userData['logo'])) {
+                        unlink($userData['logo']);
+                    }
+					$logoPath = $uploadTo . $uploadAs;
+                    $userData['logo'] = $logoPath;
+				} else {
+					return redirect()->withFlashError('Logo upload failed!')->with('old', $request->all())->back();
+				}
+			}
+		}
+
+
 		if (!empty($userData['password'])) {
 			$userData['password'] = md5($userData['password']);
 		} else {
@@ -100,6 +151,13 @@ class UserController
 		} else {
 			return redirect()->withFlashError('Oops! Something went wrong!')->back();
 		}
+	}
+
+	public function view(Request $request, User $user)
+	{
+		return render('backend/admin/user/view', [
+			'user' => $user
+		]);
 	}
 
 }

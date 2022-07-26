@@ -28,6 +28,7 @@
             <tr>
               <th>Name</th>
               <th>Email</th>
+              <th>Contact Number</th>
               <th>Create At</th>
               <th>Expired At</th>
               <th>Action</th>
@@ -40,9 +41,13 @@
               <tr>
                 <td>{{ $user->full_name }}</td>
                 <td>{{ $user->email }}</td>
+                <td>{{ $user->contact_number ?? 'N/A' }}</td>
                 <td>{{ date('M d, Y H:i', strtotime($user->created_at)) }}</td>
                 <td>{{ date('M d, Y', strtotime($user->expiration_date)) }}</td>
                 <td>
+                  <a href="{{ url('admin/users/view/'.$user->id) }}" class="btn btn-sm btn-success">
+                    <span><i class="ti-eye"></i></span>
+                  </a>
                   <a href="{{ url('admin/users/edit/'.$user->id) }}" class="btn btn-sm btn-info">
                     <span><i class="ti-pencil"></i></span>
                   </a>

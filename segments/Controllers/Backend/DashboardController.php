@@ -5,6 +5,7 @@ namespace Controllers\Backend;
 use Bones\Request;
 use Models\User;
 use Models\Category;
+use Models\Item;
 
 class DashboardController
 {
@@ -16,9 +17,12 @@ class DashboardController
 
 		$total_tags = count(Category::where('status', 'Active')->get());
 
+		$total_items = count(Item::where('status', 'Active')->get());
+
 		return render('backend/admin/dashboard', [
 			'total_users' => $total_users,
 			'total_tags' => $total_tags,
+			'total_items' => $total_items,
 		]);
 	}
 }
