@@ -24,7 +24,7 @@ class FaqController
 	public function store(Request $request)
 	{
 		$validator = $request->validate([
-			'title' => 'required|min:2|max:30',
+			'title' => 'required|min:2',
 			'description' => 'required|min:2'
 		]);
 
@@ -54,7 +54,7 @@ class FaqController
 	public function update(Request $request)
 	{
 		$validator = $request->validate([
-			'title' => 'required|min:2|max:30',
+			'title' => 'required|min:2',
 			'description' => 'required|min:2'
 		]);
 
