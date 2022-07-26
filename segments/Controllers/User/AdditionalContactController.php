@@ -82,7 +82,7 @@ class AdditionalContactController
     }
 
     public function delete(Request $request, AdditionalContact $contact) {
-        AdditionalContact::where('id', $contact->id)->delete();
+        $contact->delete();
         return redirect()->withFlashError('Contact deleted successfully!')->with('old', $request->all())->back();
     }
 }

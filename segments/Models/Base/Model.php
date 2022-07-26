@@ -181,9 +181,15 @@ class Model extends Database
 
     public function ___delete($limit = null)
     {
+        if (!empty($this->is_only) && $this->is_only) {
+            $this->where($this->primary_key, $this->{$this->primary_key});
+            $this->is_only = false;
+        }
+
         if ($this->hasTrashMask()) {
             return $this->setTrashMask();
         }
+
         return $this->db->__delete($limit, $this->table);
     }
 
@@ -544,6 +550,8 @@ class Model extends Database
             if (isset($this->$confidentialAttr)) 
                 unset($this->$confidentialAttr);
         }
+
+        $modelObj->is_only = true;
 
         return $modelObj;
     }
