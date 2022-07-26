@@ -2,6 +2,7 @@
 
 namespace Controllers\Frontend;
 
+use Models\Category;
 use Models\Faq;
 use Models\Pages;
 use Models\SocialMedia;
@@ -15,11 +16,13 @@ class HomeController
         $plans = Subscription::get();
         $faqs = Faq::get();
         $social_icons = SocialMedia::get();
+        $categories = Category::where('status', 'Active')->get();
         return render('frontend/home', [
             'pages' => $pages,
             'plans' => $plans,
             'faqs' => $faqs,
-            'social_icons' => $social_icons
+            'social_icons' => $social_icons,
+            'categories' => $categories
         ]);
     }
 }

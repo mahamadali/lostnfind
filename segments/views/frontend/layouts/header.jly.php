@@ -2,7 +2,7 @@
   <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-      <a href="{{ route('home') }}" class="logo d-flex align-items-center">
+      <a href="{{ url('/') }}" class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <img src="{{ url(company()->logo) }}" alt="">
         <h1>{{ company()->name }}</h1>
@@ -12,8 +12,8 @@
       <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a href="{{ route('home') }}" class="active">Home</a></li>
-            @foreach($pages as $page): 
+          <li><a href="{{ url('/') }}" class="active">Home</a></li>
+            @foreach(pages() as $page): 
                 <li><a href="{{ route('cms.page', ['page' => $page->id]) }}">{{ $page->title }}</a></li>
             @endforeach
             <li><a href="#faq">FAQ</a></li>

@@ -1,5 +1,7 @@
 <?php
 use Models\Company;
+use Models\Pages;
+use Models\SocialMedia;
 use Models\User;
 
 if (! function_exists('generateOTP')) {
@@ -97,6 +99,20 @@ if (! function_exists('dd')) {
         echo "<pre>";
         print_r($data);
         exit;
+    }
+}
+
+if (! function_exists('pages')) {
+    function pages()
+    {
+        return Pages::get();
+    }
+}
+
+if (! function_exists('social_icons')) {
+    function social_icons()
+    {
+        return SocialMedia::get();
     }
 }
 
