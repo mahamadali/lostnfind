@@ -33,7 +33,7 @@
   <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-      <a href="<?php echo route('home'); ?>" class="logo d-flex align-items-center">
+      <a href="<?php echo url('/'); ?>" class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <img src="<?php echo url(company()->logo); ?>" alt="">
         <h1><?php echo company()->name; ?></h1>
@@ -43,8 +43,8 @@
       <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a href="<?php echo route('home'); ?>" class="active">Home</a></li>
-            <?php foreach($pages as $page) { ?> 
+          <li><a href="<?php echo url('/'); ?>" class="active">Home</a></li>
+            <?php foreach(pages() as $page) { ?> 
                 <li><a href="<?php echo route('cms.page', ['page' => $page->id]); ?>"><?php echo $page->title; ?></a></li>
             <?php } ?>
             <li><a href="#faq">FAQ</a></li>
@@ -199,66 +199,13 @@
         </div>
 
         <div class="row gy-4">
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-            <div class="card">
-              <div class="card-img">
-                <img src="assets/img/storage-service.jpg" alt="" class="img-fluid">
-              </div>
-              <h3><a href="service-details.html" class="stretched-link">Storage</a></h3>
-              <p>Cumque eos in qui numquam. Aut aspernatur perferendis sed atque quia voluptas quisquam repellendus temporibus itaqueofficiis odit</p>
-            </div>
-          </div><!-- End Card Item -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="card">
-              <div class="card-img">
-                <img src="assets/img/logistics-service.jpg" alt="" class="img-fluid">
-              </div>
-              <h3><a href="service-details.html" class="stretched-link">Logistics</a></h3>
-              <p>Asperiores provident dolor accusamus pariatur dolore nam id audantium ut et iure incidunt molestiae dolor ipsam ducimus occaecati nisi</p>
-            </div>
-          </div><!-- End Card Item -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-            <div class="card">
-              <div class="card-img">
-                <img src="assets/img/cargo-service.jpg" alt="" class="img-fluid">
-              </div>
-              <h3><a href="service-details.html" class="stretched-link">Cargo</a></h3>
-              <p>Dicta quam similique quia architecto eos nisi aut ratione aut ipsum reiciendis sit doloremque oluptatem aut et molestiae ut et nihil</p>
-            </div>
-          </div><!-- End Card Item -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
-            <div class="card">
-              <div class="card-img">
-                <img src="assets/img/trucking-service.jpg" alt="" class="img-fluid">
-              </div>
-              <h3><a href="service-details.html" class="stretched-link">Trucking</a></h3>
-              <p>Dicta quam similique quia architecto eos nisi aut ratione aut ipsum reiciendis sit doloremque oluptatem aut et molestiae ut et nihil</p>
-            </div>
-          </div><!-- End Card Item -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
-            <div class="card">
-              <div class="card-img">
-                <img src="assets/img/packaging-service.jpg" alt="" class="img-fluid">
-              </div>
-              <h3><a href="service-details.html" class="stretched-link">Packaging</a></h3>
-              <p>Illo consequuntur quisquam delectus praesentium modi dignissimos facere vel cum onsequuntur maiores beatae consequatur magni voluptates</p>
-            </div>
-          </div><!-- End Card Item -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
-            <div class="card">
-              <div class="card-img">
-                <img src="assets/img/warehousing-service.jpg" alt="" class="img-fluid">
-              </div>
-              <h3><a href="service-details.html" class="stretched-link">Warehousing</a></h3>
-              <p>Quas assumenda non occaecati molestiae. In aut earum sed natus eatae in vero. Ab modi quisquam aut nostrum unde et qui est non quo nulla</p>
-            </div>
-          </div><!-- End Card Item -->
+            <?php foreach($categories as $category) { ?> 
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card">
+                    <h3><?php echo $category->title; ?></h3>
+                    </div>
+                </div><!-- End Card Item -->
+            <?php } ?>
 
         </div>
 
@@ -381,7 +328,7 @@
                         <li><i class="bi bi-check"></i> Pharetra massa massa ultricies</li>
                         <li><i class="bi bi-check"></i> Massa ultricies mi quis hendrerit</li>
                     </ul> -->
-                    <a href="#" class="buy-btn text-center" style="width:100%;">Buy Now</a>
+                    <a href="<?php echo route('purchase-plan.index', ['plan' => $plan->id]); ?>" class="buy-btn text-center" style="width:100%;">Purchase Now</a>
                     </div>
                 </div>
             <?php } ?>
@@ -528,13 +475,13 @@
 <div class="container">
   <div class="row gy-4">
     <div class="col-lg-5 col-md-12 footer-info">
-      <a href="<?php echo route('home'); ?>" class="logo d-flex align-items-center">
+      <a href="<?php echo url('/'); ?>" class="logo d-flex align-items-center">
         <!-- <span>Logis</span> -->
         <img src="<?php echo url(company()->logo); ?>" height="50">
       </a>
       <p><?php echo setting('app.description'); ?></p>
       <div class="social-links d-flex mt-4">
-        <?php foreach($social_icons as $icon) { ?> 
+        <?php foreach(social_icons() as $icon) { ?> 
             <a href="<?php echo $icon->url; ?>" class="<?php echo $icon->title; ?>"><i class="bi <?php echo $icon->icon; ?>"></i></a>
         <?php } ?>
       </div>
@@ -543,7 +490,7 @@
     <div class="col-lg-2 col-6 footer-links">
       <h4>Useful Links</h4>
       <ul>
-        <?php foreach($pages as $page) { ?> 
+        <?php foreach(pages() as $page) { ?> 
         <li><a href="<?php echo route('cms.page', ['page' => $page->id]); ?>"><?php echo $page->title; ?></a></li>
         <?php } ?>
         <!-- <li><a href="#">Home</a></li>
@@ -598,6 +545,10 @@
         <div id="preloader"></div>
 
         <!-- Vendor JS Files -->
+        <script
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
         <script src="<?php echo url('assets/frontend/vendor/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
         <script src="<?php echo url('assets/frontend/vendor/purecounter/purecounter_vanilla.js'); ?>"></script>
         <script src="<?php echo url('assets/frontend/vendor/glightbox/js/glightbox.min.js'); ?>"></script>
