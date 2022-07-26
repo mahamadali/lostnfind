@@ -516,8 +516,8 @@
       <h4>Contact Us</h4>
       <p>
         <?php echo company()->address; ?>
-        <strong>Phone:</strong> +1 5589 55488 55<br>
-        <strong>Email:</strong> info@example.com<br>
+        <strong>Phone:</strong>  <?php echo company()->phone_number; ?><br>
+        <strong>Email:</strong> <?php echo company()->email; ?><br>
       </p>
 
     </div>

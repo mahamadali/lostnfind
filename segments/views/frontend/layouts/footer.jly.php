@@ -45,8 +45,8 @@
       <h4>Contact Us</h4>
       <p>
         {{ company()->address }}
-        <strong>Phone:</strong> +1 5589 55488 55<br>
-        <strong>Email:</strong> info@example.com<br>
+        <strong>Phone:</strong>  {{ company()->phone_number }}<br>
+        <strong>Email:</strong> {{ company()->email }}<br>
       </p>
 
     </div>
