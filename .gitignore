@@ -7,3 +7,4 @@ composer.lock
 assets/uploads/item
 assets/uploads/company-logos
 compiler/builds
+settings/mail.php
