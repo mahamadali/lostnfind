@@ -14,7 +14,7 @@
         <ul>
           <li><a href="{{ url('/') }}" class="active">Home</a></li>
             @foreach(pages() as $page): 
-                <li><a href="{{ route('cms.page', ['page' => $page->id]) }}">{{ $page->title }}</a></li>
+                <li><a href="{{ route('cms.page', ['page' => $page->title]) }}">{{ $page->title_beautify }}</a></li>
             @endforeach
             <li><a href="#faq">FAQ</a></li>
           <!-- <li><a href="about.html">About</a></li>

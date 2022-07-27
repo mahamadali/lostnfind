@@ -248,10 +248,13 @@ class Router
         if (class_exists($barrier)) {
             return $barrier;
         }
+
         $aliases = Str::array_change_key_case_recursive(setting('aliases', []), CASE_LOWER);
+
         if (empty($aliases) || empty($aliases['barriers'])) {
             return null;
         }
+
         return $aliases['barriers'][$barrier];
     }
 
@@ -344,11 +347,11 @@ class Router
             if ($param->hasType() && !Str::contains($paramClass, 'Bones\Request')) {
                 $bindModelImplicitly = (string) $paramClass;
                 $modelObj = (new $bindModelImplicitly);
-                $columnToBind = (property_exists($modelObj, 'route_bind_bolumn')) ? self::accessProtected($modelObj, 'route_bind_bolumn') : (self::accessProtected($modelObj, 'primary_key'));
+                $columnToBind = (property_exists($modelObj, 'route_bind_column')) ? self::accessProtected($modelObj, 'route_bind_column') : (self::accessProtected($modelObj, 'primary_key'));
                 $columnValueToCompare = $optionalParamsClone[$paramCount];
                 $optionalParamsClone[$paramCount] = $modelObj->where($columnToBind, $columnValueToCompare)->first();
                 if (empty($optionalParamsClone[$paramCount])) {
-                    throw new RouteException('No data found for {' . $columnValueToCompare . '} as {' . $columnToBind . '} [route_bind_bolumn] in {' . $bindModelImplicitly . '} while implicit binding');
+                    throw new RouteException('No data found for {' . $columnValueToCompare . '} as {' . $columnToBind . '} [route_bind_column] in {' . $bindModelImplicitly . '} while implicit binding');
                 }
                 $paramCount++;
             }
@@ -667,23 +670,39 @@ class Router
             if (!empty($routeInfo['pattern'])) {
                 $routeSyntax = explode('/', $routeInfo['pattern']);
                 $finalRouteBlocks = [];
-                foreach ($routeSyntax as $segment) {
-                    if (Str::startsWith($segment, '{') && !Str::startsWith($segment, '{?') && Str::endsWith($segment, '}')) {
-                        $segmentMustPresent = Str::removeWords($segment, ['{', '}']);
-                        if (!array_key_exists($segmentMustPresent, $segmentValues)) {
-                            throw new RouteException('{' . $segmentMustPresent . '} must present in route ' . $routeInfo['pattern']);
+                
+                if (!empty($segmentValues) && !empty($segmentValues[0]) && !is_array($segmentValues[0])) {
+                    $dynamicSegmentCount = 0;
+                    foreach ($routeSyntax as $segmentCount => $segment) {
+                        if (Str::startsWith($segment, '{') && Str::endsWith($segment, '}')) {
+                            if (isset($segmentValues[$dynamicSegmentCount])) {
+                                $finalRouteBlocks[$segment] = $segmentValues[$dynamicSegmentCount];
+                                $dynamicSegmentCount++;
+                            }
                         } else {
-                            $finalRouteBlocks[$segment] = $segmentValues[$segmentMustPresent];
+                            $finalRouteBlocks[$segment] = $segment;
                         }
-                    } else if (Str::startsWith($segment, '{?') && Str::endsWith($segment, '}')) {
-                        $segmentOptional = Str::removeWords($segment, ['{?', '}']);
-                        if (array_key_exists($segmentOptional, $segmentValues)) {
-                            $finalRouteBlocks[$segment] = $segmentValues[$segmentOptional];
+                    }       
+                } else {
+                    foreach ($routeSyntax as $segment) {
+                        if (Str::startsWith($segment, '{') && !Str::startsWith($segment, '{?') && Str::endsWith($segment, '}')) {
+                            $segmentMustPresent = Str::removeWords($segment, ['{', '}']);
+                            if (!array_key_exists($segmentMustPresent, $segmentValues)) {
+                                throw new RouteException('{' . $segmentMustPresent . '} must present in route ' . $routeInfo['pattern']);
+                            } else {
+                                $finalRouteBlocks[$segment] = $segmentValues[$segmentMustPresent];
+                            }
+                        } else if (Str::startsWith($segment, '{?') && Str::endsWith($segment, '}')) {
+                            $segmentOptional = Str::removeWords($segment, ['{?', '}']);
+                            if (array_key_exists($segmentOptional, $segmentValues)) {
+                                $finalRouteBlocks[$segment] = $segmentValues[$segmentOptional];
+                            }
+                        } else {
+                            $finalRouteBlocks[$segment] = $segment;
                         }
-                    } else {
-                        $finalRouteBlocks[$segment] = $segment;
                     }
                 }
+
                 return url(implode('/', $finalRouteBlocks));
             } else {
                 return url($routeInfo['pattern']);

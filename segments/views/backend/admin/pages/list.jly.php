@@ -27,7 +27,6 @@
           <thead>
             <tr>
               <th>Title</th>
-              <th>Description</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -36,12 +35,11 @@
               @foreach ($pages as $page):
               <tr>
                 <td>{{ $page->title }}</td>
-                <td>{{ $page->description }}</td>
                 <td>
-                  <a href="{{ url('admin/pages/edit/'.$page->id) }}" class="btn btn-sm btn-info">
+                  <a href="{{ url('admin/pages/edit/'.$page->title) }}" class="btn btn-sm btn-info">
                     <span><i class="ti-pencil"></i></span>
                   </a>
-                  <form method="post" action="{{ url('admin/pages/delete/'.$page->id) }}" class="d-inline-block">
+                  <form method="post" action="{{ url('admin/pages/delete/'.$page->title) }}" class="d-inline-block">
                     <input type="hidden" name="_method" value="DELETE" />
                     <button type="submit" class="btn btn-sm btn-danger">
                       <span><i class="ti-trash"></i></span>
@@ -52,7 +50,7 @@
               @endforeach
             @else
               <tr>
-                <td colspan="3" class="text-center text-muted">No data found</td>
+                <td colspan="2" class="text-center text-muted">No data found</td>
               </tr>
             @endif
           </tbody>

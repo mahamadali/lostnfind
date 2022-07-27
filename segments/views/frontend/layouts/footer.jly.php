@@ -20,7 +20,7 @@
       <h4>Useful Links</h4>
       <ul>
         @foreach(pages() as $page): 
-        <li><a href="{{ route('cms.page', ['page' => $page->id]) }}">{{ $page->title }}</a></li>
+        <li><a href="{{ route('cms.page', ['page' => $page->title]) }}">{{ $page->title_beautify }}</a></li>
         @endforeach
         <!-- <li><a href="#">Home</a></li>
         <li><a href="#">About us</a></li>

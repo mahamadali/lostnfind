@@ -6,7 +6,7 @@ use Controllers\Frontend\PurchasePlanController;
 
 Router::get('/', [ HomeController::class, 'index' ])->name('frontend.home');
 Router::bunch('/cms', ['as' => 'cms.'], function() {
-	Router::get('/{page}', [ AuthController::class, 'page' ])->name('page');
+	Router::get('/{page}', [ HomeController::class, 'page' ])->name('page');
 });
 
 Router::bunch('/purchase-plan', ['as' => 'purchase-plan.'], function() {

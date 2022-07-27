@@ -301,7 +301,7 @@ class Str
      * @param string $plural Pluralized form of word
      * @return string Singular word
      */
-    public static function singular($plural) : string
+    public static function singular($plural)
     {
         if (Str::endsWith($plural, 'ies')) {
             return substr($plural, 0, -3) . 'y';
@@ -321,19 +321,19 @@ class Str
      * 
      * @return bool
      */
-    public static function isEmail(string $email) : bool
+    public static function isEmail(string $email)
     {
         return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
 
     /**
-     * remove enclosed quotes from string
+     * Remove enclosed quotes from string
      * 
      * @param string $email
      * 
      * @return string
      */
-    public static function removeQuotes(string $string) : string
+    public static function removeQuotes(string $string)
     {
         if (Str::startsWith($string, '"') || Str::startsWith($string, "'")) {
             $string = str_replace(Str::charAt($string, 0), '', $string);
@@ -346,4 +346,23 @@ class Str
         return $string;
     }
 
+    /**
+     * Generate slug from string
+     * 
+     * @param string $string
+     * @param string $glue_with
+     * 
+     * @return string slug
+     */
+    public static function toSlug($string, $glue_with = '-')
+    {
+        $delimiter = $glue_with;
+
+        $string = mb_convert_encoding((string) $string, 'UTF-8', mb_list_encodings());
+        $string = preg_replace('/[^\p{L}\p{Nd}]+/u', $delimiter, $string);
+        $string = preg_replace('/(' . preg_quote($delimiter, '/') . '){2,}/', '$1', $string);
+        $string = trim($string, $delimiter);
+
+        return strtolower($string);
+    }
 }

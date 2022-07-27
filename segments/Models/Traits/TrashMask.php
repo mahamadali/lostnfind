@@ -13,7 +13,7 @@ trait TrashMask
 
     public function setTrashMask()
     {
-        $this->is_only = false;
+        $this->setSelfOnly(false);
         return $this->update([
             $this->getTrashMaskColumn() => date('Y-m-d H:i:s')
         ]);

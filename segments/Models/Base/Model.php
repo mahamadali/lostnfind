@@ -28,6 +28,7 @@ class Model extends Database
     protected $withTrashed = false;
     protected $relationalProps = [];
     protected $dynamicAttributes = [];
+    protected $transforms = [];
 
     public function __construct()
     {
@@ -115,6 +116,14 @@ class Model extends Database
             }
         }
 
+        if (!empty($this->transforms)) {
+            foreach ($insertData as $elementName => &$elementVal) {
+                if (array_key_exists($elementName, $this->transforms)) {
+                    $elementVal = $this->transformElement($this->transforms[$elementName], $elementVal);
+                }
+            }
+        }
+
         $lastInsertedId = $this->db->__insert($insertData, $this->table);
 
         if ($lastInsertedId > 0) {
@@ -165,6 +174,16 @@ class Model extends Database
             }
         }
 
+        if (!empty($this->transforms)) {
+            foreach ($multiInsertData as $insertPairIndex => &$insertData) {
+                foreach ($insertData as $elementName => &$elementVal) {
+                    if (array_key_exists($elementName, $this->transforms)) {
+                        $elementVal = $this->transformElement($this->transforms[$elementName], $elementVal);
+                    }
+                }
+            }
+        }
+
         $lastInsertedIds = $this->db->__insertMulti($multiInsertData, $dataKeys, $this->table);
 
         if (!empty($lastInsertedIds)) {
@@ -176,14 +195,22 @@ class Model extends Database
 
     public function ___update($updateData, $limit = null)
     {
+        if (!empty($this->transforms)) {
+            foreach ($updateData as $elementName => &$elementVal) {
+                if (array_key_exists($elementName, $this->transforms)) {
+                    $elementVal = $this->transformElement($this->transforms[$elementName], $elementVal);
+                }
+            }
+        }
+
         return $this->db->__update($updateData, $limit, $this->table);
     }
 
     public function ___delete($limit = null)
     {
-        if (!empty($this->is_only) && $this->is_only) {
+        if ($this->isSelfOnly()) {
             $this->where($this->primary_key, $this->{$this->primary_key});
-            $this->is_only = false;
+            $this->setSelfOnly(false);
         }
 
         if ($this->hasTrashMask()) {
@@ -476,6 +503,21 @@ class Model extends Database
                 }
             }
 
+            if (!empty($this->transforms)) {
+                foreach ($modelObj as $elementName => &$elementVal) {
+                    if (array_key_exists($elementName, $this->transforms) && !in_array($elementName, $this->hidden)) {
+                        $elementVal = $this->transformElement($this->transforms[$elementName], $elementVal, 'get');
+                    }
+                }
+            }
+
+            foreach ($entry as $attribute => $value) {
+                $attributeMehod = 'get'.Str::decamelize($attribute).'Property';
+                if (method_exists($this->model, $attributeMehod)) {
+                    $modelObj->$attribute = $modelObj->$attributeMehod();
+                }
+            }
+
             foreach ($this->hidden as $confidentialAttr) {
                 if (isset($modelObj->$confidentialAttr)) 
                     unset($modelObj->$confidentialAttr);
@@ -546,19 +588,34 @@ class Model extends Database
             }
         }
 
+        if (!empty($this->transforms)) {
+            foreach ($modelObj as $elementName => &$elementVal) {
+                if (array_key_exists($elementName, $this->transforms) && !in_array($elementName, $this->hidden)) {
+                    $elementVal = $this->transformElement($this->transforms[$elementName], $elementVal, 'get');
+                }
+            }
+        }
+
+        foreach ($attributes as $attribute => $value) {
+            $attributeMehod = 'get'.Str::decamelize($attribute).'Property';
+            if (method_exists($this->model, $attributeMehod)) {
+                $modelObj->$attribute = $modelObj->$attributeMehod();
+            }
+        }
+
         foreach ($this->hidden as $confidentialAttr) {
             if (isset($this->$confidentialAttr)) 
                 unset($this->$confidentialAttr);
         }
 
-        $modelObj->is_only = true;
+        $modelObj->setSelfOnly(true);
 
         return $modelObj;
     }
 
     public function ___find($value)
     {
-        return $this->where($this->primary_key, $value)->first();
+        return $this->___clearWhere()->where($this->primary_key, $value)->first();
     }
 
     public function ___pluck(...$columns)
@@ -584,6 +641,11 @@ class Model extends Database
         return (isset($this->enable_trash_mask) && $this->enable_trash_mask);
     }
 
+    public function ___reservedProperties()
+    {
+        return ['_reserved_model_prop_is_only'];
+    }
+
     public function __get($attribute)
     {
         if (empty($attribute) || in_array($attribute, ['attaches', 'with', 'elements', 'hidden', 'withDefaults', 'has', 'relationalProps'])) {
@@ -601,8 +663,13 @@ class Model extends Database
     public function __set($attribute, $value)
     {
         $this->$attribute = $value;
-        if (!in_array($attribute, $this->with)) {
+        if (!in_array($attribute, array_merge($this->with, $this->reservedProperties()))) {
             $this->dynamicAttributes[] = $attribute;
+        }
+
+        $attributeMehod = 'set'.Str::decamelize($attribute).'Property';
+        if (method_exists($this->model, $attributeMehod)) {
+            $this->$attributeMehod($value);
         }
     }
 

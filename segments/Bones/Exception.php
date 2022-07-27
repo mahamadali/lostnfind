@@ -155,3 +155,19 @@ class ModelRelationException extends Exception
         return $this;
     }
 }
+
+class AlertException extends Exception
+{
+    public function errorMessage()
+    {
+        return $this;
+    }
+}
+
+ class MailerException extends Exception
+ {
+    public function errorMessage()
+    {
+        return $this;
+    }
+ }

@@ -45,7 +45,7 @@
         <ul>
           <li><a href="<?php echo url('/'); ?>" class="active">Home</a></li>
             <?php foreach(pages() as $page) { ?> 
-                <li><a href="<?php echo route('cms.page', ['page' => $page->id]); ?>"><?php echo $page->title; ?></a></li>
+                <li><a href="<?php echo route('cms.page', ['page' => $page->title]); ?>"><?php echo $page->title_beautify; ?></a></li>
             <?php } ?>
             <li><a href="#faq">FAQ</a></li>
           <!-- <li><a href="about.html">About</a></li>
@@ -491,7 +491,7 @@
       <h4>Useful Links</h4>
       <ul>
         <?php foreach(pages() as $page) { ?> 
-        <li><a href="<?php echo route('cms.page', ['page' => $page->id]); ?>"><?php echo $page->title; ?></a></li>
+        <li><a href="<?php echo route('cms.page', ['page' => $page->title]); ?>"><?php echo $page->title_beautify; ?></a></li>
         <?php } ?>
         <!-- <li><a href="#">Home</a></li>
         <li><a href="#">About us</a></li>
