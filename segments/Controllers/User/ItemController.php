@@ -31,6 +31,7 @@ class ItemController
 
     public function store(Request $request)
 	{
+       
         $validator = $request->validate([
 			'name' => 'required|min:2|max:60',
             'category_id' => 'required',
@@ -45,6 +46,16 @@ class ItemController
         $item->name = $request->name;
         $item->tag_number = $item->category()->first()->prefix."-".keyNumber(5);
         $item->user_id = auth()->id;
+        $item->breed = $request->breed ?? '';
+        $item->preferred_pet_food = $request->preferred_pet_food ?? '';
+        $item->distinguishing_marks = $request->distinguishing_marks ?? '';
+        $item->notes = $request->notes ?? '';
+        $item->date_of_birth = $request->date_of_birth ?? '';
+        $item->gender = $request->gender ?? '';
+        $item->height = $request->height ?? '';
+        $item->weight = $request->weight ?? '';
+        $item->length = $request->length ?? '';
+        $item->type = $request->type ?? '';
         $item = $item->save();
         
         if ($request->hasFile('files')) {
