@@ -34,6 +34,15 @@
         <div class="row">
           <div class="col">
             <div class="form-group">
+              <label>Company Info</label>
+              <textarea rows="3"  class="form-control" name="info">{{ $company->info ?? '' }}</textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
               <label>Email</label>
               <input type="email" class="form-control" name="email" value="{{ $company->email ?? '' }}" />
             </div>

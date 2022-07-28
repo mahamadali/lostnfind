@@ -56,8 +56,14 @@ Router::bunch('/admin', ['as' => 'admin.', 'barrier' => [IsAuthenticated::class]
 	});
 
 	Router::bunch('/messagesetting', ['as' => 'messagesetting.'], function() {
-		Router::get('/index', [ MessageSettingController::class, 'index' ])->name('index');
+		// Router::get('/index', [ MessageSettingController::class, 'index' ])->name('index');
+		// Router::post('/store', [ MessageSettingController::class, 'store' ])->name('store');
+		Router::get('/list', [ MessageSettingController::class, 'index' ])->name('list');
+		Router::get('/create', [ MessageSettingController::class, 'create' ])->name('create');
 		Router::post('/store', [ MessageSettingController::class, 'store' ])->name('store');
+		Router::get('/edit/{category}', [ MessageSettingController::class, 'edit' ])->name('edit');
+		Router::post('/update', [ MessageSettingController::class, 'update' ])->name('update');
+		Router::post('/delete/{category}', [ MessageSettingController::class, 'delete' ])->name('delete');
 	});
 
 	Router::bunch('/renewalmailsetting', ['as' => 'renewalmailsetting.'], function() {
