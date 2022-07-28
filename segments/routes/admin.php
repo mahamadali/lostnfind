@@ -56,8 +56,6 @@ Router::bunch('/admin', ['as' => 'admin.', 'barrier' => [IsAuthenticated::class]
 	});
 
 	Router::bunch('/messagesetting', ['as' => 'messagesetting.'], function() {
-		// Router::get('/index', [ MessageSettingController::class, 'index' ])->name('index');
-		// Router::post('/store', [ MessageSettingController::class, 'store' ])->name('store');
 		Router::get('/list', [ MessageSettingController::class, 'index' ])->name('list');
 		Router::get('/create', [ MessageSettingController::class, 'create' ])->name('create');
 		Router::post('/store', [ MessageSettingController::class, 'store' ])->name('store');
