@@ -3,8 +3,8 @@
     <div class="container">
       <div class="row gy-4 d-flex justify-content-between">
         <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
-          <h2 data-aos="fade-up">Find You Losted</h2>
-          <p data-aos="fade-up" data-aos-delay="100">Our plateform will help to find your losted things.</p>
+          <h2 data-aos="fade-up">{{ company()->name }}</h2>
+          <p data-aos="fade-up" data-aos-delay="100">{{ company()->info }}</p>
 
           <form action="#" class="form-search d-flex align-items-stretch mb-3" data-aos="fade-up" data-aos-delay="200">
             <input type="text" class="form-control" placeholder="Enter TAG #">

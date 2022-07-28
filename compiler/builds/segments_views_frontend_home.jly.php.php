@@ -81,8 +81,8 @@
     <div class="container">
       <div class="row gy-4 d-flex justify-content-between">
         <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
-          <h2 data-aos="fade-up">Find You Losted</h2>
-          <p data-aos="fade-up" data-aos-delay="100">Our plateform will help to find your losted things.</p>
+          <h2 data-aos="fade-up"><?php echo company()->name; ?></h2>
+          <p data-aos="fade-up" data-aos-delay="100"><?php echo company()->info; ?></p>
 
           <form action="#" class="form-search d-flex align-items-stretch mb-3" data-aos="fade-up" data-aos-delay="200">
             <input type="text" class="form-control" placeholder="Enter TAG #">
@@ -479,7 +479,7 @@
         <!-- <span>Logis</span> -->
         <img src="<?php echo url(company()->logo); ?>" height="50">
       </a>
-      <p><?php echo setting('app.description'); ?></p>
+      <p><?php echo company()->info; ?></p>
       <div class="social-links d-flex mt-4">
         <?php foreach(social_icons() as $icon) { ?> 
             <a href="<?php echo $icon->url; ?>" class="<?php echo $icon->title; ?>"><i class="bi <?php echo $icon->icon; ?>"></i></a>

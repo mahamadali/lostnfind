@@ -8,7 +8,7 @@
         <!-- <span>Logis</span> -->
         <img src="{{ url(company()->logo) }}" height="50">
       </a>
-      <p>{{ setting('app.description') }}</p>
+      <p>{{ company()->info }}</p>
       <div class="social-links d-flex mt-4">
         @foreach(social_icons() as $icon): 
             <a href="{{ $icon->url }}" class="{{ $icon->title }}"><i class="bi {{ $icon->icon }}"></i></a>
