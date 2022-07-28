@@ -48,5 +48,17 @@ class User extends Model
 		return $this->hasMany(Item::class, 'user_id')->get();
 	}
 
+	public function transactions() {
+		return $this->hasMany(UserSubscription::class, 'paypal_subscr_id', 'subscription_id');
+	}
+
+	public function requested_plan() {
+		return $this->hasOne(PurchasePlanRequest::class, 'email', 'email')->where('status', 'Active')->first();
+	}
+
+	public function requested_plans() {
+		return $this->hasMany(PurchasePlanRequest::class, 'email', 'email')->where('status', 'Active')->get();
+	}
+
 
 }

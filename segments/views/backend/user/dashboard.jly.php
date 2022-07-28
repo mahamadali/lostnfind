@@ -34,7 +34,7 @@
         <div class="card card-light-blue">
           <div class="card-body">
             <p class="mb-4">Total Transactions</p>
-            <p class="fs-30 mb-2">0</p>
+            <p class="fs-30 mb-2">{{ $transactions }}</p>
           </div>
         </div>
       </div>
@@ -42,7 +42,8 @@
         <div class="card card-dark-blue">
           <div class="card-body">
             <p class="mb-4">Current Plan</p>
-            <p class="fs-30 mb-2">0</p>
+            <p class="fs-30 mb-2">{{ !empty($plan) ? $plan->title : '' }}</p>
+            <small>{{ !empty($plan) ? $plan->days. " Days" : 'No Plan Active' }} </small>
           </div>
         </div>
       </div>

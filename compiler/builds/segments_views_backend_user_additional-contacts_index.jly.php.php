@@ -219,21 +219,19 @@
   </div>
 <?php } ?>
                     <div class="row">
-  <div class="col-md-12">
-    <div class="card card-inverse-light-with-black-text flatten-border">
-      <div class="card-header">
-        <div class="row">
-          <div class="col-md-2">
-            <h6>My Contacts</h6>
-          </div>
-          <div class="col">
-            <a class="btn btn-md btn-primary float-right" href="<?php echo route('user.additional-contacts.create'); ?>">
-              Add Contact
-            </a>
-          </div>
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+      <div class="row">
+        <div class="col-md-2">
+          <h4 class="card-title">My Contacts</h4>
+        </div>
+        <div class="col">
+          <a class="btn btn-md btn-primary float-right" href="<?php echo route('user.additional-contacts.create'); ?>">
+            Add Contact
+          </a>
         </div>
       </div>
-      <div class="card-body">
         <table class="table">
           <thead>
             <tr>

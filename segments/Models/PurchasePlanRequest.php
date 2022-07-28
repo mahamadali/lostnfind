@@ -16,4 +16,8 @@ class PurchasePlanRequest extends Model
         return $this->parallelTo(Category::class, 'category_id');
     }
 
+    public function user_subscription() {
+        return $this->hasOne(UserSubscription::class, 'user_id');
+    }
+
 }
