@@ -28,6 +28,12 @@
 						</div>
 					  @endif
 
+					  @if (session()->hasFlash('success')):
+						<div class="alert alert-success">
+							<span>{{ session()->flash('success') }}</span>
+						</div>
+					  @endif
+
 		              <form class="pt-3" method="post" action="{{ route('auth.check.login') }}">
 		                <div class="form-group">
 		                  <input type="email" name="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email">

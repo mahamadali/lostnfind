@@ -4,8 +4,10 @@ use Bones\Router;
 use Controllers\User\DashboardController;
 use Controllers\User\ItemController;
 use Controllers\User\AdditionalContactController;
+use Controllers\User\MyPlanController;
+use Controllers\User\TransactionController;
 
-Router::bunch('/user', ['as' => 'user.'], function() {
+Router::bunch('/user', ['as' => 'user.', 'barrier' => ['is-auth']], function() {
     Router::get('/dashboard', [ DashboardController::class, 'index' ])->name('dashboard');
 	Router::bunch('/items', ['as' => 'items.'], function() {
 		Router::get('/', [ItemController::class, 'index' ])->name('index');
@@ -26,20 +28,10 @@ Router::bunch('/user', ['as' => 'user.'], function() {
 	});
 
 	Router::bunch('/my-plans', ['as' => 'my-plans.'], function() {
-		Router::get('/', [AdditionalContactController::class, 'index' ])->name('index');
-		Router::get('/create', [AdditionalContactController::class, 'create' ])->name('create');
-		Router::post('/store', [AdditionalContactController::class, 'store' ])->name('store');
-		Router::get('/edit/{contact}', [AdditionalContactController::class, 'edit' ])->name('edit');
-		Router::post('/update/{contact}', [AdditionalContactController::class, 'update' ])->name('update');
-		Router::post('/delete/{contact}', [AdditionalContactController::class, 'delete' ])->name('delete');
+		Router::get('/', [MyPlanController::class, 'index' ])->name('index');
 	});
 
 	Router::bunch('/transactions', ['as' => 'transactions.'], function() {
-		Router::get('/', [AdditionalContactController::class, 'index' ])->name('index');
-		Router::get('/create', [AdditionalContactController::class, 'create' ])->name('create');
-		Router::post('/store', [AdditionalContactController::class, 'store' ])->name('store');
-		Router::get('/edit/{contact}', [AdditionalContactController::class, 'edit' ])->name('edit');
-		Router::post('/update/{contact}', [AdditionalContactController::class, 'update' ])->name('update');
-		Router::post('/delete/{contact}', [AdditionalContactController::class, 'delete' ])->name('delete');
+		Router::get('/', [TransactionController::class, 'index' ])->name('index');
 	});
 });

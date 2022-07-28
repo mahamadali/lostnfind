@@ -8,6 +8,7 @@ use Bones\Session;
 use Jolly\Engine;
 use Mail\WelcomeEmail;
 use Models\PurchasePlanRequest;
+use Models\Role;
 use Models\User;
 
 class AuthController
@@ -68,6 +69,13 @@ class AuthController
 	public function signup(Request $request, PurchasePlanRequest $planRequest)
 	{
 		if($planRequest->status == 'Active') {
+			
+			$user = User::where('email', $planRequest->email)->first();
+
+			if(!empty($user)) {
+				return redirect(route('auth.login'))->withFlashError('You are already registered! Please login.')->go();
+			}
+
 			return render('backend/auth/signup', [
 				'planRequest' => $planRequest
 			]);
@@ -97,12 +105,15 @@ class AuthController
 		$user->last_name = $request->last_name;
 		$user->username = $request->username;
 		$user->email = $planRequest->email;
-		$user->contact_number = $request->first_name;
+		$user->contact_number = $request->contact_number;
 		$user->password = md5($request->password);
+		$user->role_id = Role::where('name', 'user')->first()->id;
+		$user->subscription_id = $planRequest->user_subscription()->first()->paypal_subscr_id;
 		$user = $user->save();
 		
 		Alert::as(new WelcomeEmail($user))->notify();
 
+		return redirect()->to(route('auth.login'))->withFlashSuccess('All Set! Please login to access portal.')->go();
 
 	}
 }

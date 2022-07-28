@@ -39,6 +39,12 @@
 						</div>
 					  <?php } ?>
 
+					  <?php if(session()->hasFlash('success')) { ?>
+						<div class="alert alert-success">
+							<span><?php echo session()->flash('success'); ?></span>
+						</div>
+					  <?php } ?>
+
 		              <form class="pt-3" method="post" action="<?php echo route('auth.check.login'); ?>">
 		                <div class="form-group">
 		                  <input type="email" name="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email">
