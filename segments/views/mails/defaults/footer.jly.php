@@ -3,7 +3,7 @@
 															<td class="pad" style="padding-top:15px;">
 																<div style="color:#88888d;font-size:12px;font-family:Arial, Helvetica Neue, Helvetica, sans-serif;font-weight:400;line-height:120%;text-align:center;direction:ltr;letter-spacing:0px;mso-line-height-alt:14.399999999999999px;">
 																	<p style="margin: 0; padding: 2px;">All copyrights reserved {{ date('Y') }}.</p>
-																	<p style="margin: 0; padding: 2px;">Sent via Jolly tiny PHP Framework!</p>
+																	<p style="margin: 0; padding: 2px;">Sent via {{ setting('app.title') }}</p>
 																</div>
 															</td>
 														</tr>

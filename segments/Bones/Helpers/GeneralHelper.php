@@ -116,5 +116,32 @@ if (! function_exists('social_icons')) {
     }
 }
 
+if (! function_exists('getIntervalInfo')) {
+    function getIntervalInfo($plan)
+    {
+        $days = $plan->days;
+        switch ($days) {
+            case '365':
+                $response['interval'] = 'Y';
+                $response['interval_count'] = 1;
+                break;
+            case '30':
+                $response['interval'] = 'M';
+                $response['interval_count'] = 1;
+                break;
+            case '7':
+                $response['interval'] = 'W';
+                $response['interval_count'] = 1;
+                break;
+            
+            default:
+                $response['interval'] = 'Y';
+                $response['interval_count'] = 1;
+                break;
+        }
+        return $response;
+    }
+}
+
 
 

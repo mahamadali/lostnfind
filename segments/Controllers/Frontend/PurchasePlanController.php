@@ -30,13 +30,40 @@ class PurchasePlanController
 		if ($validator->hasError()) {
 			return response()->json(['status' => 304, 'errors' => $validator->errors()]);
 		}
-        
-        $purchasePlanRequest = new PurchasePlanRequest();
-        $purchasePlanRequest->email = $request->user_email;
-        $purchasePlanRequest->category_id = $request->category;
-        $purchasePlanRequest->plan_id = $plan->id;
-        $purchasePlanRequest->save();
 
-        return response()->json(['status' => 200]);
+        $checkEntryAlreadyExist = PurchasePlanRequest::where('email', $request->user_email)->first();
+        
+        if(isset($checkEntryAlreadyExist->email)) {
+            if($checkEntryAlreadyExist->status == 'Active') {
+                $message = 'Plan is already active with this email account';
+                return response()->json(['status' => 301, 'message' => $message]);
+            }
+
+            if($checkEntryAlreadyExist->status == 'Inactive') {
+                $message = 'You already requested before, We are redirecting you to paypal...';
+                $requestId = $checkEntryAlreadyExist->id;
+            }
+        } else {
+            $purchasePlanRequest = new PurchasePlanRequest();
+            $purchasePlanRequest->email = $request->user_email;
+            $purchasePlanRequest->category_id = $request->category;
+            $purchasePlanRequest->plan_id = $plan->id;
+            $purchasePlanRequest = $purchasePlanRequest->save();
+            $requestId = $purchasePlanRequest->id;
+            $message = 'We are redirecting you to paypal...';
+        }
+        
+        $redirectUrl = route("purchase-plan.paypal.index", ["plan" => $plan->id, "request_id" => $requestId]);
+        return response()->json(['status' => 200, 'message' => $message, 'redirectUrl' => $redirectUrl]);
+    }
+
+    public function paypalFormPage(Request $request, Subscription $plan, PurchasePlanRequest $planRequest)
+    {
+        $planIntervalInfo = getIntervalInfo($plan);
+        return render('frontend/payment-form/paypal', [
+            'plan' => $plan,
+            'planRequest' => $planRequest,
+            'planIntervalInfo' => $planIntervalInfo
+        ]);
     }
 }

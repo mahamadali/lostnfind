@@ -2,9 +2,12 @@
 
 namespace Controllers;
 
+use Bones\Alert;
 use Bones\Request;
 use Bones\Session;
 use Jolly\Engine;
+use Mail\WelcomeEmail;
+use Models\PurchasePlanRequest;
 use Models\User;
 
 class AuthController
@@ -60,5 +63,46 @@ class AuthController
 	public function logout(Request $request) {
 		Session::remove('auth');
 		return redirect()->to(route('auth.login'))->go();
+	}
+
+	public function signup(Request $request, PurchasePlanRequest $planRequest)
+	{
+		if($planRequest->status == 'Active') {
+			return render('backend/auth/signup', [
+				'planRequest' => $planRequest
+			]);
+		}
+
+		return render('defaults/301', [
+			'stop_msg' => 'You are not authorized to access'
+		]);
+	}
+
+	public function registerPost(Request $request, PurchasePlanRequest $planRequest) {
+		$validator = $request->validate([
+			'first_name' => 'required|min:2',
+			'last_name' => 'required',
+			'username' => 'required',
+			'contact_number' => 'required|numeric',
+			'password' => 'required',
+			'cpassword' => 'required|eqt:password'
+		]);
+
+		if ($validator->hasError()) {
+			return redirect()->withFlashError(implode('<br>', $validator->errors()))->with('old', $request->all())->back();
+		}
+
+		$user = new User();
+		$user->first_name = $request->first_name;
+		$user->last_name = $request->last_name;
+		$user->username = $request->username;
+		$user->email = $planRequest->email;
+		$user->contact_number = $request->first_name;
+		$user->password = md5($request->password);
+		$user = $user->save();
+		
+		Alert::as(new WelcomeEmail($user))->notify();
+
+
 	}
 }

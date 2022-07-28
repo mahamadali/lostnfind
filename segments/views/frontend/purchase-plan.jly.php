@@ -16,7 +16,7 @@
 @block("content")
 <section id="pricing" class="pricing">
     <div class="container" data-aos="fade-up">
-
+        @include('frontend/layouts/alert')
         <div class="section-header">
           <span>Purchase Plan</span>
           <h2>Purchase Plan</h2>
@@ -101,6 +101,10 @@ $(document).ready(function() {
                     });
                 } else {
                     $(formObj)[0].reset();
+                    $('#messages').append('<p align="center" style="color:green;">'+response.message+'</p>');
+                    if(response.status == 200) {
+                        window.location.href = response.redirectUrl;
+                    }
                 }
                 $(btnObj).html('Purchase Now');
                 $(btnObj).prop('disabled', false);
