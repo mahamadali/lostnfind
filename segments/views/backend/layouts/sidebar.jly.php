@@ -88,10 +88,10 @@
         </a>
       </li>
 
-      <li class="nav-item {{ (request()->currentPage() == '/admin/messagesetting/index') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('admin.messagesetting.index') }}">
+      <li class="nav-item {{ (request()->currentPage() == '/admin/messagesetting/list') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.messagesetting.list') }}">
           <i class="ti-email menu-icon"></i>
-          <span class="menu-title">Message Setting</span>
+          <span class="menu-title">Templates</span>
         </a>
       </li>
 

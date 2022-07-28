@@ -58,6 +58,7 @@ class CompanyController
         $company->address = $request->address;
 		$company->email = $request->email;
 		$company->phone_number = $request->phone_number;
+		$company->info = $request->info;
         $company->save();
         return redirect(route('admin.company.index'))->withFlashSuccess('Company profile updated!')->with('old', $request->all())->go();
 	}
