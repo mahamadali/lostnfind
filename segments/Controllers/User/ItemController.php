@@ -23,7 +23,7 @@ class ItemController
 
     public function create(Request $request)
 	{
-		$categories = Category::where('status', 'Active')->orderBy('id')->get();
+        $categories = userCategories();
 		return render('backend/user/items/create', [
 			'categories' => $categories
 		]);
@@ -71,7 +71,7 @@ class ItemController
 
     public function edit(Request $request, Item $item)
 	{
-        $categories = Category::where('status', 'Active')->orderBy('id')->get();
+        $categories = userCategories();
 		return render('backend/user/items/edit', [
 			'item' => $item,
             'categories' => $categories

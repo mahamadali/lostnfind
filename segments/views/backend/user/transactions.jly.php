@@ -42,7 +42,7 @@
                 <td>{{ $transaction->subscr_interval_count }} {{ $transaction->subscr_interval }}</td>
                 <td>{{ date('M d, Y', strtotime($transaction->valid_from)) }}</td>
                 <td>{{ date('M d, Y', strtotime($transaction->valid_to)) }}</td>
-                <td>{{ $transaction->paid_amount }} {{ $transaction->currency_code }}</td>
+                <td>{{ $transaction->plan()->price }} {{ $transaction->currency_code }}</td>
               </tr>
               @endforeach
             @else

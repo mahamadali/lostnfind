@@ -258,9 +258,8 @@
       <div class="col-md-3 mb-4 stretch-card transparent">
         <div class="card card-dark-blue">
           <div class="card-body">
-            <p class="mb-4">Current Plan</p>
-            <p class="fs-30 mb-2"><?php echo !empty($plan) ? $plan->title : ''; ?></p>
-            <small><?php echo !empty($plan) ? $plan->days. " Days" : 'No Plan Active'; ?> </small>
+            <p class="mb-4">Current Plans</p>
+            <p class="fs-30 mb-2"><?php echo $userPlans; ?></p>
           </div>
         </div>
       </div>

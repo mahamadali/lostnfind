@@ -73,7 +73,10 @@ class AuthController
 			$user = User::where('email', $planRequest->email)->first();
 
 			if(!empty($user)) {
-				return redirect(route('auth.login'))->withFlashError('You are already registered! Please login.')->go();
+				$userSubscription = $planRequest->user_subscription()->first();
+				$userSubscription->owner_id = $user->id;
+				$userSubscription->save();
+				return redirect(route('auth.login'))->withFlashSuccess('Please login.')->go();
 			}
 
 			return render('backend/auth/signup', [
@@ -108,8 +111,12 @@ class AuthController
 		$user->contact_number = $request->contact_number;
 		$user->password = md5($request->password);
 		$user->role_id = Role::where('name', 'user')->first()->id;
-		$user->subscription_id = $planRequest->user_subscription()->first()->paypal_subscr_id;
+		// $user->subscription_id = $planRequest->user_subscription()->first()->paypal_subscr_id;
 		$user = $user->save();
+
+		$userSubscription = $planRequest->user_subscription()->first();
+		$userSubscription->owner_id = $user->id;
+		$userSubscription->save();
 		
 		Alert::as(new WelcomeEmail($user))->notify();
 

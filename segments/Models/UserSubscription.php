@@ -12,4 +12,8 @@ class UserSubscription extends Model
 		return $this->parallelTo(Subscription::class, 'plan_id')->first();
 	}
 
+	public function plan_requested_info() {
+		return $this->parallelTo(PurchasePlanRequest::class, 'user_id')->first();
+	}
+
 }

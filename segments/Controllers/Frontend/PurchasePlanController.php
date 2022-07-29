@@ -22,20 +22,19 @@ class PurchasePlanController
     public function process(Request $request, Subscription $plan)
     {   
         $validator = $request->validate([
-			'user_email' => 'required|unique:users,email',
-            'category' => 'required',
-		], [
-            'user_email.unique' => 'Email already exists!'
-        ]);
+			'user_email' => 'required',
+            'category' => 'required'
+		]);
+
 		if ($validator->hasError()) {
 			return response()->json(['status' => 304, 'errors' => $validator->errors()]);
 		}
 
-        $checkEntryAlreadyExist = PurchasePlanRequest::where('email', $request->user_email)->first();
+        $checkEntryAlreadyExist = PurchasePlanRequest::where('email', $request->user_email)->where('category_id', $request->category)->first();
         
         if(isset($checkEntryAlreadyExist->email)) {
-            if($checkEntryAlreadyExist->status == 'Active') {
-                $message = 'Plan is already active with this email account';
+            if($checkEntryAlreadyExist->status == 'Active' && $checkEntryAlreadyExist->category_id == $request->category) {
+                $message = 'Plan is already active with this email and Category';
                 return response()->json(['status' => 301, 'message' => $message]);
             }
 
@@ -43,6 +42,17 @@ class PurchasePlanController
                 $message = 'You already requested before, We are redirecting you to paypal...';
                 $requestId = $checkEntryAlreadyExist->id;
             }
+
+            if($checkEntryAlreadyExist->status == 'Active') {
+                $purchasePlanRequest = new PurchasePlanRequest();
+                $purchasePlanRequest->email = $request->user_email;
+                $purchasePlanRequest->category_id = $request->category;
+                $purchasePlanRequest->plan_id = $plan->id;
+                $purchasePlanRequest = $purchasePlanRequest->save();
+                $requestId = $purchasePlanRequest->id;
+                $message = 'We are redirecting you to paypal...';
+            }
+
         } else {
             $purchasePlanRequest = new PurchasePlanRequest();
             $purchasePlanRequest->email = $request->user_email;
