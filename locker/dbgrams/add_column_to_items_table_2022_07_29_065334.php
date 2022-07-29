@@ -12,7 +12,7 @@ return new class
 	{
 		DataWing::modify($this->table, function (Skeleton $table)
 		{
-			$table->string('description')->nullable();
+			$table->text('description')->nullable();
 			return $table;
 		});
 	}

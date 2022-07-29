@@ -257,6 +257,9 @@
                 <td><?php echo $item->tag_number; ?></td>
                 <td><?php echo $item->name; ?></td>
                 <td>
+                  <a href="<?php echo url('user/items/view/'.$item->id); ?>" class="btn btn-sm btn-success">
+                    <span><i class="ti-eye"></i></span>
+                  </a>
                   <a href="<?php echo url('user/items/edit/'.$item->id); ?>" class="btn btn-sm btn-info">
                     <span><i class="ti-pencil"></i></span>
                   </a>

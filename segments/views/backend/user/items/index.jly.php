@@ -46,6 +46,9 @@
                 <td>{{ $item->tag_number }}</td>
                 <td>{{ $item->name }}</td>
                 <td>
+                  <a href="{{ url('user/items/view/'.$item->id) }}" class="btn btn-sm btn-success">
+                    <span><i class="ti-eye"></i></span>
+                  </a>
                   <a href="{{ url('user/items/edit/'.$item->id) }}" class="btn btn-sm btn-info">
                     <span><i class="ti-pencil"></i></span>
                   </a>

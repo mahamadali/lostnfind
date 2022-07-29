@@ -5,6 +5,7 @@ namespace Models;
 use Models\Base\Model;
 use Models\Category;
 use Models\ItemImage;
+use Models\User;
 
 class Item extends Model
 {
@@ -17,6 +18,10 @@ class Item extends Model
 
     public function images() {
         return $this->hasMany(ItemImage::class, 'item_id');
+    }
+
+    public function user() {
+        return $this->parallelTo(User::class, 'user_id')->first();
     }
 
 }
