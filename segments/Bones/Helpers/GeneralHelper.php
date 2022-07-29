@@ -143,5 +143,18 @@ if (! function_exists('getIntervalInfo')) {
     }
 }
 
+if (! function_exists('userCategories')) {
+    function userCategories()
+    {
+        $user_requested_plans = user()->requested_plans();
+        $categories = [];
+        foreach($user_requested_plans as $user_requested_plan) {
+            $categories[] = $user_requested_plan->category()->first();
+        }
+        return $categories;
+    }
+}
+
+
 
 

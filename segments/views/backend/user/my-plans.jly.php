@@ -20,6 +20,8 @@
                     
                     <p class="mb-5">{{ !empty($plan) ? $plan->days. " Days" : 'No Plan Active' }} </p>
 
+                    <p class="fs-30 mb-2">{{ $plan->category }}</p>
+
                     <p class="mb-2">Plan activated on {{ date('M d, Y', strtotime($plan->transaction->valid_from)) }}</p>
 
                     @if(strtotime($plan->transaction->valid_to) > strtotime(date('Y-m-d H:i:s'))):

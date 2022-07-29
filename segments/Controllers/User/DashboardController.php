@@ -18,17 +18,13 @@ class DashboardController
 
 		$contacts = count(AdditionalContact::where('user_id', auth()->id)->get());
 
-		$planRequested = user()->requested_plan();
-		$plan = [];
-		if(!empty($planRequested)) {
-			$plan = user()->requested_plan()->plan()->first();
-		}
+		$userPlans = user()->requested_plans();
 		
 		return render('backend/user/dashboard', [
 			'items' => $items,
 			'contacts' => $contacts,
 			'transactions' => $transactions,
-			'plan' => $plan
+			'userPlans' => count($userPlans)
 		]);
 	}
 }

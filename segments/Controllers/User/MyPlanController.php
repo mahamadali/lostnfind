@@ -15,6 +15,7 @@ class MyPlanController
             foreach($planRequested as $key => $planRequest) {
                 $plans[] = $planRequest->plan()->first();
                 $plans[$key]->transaction = $planRequest->user_subscription()->first();
+                $plans[$key]->category = $planRequest->category()->first()->title;
             }
         }
 		return render('backend/user/my-plans', [

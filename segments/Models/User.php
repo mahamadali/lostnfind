@@ -49,7 +49,7 @@ class User extends Model
 	}
 
 	public function transactions() {
-		return $this->hasMany(UserSubscription::class, 'paypal_subscr_id', 'subscription_id');
+		return $this->hasMany(UserSubscription::class, 'owner_id');
 	}
 
 	public function requested_plan() {
