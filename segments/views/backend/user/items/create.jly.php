@@ -37,6 +37,15 @@
         <div class="row pet_section">
           <div class="col">
             <div class="form-group">
+              <label>Description</label>
+              <textarea class="form-control" name="description" id="description" cols="5" rows="5">{{ old('description') }}</textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="row pet_section">
+          <div class="col">
+            <div class="form-group">
               <label>Breed</label>
               <input type="text" name="breed" class="form-control" />
             </div>
@@ -139,6 +148,7 @@
 
 @block("scripts")
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
+<script src="https://cdn.tiny.cloud/1/1oygzsxmj2z65b12oe2xsmopyeb339ctejhzi5fgpu8ftp4r/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
 
 Dropzone.autoDiscover = false;  
@@ -175,7 +185,7 @@ $('#create-item-form').submit(function(e){
 });
 
 myDropzoneNewCollection.on("successmultiple", function(multiple,xhr) {
-    window.location.href='{{ url("user/items") }}';
+    // window.location.href='{{ url("user/items") }}';
 });
 
 $(document).ready(function(){
@@ -190,5 +200,12 @@ $('#category_id').change(function(){
     $('.pet_section').hide();
   }
 })
+
+
+
+tinymce.init({
+  selector:'textarea',
+  menubar :false,
+});
 </script>
 @endblock
