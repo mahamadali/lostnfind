@@ -24,4 +24,8 @@ class Item extends Model
         return $this->parallelTo(User::class, 'user_id')->first();
     }
 
+    public function getcategory() {
+        return $this->parallelTo(Category::class, 'category_id')->first();
+    }
+
 }
