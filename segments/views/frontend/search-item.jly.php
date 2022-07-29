@@ -70,13 +70,20 @@
                                     <td class="td_bold"> Tag ID </td>
                                     <td class=""> {{ $item->tag_number }}</td>
                                     </tr>
-                                    <tr>
-                                    <td class="td_bold"> Description</td>
-                                    <td colspan="3" class=""> {{ $item->description }}</td>
+                                    <tr >
+                                    <td class="td_bold"> Category</td>
+                                    <td class=""> {{ $item->category->title }} </td>
                                     </tr>
                                     <tr>
                                     <td class="td_bold"> Name </td>
                                     <td class=""> {{ $item->name }}</td>
+                                    </tr>
+                                    <tr>
+                                    <td class="td_bold"> Description</td>
+                                    <td > {{ $item->description }}</td>
+                                    </tr>
+                                    @if($item->category->title == 'Pets'):
+                                    <tr>
                                     <td class="td_bold"> Breed</td>
                                     <td class=""> {{ $item->breed }} </td>
                                     </tr>
@@ -110,6 +117,7 @@
                                     <td class="td_bold">Create Time</td>
                                     <td  class="">{{ $item->created_at }}</td>
                                     </tr>
+                                    @endif
                                     <tr>
                                     <td class="td_bold">Created By</td>
                                     <td  class=""> {{ $item->user()->first_name }}</td>

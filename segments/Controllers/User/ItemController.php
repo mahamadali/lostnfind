@@ -13,7 +13,7 @@ class ItemController
 {
 	public function index(Request $request)
 	{
-		$items = Item::where('status', 'Active')->orderBy('id')->get();
+		$items = Item::where('user_id', auth()->id)->where('status', 'Active')->orderBy('id')->get();
         $totalItems = count($items);
 		return render('backend/user/items/index', [
 			'items' => $items,

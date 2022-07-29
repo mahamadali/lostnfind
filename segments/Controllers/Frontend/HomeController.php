@@ -12,6 +12,9 @@ use Models\Pages;
 use Models\SocialMedia;
 use Models\Subscription;
 use Models\User;
+use Models\NotifyItem;
+use Mail\NotifyItemEmail;
+use Models\MessageSetting;
 
 class HomeController
 {
@@ -41,8 +44,10 @@ class HomeController
     public function search(Request $request) {
         
         $item = Item::where('tag_number', $request->tag)->first();
+      
         if(!empty($item)) {
             $userRequestedPlan = $item->user()->requested_plan();
+           
         
             if(empty($userRequestedPlan)) {
                 $item = [];
@@ -70,7 +75,27 @@ class HomeController
 		if ($validator->hasError()) {
 			return response()->json(['status' => 304, 'errors' => $validator->errors()]);
 		}
-        dd($request);
+
+        $notify = new NotifyItem();
+        $notify->item_id = $item->id;
+        $notify->first_name = $request->first_name;
+        $notify->email = $request->email;
+        $notify->phone = $request->phone;
+        $notify->address = $request->address;
+        $notify->save();
+
+        $template = MessageSetting::where('title','findsms')->first();
+        $message = str_replace("{{first_name}}", $request->first_name,$template->content);
+        $message = str_replace("{{category}}", $item->category->title,$message);
+        $message = str_replace("{{item}}", $item->name,$message);
+        $message = str_replace("{{phone}}", $request->phone,$message);
+
+        Alert::as(new NotifyItemEmail($item->user()->email,$item->user()->first_name,$message))->notify();
+        foreach($item->user()->contacts()->get() as $contact){
+            Alert::as(new NotifyItemEmail($contact->email,$item->user()->first_name,$message))->notify();
+        }
+        return response()->json(['status' => 302, 'message' => 'Notification has been sent successfully!']);
+        
         
     }
 }

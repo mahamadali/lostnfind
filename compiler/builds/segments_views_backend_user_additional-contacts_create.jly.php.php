@@ -35,9 +35,16 @@
           <i class="ti-user text-primary"></i> <?php echo auth()->first_name." ".auth()->last_name; ?>
         </a>
         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+
+          <?php if(auth()->role->name == 'user') { ?>
+          <a class="dropdown-item" href="<?php echo url('user/profile/edit/'.auth()->id); ?>">
+            <i class="ti-user text-primary"></i>
+            Update Profile 
+          </a>
+          <?php } ?>
           <a class="dropdown-item" href="<?php echo route('auth.logout'); ?>">
             <i class="ti-power-off text-primary"></i>
-            Logout
+            Logout 
           </a>
         </div>
       </li>
@@ -138,10 +145,10 @@
         </a>
       </li>
 
-      <li class="nav-item <?php echo (request()->currentPage() == '/admin/messagesetting/index') ? 'active' : ''; ?>">
-        <a class="nav-link" href="<?php echo route('admin.messagesetting.index'); ?>">
+      <li class="nav-item <?php echo (request()->currentPage() == '/admin/messagesetting/list') ? 'active' : ''; ?>">
+        <a class="nav-link" href="<?php echo route('admin.messagesetting.list'); ?>">
           <i class="ti-email menu-icon"></i>
-          <span class="menu-title">Message Setting</span>
+          <span class="menu-title">Templates</span>
         </a>
       </li>
 
