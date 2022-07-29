@@ -351,4 +351,5 @@
 @endblock
 
 @block("scripts")
+
 @endblock

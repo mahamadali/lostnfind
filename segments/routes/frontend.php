@@ -6,6 +6,7 @@ use Controllers\Frontend\PurchasePlanController;
 use Controllers\Frontend\PaypalController;
 
 Router::get('/', [ HomeController::class, 'index' ])->name('frontend.home');
+Router::get('/search', [ HomeController::class, 'search' ])->name('frontend.search');
 Router::bunch('/cms', ['as' => 'cms.'], function() {
 	Router::get('/{page}', [ HomeController::class, 'page' ])->name('page');
 });

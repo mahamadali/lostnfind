@@ -7,6 +7,7 @@ use Bones\Request;
 use Mail\WelcomeEmail;
 use Models\Category;
 use Models\Faq;
+use Models\Item;
 use Models\Pages;
 use Models\SocialMedia;
 use Models\Subscription;
@@ -34,6 +35,14 @@ class HomeController
     {
         return render('frontend/cms/page', [
             'cmsPage' => $cms,
+        ]);
+    }
+
+    public function search(Request $request) {
+        
+        $item = Item::where('tag_number', $request->tag)->first();
+        return render('frontend/search-item', [
+            'item' => $item,
         ]);
     }
 }
