@@ -60,6 +60,7 @@ class PurchasePlanController
     public function paypalFormPage(Request $request, Subscription $plan, PurchasePlanRequest $planRequest)
     {
         $planIntervalInfo = getIntervalInfo($plan);
+        
         return render('frontend/payment-form/paypal', [
             'plan' => $plan,
             'planRequest' => $planRequest,

@@ -13,8 +13,8 @@
         <input type="hidden" name="item_number" id="item_number" value="{{ $plan->id; }}">
         <input type="hidden" name="currency_code" value="{{ setting('paypal.currency'); }}">
         <input type="hidden" name="a3" id="item_price" value="{{ $plan->price; }}">
-        <input type="hidden" name="p3" id="interval_count" value="{{ $planIntervalInfo['interval_count'] }}">
-        <input type="hidden" name="t3" id="interval" value="{{ $planIntervalInfo['interval'] }}">
+        <input type="hidden" name="p3" id="interval_count" value="{{ $planIntervalInfo->interval_count }}">
+        <input type="hidden" name="t3" id="interval" value="{{ $planIntervalInfo->interval }}">
 
         <input type="hidden" name="rm" value="0" />
 
