@@ -116,4 +116,8 @@ class AuthController
 		return redirect()->to(route('auth.login'))->withFlashSuccess('All Set! Please login to access portal.')->go();
 
 	}
+
+	public function updateProfile(Request $request){
+		dd($request);
+	}
 }

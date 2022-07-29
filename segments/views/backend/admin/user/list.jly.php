@@ -43,7 +43,7 @@
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->contact_number ?? 'N/A' }}</td>
                 <td>{{ date('M d, Y H:i', strtotime($user->created_at)) }}</td>
-                <td>{{ date('M d, Y', strtotime($user->expiration_date)) }}</td>
+                <td>{{ $user->expiration_date != '' ? date('M d, Y', strtotime($user->expiration_date)) : '' }}</td>
                 <td>
                   <a href="{{ url('admin/users/view/'.$user->id) }}" class="btn btn-sm btn-success">
                     <span><i class="ti-eye"></i></span>

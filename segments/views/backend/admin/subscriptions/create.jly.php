@@ -41,7 +41,11 @@
           <div class="col">
             <div class="form-group">
               <label>Days</label>
-              <input type="text" class="form-control" name="days" value="{{ old('days') }}" />
+              <select name="days" class="form-control">
+                <option value="365">365 Days</option>
+                <option value="30">30 Days</option>
+                <option value="7">7 Days</option>
+              </select>
             </div>
           </div>
         </div>

@@ -84,6 +84,11 @@ class UserController
 
 	public function edit(Request $request, User $user)
 	{
+		
+		if(auth()->role->name == 'user' && $user->id != auth()->id){
+			return redirect()->withFlashError('Not Access for this user!')->back();
+		}
+
 		return render('backend/admin/user/edit', [
 			'user' => $user
 		]);

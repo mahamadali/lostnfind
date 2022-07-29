@@ -51,7 +51,7 @@
                           <td class="td_bold table-info"> Description</td>
                           <td colspan="3" class="table-primary"> {{ $item->description }}</td>
                         </tr>
-                        @if($item->getcategory()->title != 'Pet'):
+                        @if($item->getcategory()->title == 'Pets'):
                         <tr>
                           <td class="td_bold table-info"> Name </td>
                           <td class="table-primary"> {{ $item->name }}</td>
