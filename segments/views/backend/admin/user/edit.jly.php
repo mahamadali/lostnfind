@@ -32,7 +32,7 @@
           <div class="col">
             <div class="form-group">
               <label>Email</label>
-              <input type="email" class="form-control" name="email" value="{{ $user->email }}" />
+              <input type="email" class="form-control" name="email" value="{{ $user->email }}" @if(auth()->role->name == 'user'): disabled @endif />
             </div>
           </div>
 

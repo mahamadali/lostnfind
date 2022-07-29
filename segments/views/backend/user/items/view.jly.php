@@ -24,7 +24,6 @@
             <div class="row">
             <div class="col-lg-4">
                 <div class=" text-center pb-4">
-                
                 @if(!empty($item->images[0])):
                   <img src="{{ url($item->images[0]->path) }}" alt="profile" class="mb-3" width="200" height="200"/>
                 @endif
@@ -52,6 +51,7 @@
                           <td class="td_bold table-info"> Description</td>
                           <td colspan="3" class="table-primary"> {{ $item->description }}</td>
                         </tr>
+                        @if($item->getcategory()->title == 'Pets'):
                         <tr>
                           <td class="td_bold table-info"> Name </td>
                           <td class="table-primary"> {{ $item->name }}</td>
@@ -88,75 +88,13 @@
                           <td class="td_bold table-info">Create Time</td>
                           <td  class="table-primary">{{ $item->created_at }}</td>
                         </tr>
+                        @endif
                         <tr>
                           <td class="td_bold table-info">Created By</td>
                           <td  class="table-primary"> {{ $item->user()->first_name }}</td>
                         </tr>
                       </tbody>
                     </table>
-              </div>
-            </div>
-            </div>
-        </div>
-        </div>
-    </div>
-    </div>
-
-  <br>
-    <div class="row">
-    <div class="col-12">
-        <div class="card">
-        <div class="card-body">
-            <div class="row">
-            <div class="col-lg-12">
-              <div class="card">
-              <div class="card-body">
-                  <ul class="nav nav-pills nav-pills-success" id="pills-tab" role="tablist">
-                    <li class="nav-item">
-                      <a class="nav-link active" id="pills-item-tab" data-id="pills-plan" data-bs-toggle="pill" href="#pills-plan" role="tab" aria-controls="pills-plan" aria-selected="true">User Plan</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="pills-transaction-tab" data-id="pills-transaction" data-bs-toggle="pill" href="#pills-transaction" role="tab" aria-controls="pills-transaction" aria-selected="false">Transactions</a>
-                    </li>
-                  </ul>
-                  <div class="tab-content" id="pills-tabContent">
-                    <div class="tab-pane fade active show" id="pills-plan" role="tabpanel" aria-labelledby="pills-plan-tab">
-                      <div class="media">
-                        <div class="media-body">
-                        <div class="table-responsive">  
-                          <table id="item-listing" class="table dataTable no-footer">
-                            <thead>
-                                <th class="sorting_asc">#</th>
-                                <th>Amount</th>
-                                <th>Start Time</th>
-                                <th>End Time</th>
-                                <th>Plan</th>
-                            </thead>
-                            <tbody>
-                                  <tr>
-                                      <td>1</td>
-                                      <td>TestA</td>
-                                      <td>TestB</td>
-                                      <td>11111</td>
-                                      <td>11111</td>
-                                  </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="tab-pane fade" id="pills-transaction" role="tabpanel" aria-labelledby="pills-transaction-tab">
-                      <div class="media">
-                        <div class="media-body">
-                          <p>
-                          Transaction
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
             </div>

@@ -48,9 +48,9 @@
 @block("scripts")
 <script src="https://cdn.tiny.cloud/1/1oygzsxmj2z65b12oe2xsmopyeb339ctejhzi5fgpu8ftp4r/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
-tinymce.init({
-  selector:'textarea',
-  menubar :false,
-});
+// tinymce.init({
+//   selector:'textarea',
+//   menubar :false,
+// });
 </script>
 @endblock

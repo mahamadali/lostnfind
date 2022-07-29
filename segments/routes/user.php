@@ -6,9 +6,16 @@ use Controllers\User\ItemController;
 use Controllers\User\AdditionalContactController;
 use Controllers\User\MyPlanController;
 use Controllers\User\TransactionController;
+use Controllers\Backend\UserController;
 
 Router::bunch('/user', ['as' => 'user.', 'barrier' => ['is-auth']], function() {
     Router::get('/dashboard', [ DashboardController::class, 'index' ])->name('dashboard');
+
+	Router::bunch('/profile', ['as' => 'profile.'], function() {
+		Router::get('/edit/{id}', [UserController::class, 'edit' ])->name('edit');
+		Router::post('/update/{id}', [UserController::class, 'update' ])->name('update');
+	});
+
 	Router::bunch('/items', ['as' => 'items.'], function() {
 		Router::get('/', [ItemController::class, 'index' ])->name('index');
 		Router::get('/create', [ItemController::class, 'create' ])->name('create');
