@@ -34,7 +34,7 @@
           </div>
         </div>
 
-        <div class="row pet_section">
+        <div class="row">
           <div class="col">
             <div class="form-group">
               <label>Description</label>
