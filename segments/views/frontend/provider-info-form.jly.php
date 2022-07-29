@@ -52,7 +52,7 @@
                             <div class="row mt-4">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                    <button type="submit" class="buy-btn text-center" style="width:100%;">Purchase Now</button>
+                                    <button type="submit" class="buy-btn text-center" style="width:100%;">Notify Owner</button>
                                     </div>
                                 </div>
                             </div>
@@ -97,11 +97,11 @@ $(document).ready(function() {
                         window.location.href = response.redirectUrl;
                     }
                 }
-                $(btnObj).html('Purchase Now');
+                $(btnObj).html('Notify Owner');
                 $(btnObj).prop('disabled', false);
             },
             error: function() {
-                $(btnObj).html('Purchase Now');
+                $(btnObj).html('Notify Owner');
                 $(btnObj).prop('disabled', false);
             }
         })
