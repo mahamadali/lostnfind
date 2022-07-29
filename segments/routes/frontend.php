@@ -7,6 +7,11 @@ use Controllers\Frontend\PaypalController;
 
 Router::get('/', [ HomeController::class, 'index' ])->name('frontend.home');
 Router::get('/search', [ HomeController::class, 'search' ])->name('frontend.search');
+
+Router::bunch('/provider-contact-info', ['as' => 'provider-contact-info.'], function() {
+	Router::get('/{item}', [ HomeController::class, 'provideFounderForm' ])->name('form');
+    Router::post('/process/{item}', [ HomeController::class, 'provideFounderInfoProcess' ])->name('process');
+});
 Router::bunch('/cms', ['as' => 'cms.'], function() {
 	Router::get('/{page}', [ HomeController::class, 'page' ])->name('page');
 });

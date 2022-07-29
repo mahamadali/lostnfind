@@ -1,6 +1,6 @@
 @extends('frontend/app')
 
-@block("title") {{ 'Purchase Plan - '.setting('app.title') }} @endblock
+@block("title") {{ 'Search Item - '.setting('app.title') }} @endblock
 
 @block("styles")
 <style>
@@ -9,7 +9,10 @@
     }
     .hero {
         min-height: auto;
-        padding: 0px 0px 0px 0px;
+        padding: 16px 10px 1px 10px;
+    }
+    .td_bold {
+        font-weight: bold;
     }
 </style>
 @endblock
@@ -24,6 +27,7 @@
         <div class="section-header">
           <span>Search Item</span>
           <h2>Search Item</h2>
+          <p>IF YOU FOUND A PET PLEASE ENTER THE TAG BELOW</p>
 
         </div>
 
@@ -38,14 +42,101 @@
             </div>
 
             @if(!empty($item)):
-            <div class="col-lg-12" data-aos="fade-up" data-aos-delay="200">
-                <div class="card featured">
+            <div class="col-lg-12 mt-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card featured" style="border: none;">
                     <div class="card-body">
-                        <h5>{{ $item->name }}</h5>
+                    <div class="row">
+                    <div class="col-lg-4">
+                        <div class=" text-center pb-4">
                         
+                        @if(!empty($item->images[0])):
+                        <img src="{{ url($item->images[0]->path) }}" alt="profile" class="mb-3" width="200" height="200"/>
+                        @endif
+                    
+                        
+                        <div class="mb-3">
+                            <h3>{{ $item->name  }}</h3>
+                            <div class="d-flex align-items-center justify-content-center">
+                            </div>
+                        </div>
+                        
+                        </div>
                     </div>
-                </div>
-            </div>
+                    <div class="col-lg-8">
+                    <div class="card" style="box-shadow: 0 10px 16px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%) !important;padding: 21px;">
+                        <table class="table table-borderless" id="item_info_table" style="font-size: 12px;">
+                                <tbody>
+                                    <tr >
+                                    <td class="td_bold"> Tag ID </td>
+                                    <td class=""> {{ $item->tag_number }}</td>
+                                    </tr>
+                                    <tr>
+                                    <td class="td_bold"> Description</td>
+                                    <td colspan="3" class=""> {{ $item->description }}</td>
+                                    </tr>
+                                    <tr>
+                                    <td class="td_bold"> Name </td>
+                                    <td class=""> {{ $item->name }}</td>
+                                    <td class="td_bold"> Breed</td>
+                                    <td class=""> {{ $item->breed }} </td>
+                                    </tr>
+                                    <tr>
+                                    <td class="td_bold"> Preferred pet food</td>
+                                    <td class=""> {{ $item->preferred_pet_food }}</td>
+                                    <td class="td_bold"> Any distingushing marks</td>
+                                    <td class=""> {{ $item->distinguishing_marks }} </td>
+                                    </tr>
+                                    <tr>
+                                    <td class="td_bold">Additional Notes</td>
+                                    <td  class=""> {{ $item->notes }}</td>
+                                    <td class="td_bold">Date of birth</td>
+                                    <td  class="">{{ $item->date_of_birth }}</td>
+                                    </tr>
+                                    <tr>
+                                    <td class="td_bold">Gender</td>
+                                    <td  class=""> {{ $item->gender }}</td>
+                                    <td class="td_bold">Height</td>
+                                    <td  class="">{{ $item->height }}</td>
+                                    </tr>
+                                    <tr>
+                                    <td class="td_bold">Weight</td>
+                                    <td  class=""> {{ $item->weight }}</td>
+                                    <td class="td_bold">Lenght of tail</td>
+                                    <td  class="">{{ $item->length }}</td>
+                                    </tr>
+                                    <tr>
+                                    <td class="td_bold">Type</td>
+                                    <td  class=""> {{ $item->type }}</td>
+                                    <td class="td_bold">Create Time</td>
+                                    <td  class="">{{ $item->created_at }}</td>
+                                    </tr>
+                                    <tr>
+                                    <td class="td_bold">Created By</td>
+                                    <td  class=""> {{ $item->user()->first_name }}</td>
+                                    </tr>
+                                </tbody>
+                                </table>
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-md-12">
+                                <p>To notify the pet owner, click on below button and enter your contact details</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="{{ route('provider-contact-info.form', ['item' => $item->id]) }}" class="btn btn-primary">CONTACT DETAILS</a>
+                            </div>
+                        </div>
+
+                        </div>
+                        </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
             @else
             <div class="col-lg-12 mt-5" data-aos="fade-up" data-aos-delay="200">
                 <center><h5>NO ITEM FOUND!</h5></center>
