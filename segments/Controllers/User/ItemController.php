@@ -31,31 +31,24 @@ class ItemController
 
     public function store(Request $request)
 	{
-       
-        $validator = $request->validate([
-			'name' => 'required|min:2|max:60',
-            'category_id' => 'required',
-		]);
-
-		if ($validator->hasError()) {
-			return redirect()->withFlashError(implode('<br>', $validator->errors()))->with('old', $request->all())->back();
-		}
-
+        $data = json_decode($request->data);
         $item = new Item();
-        $item->category_id = $request->category_id;
-        $item->name = $request->name;
+        foreach ($data as $key => $value) {
+            $column = $value->name;
+            $input = $value->value;
+
+            // if($column == 'category_id' && $input == ''){
+            //     return redirect()->withFlashError('category id field is required!')->with('old', $request->all())->back();
+            // }
+
+            // if($column == 'name' && $input == ''){
+            //     return redirect()->withFlashError('name field is required!')->with('old', $request->all())->back();
+            // }
+            $item->{$column} = $input ?? '';
+        }
+
         $item->tag_number = $item->category()->first()->prefix."-".keyNumber(5);
         $item->user_id = auth()->id;
-        $item->breed = $request->breed ?? '';
-        $item->preferred_pet_food = $request->preferred_pet_food ?? '';
-        $item->distinguishing_marks = $request->distinguishing_marks ?? '';
-        $item->notes = $request->notes ?? '';
-        $item->date_of_birth = $request->date_of_birth ?? '';
-        $item->gender = $request->gender ?? '';
-        $item->height = $request->height ?? '';
-        $item->weight = $request->weight ?? '';
-        $item->length = $request->length ?? '';
-        $item->type = $request->type ?? '';
         $item = $item->save();
         
         if ($request->hasFile('files')) {
@@ -87,17 +80,23 @@ class ItemController
 
     public function update(Request $request, Item $item)
 	{
-		$validator = $request->validate([
-			'name' => 'required|min:2|max:60',
-            'category_id' => 'required',
-		]);
+		// $validator = $request->validate([
+		// 	'name' => 'required|min:2|max:60',
+        //     'category_id' => 'required',
+		// ]);
 
-		if ($validator->hasError()) {
-			return redirect()->withFlashError(implode('<br>', $validator->errors()))->with('old', $request->all())->back();
-		}
+		// if ($validator->hasError()) {
+		// 	return redirect()->withFlashError(implode('<br>', $validator->errors()))->with('old', $request->all())->back();
+		// }
 
-        $item->category_id = $request->category_id;
-        $item->name = $request->name;
+        $data = json_decode($request->data);
+       
+        foreach ($data as $key => $value) {
+            $column = $value->name;
+            $input = $value->value;
+            $item->{$column} = $input ?? '';
+        }
+
         $item->tag_number = $item->category()->first()->prefix."-".keyNumber(5);
         $item->user_id = auth()->id;
         $item = $item->save();
@@ -127,4 +126,11 @@ class ItemController
         $item->delete();
         return redirect()->withFlashError('Item deleted successfully!')->with('old', $request->all())->back();
     }
+
+    public function view(Request $request, Item $item)
+	{
+		return render('backend/user/items/view', [
+			'item' => $item
+		]);
+	}
 }

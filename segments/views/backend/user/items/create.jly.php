@@ -37,6 +37,15 @@
         <div class="row pet_section">
           <div class="col">
             <div class="form-group">
+              <label>Description</label>
+              <textarea class="form-control" name="description" id="description" cols="5" rows="5">{{ old('description') }}</textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="row pet_section">
+          <div class="col">
+            <div class="form-group">
               <label>Breed</label>
               <input type="text" name="breed" class="form-control" />
             </div>
@@ -139,7 +148,13 @@
 
 @block("scripts")
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
+<script src="https://cdn.tiny.cloud/1/1oygzsxmj2z65b12oe2xsmopyeb339ctejhzi5fgpu8ftp4r/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
+ 
+ tinymce.init({
+  selector:'textarea',
+  menubar :false,
+}); 
 
 Dropzone.autoDiscover = false;  
 
@@ -154,9 +169,10 @@ var myDropzoneNewCollection = new Dropzone(".upload_item_images", {
     acceptedFiles: ".jpeg,.jpg,.png,.gif,.webp,.bmp,.heic,.tiff",
     sending: function(file, xhr, formData) {
     // var add_watermark_checked = $('.add_watermark').prop("checked") ? 1 : 0;
-    formData.append('category_id', $( '#create-item-form' ).find('select[name="category_id"]').val());
-    formData.append('name', $( '#create-item-form' ).find('input[name="name"]').val());
-    // formData.append( "data", JSON.stringify($( '#create-item-form' ).serializeArray()))
+    // formData.append('category_id', $( '#create-item-form' ).find('select[name="category_id"]').val());
+    // formData.append('name', $( '#create-item-form' ).find('input[name="name"]').val());
+    tinyMCE.get("description").save();
+    formData.append( "data", JSON.stringify($( '#create-item-form' ).serializeArray()));
     },
 });
 
