@@ -47,7 +47,7 @@
             <?php foreach(pages() as $page) { ?> 
                 <li><a href="<?php echo route('cms.page', ['page' => $page->title]); ?>"><?php echo $page->title_beautify; ?></a></li>
             <?php } ?>
-            <li><a href="#faq">FAQ</a></li>
+            <li><a href="<?php echo url('/'); ?>#faq">FAQ</a></li>
           <!-- <li><a href="about.html">About</a></li>
           <li><a href="services.html">Services</a></li>
           <li><a href="pricing.html">Pricing</a></li>
@@ -69,7 +69,7 @@
             </ul>
           </li>
           <li><a href="contact.html">Contact</a></li> -->
-          <li><a class="get-a-quote" href="#pricing">Pricing</a></li>
+          <li><a class="get-a-quote" href="<?php echo url('/'); ?>#pricing">Pricing</a></li>
         </ul>
       </nav><!-- .navbar -->
 
@@ -234,7 +234,7 @@
         <div class="row gy-4 align-items-center features-item" data-aos="fade-up">
 
           <div class="col-md-5">
-            <img src="<?php echo url('assets/frontend/img/features-1.jpg'); ?>" class="img-fluid" alt="">
+            <img src="<?php echo url('assets/frontend/img/FB.jpg'); ?>" class="img-fluid" alt="">
           </div>
           <div class="col-md-7">
             <h3>Voluptatem dignissimos provident quasi corporis voluptates sit assumenda.</h3>
@@ -252,43 +252,10 @@
 
         <div class="row gy-4 align-items-center features-item" data-aos="fade-up">
           <div class="col-md-5 order-1 order-md-2">
-            <img src="<?php echo url('assets/frontend/img/features-2.jpg'); ?>" class="img-fluid" alt="">
+            <img src="<?php echo url('assets/frontend/img/FB.jpg'); ?>" class="img-fluid" alt="">
           </div>
           <div class="col-md-7 order-2 order-md-1">
             <h3>Corporis temporibus maiores provident</h3>
-            <p class="fst-italic">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-              magna aliqua.
-            </p>
-            <p>
-              Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-              culpa qui officia deserunt mollit anim id est laborum
-            </p>
-          </div>
-        </div><!-- Features Item -->
-
-        <div class="row gy-4 align-items-center features-item" data-aos="fade-up">
-          <div class="col-md-5">
-            <img src="<?php echo url('assets/frontend/img/features-3.jpg'); ?>" class="img-fluid" alt="">
-          </div>
-          <div class="col-md-7">
-            <h3>Sunt consequatur ad ut est nulla consectetur reiciendis animi voluptas</h3>
-            <p>Cupiditate placeat cupiditate placeat est ipsam culpa. Delectus quia minima quod. Sunt saepe odit aut quia voluptatem hic voluptas dolor doloremque.</p>
-            <ul>
-              <li><i class="bi bi-check"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
-              <li><i class="bi bi-check"></i> Duis aute irure dolor in reprehenderit in voluptate velit.</li>
-              <li><i class="bi bi-check"></i> Facilis ut et voluptatem aperiam. Autem soluta ad fugiat.</li>
-            </ul>
-          </div>
-        </div><!-- Features Item -->
-
-        <div class="row gy-4 align-items-center features-item" data-aos="fade-up">
-          <div class="col-md-5 order-1 order-md-2">
-            <img src="<?php echo url('assets/frontend/img/features-4.jpg'); ?>" class="img-fluid" alt="">
-          </div>
-          <div class="col-md-7 order-2 order-md-1">
-            <h3>Quas et necessitatibus eaque impedit ipsum animi consequatur incidunt in</h3>
             <p class="fst-italic">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
               magna aliqua.

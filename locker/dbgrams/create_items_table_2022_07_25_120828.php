@@ -15,7 +15,6 @@ return new class
 			$table->id()->primaryKey();
 			$table->unsignedBigInteger('category_id');
 			$table->string('tag_number');
-			$table->string('name');
 			$table->unsignedBigInteger('user_id');
 			$table->enum('status', ['Active', 'Inactive'])->default('Active');
 			$table->timestamps();

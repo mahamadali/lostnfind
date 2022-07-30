@@ -10,14 +10,10 @@ return new class
 
 	public function fill()
 	{
-		Database::__insertMulti([
-			[
-				'title' => 'findsms',
-			],
-			[
-				'content' => '{{first_name}} just found your {{category}} {{item}} and would like you to contact them at {{phone}}',
-			],
-		], null, $this->table);
+		Database::insert([
+			'title' => 'findsms',
+			'content' => '{{first_name}} just found your {{category}} {{item}} and would like you to contact them at {{phone}}',
+		], $this->table);
 	}
 
 };

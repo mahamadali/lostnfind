@@ -13,15 +13,19 @@ return new class
 		Database::__insertMulti([
 			[
 				'title' => 'Pets',
+				'prefix' => 'PET'
 			],
 			[
 				'title' => 'Keys',
+				'prefix' => 'KEY'
 			],
 			[
 				'title' => 'Bikes',
+				'prefix' => 'BIK'
 			],
 			[
 				'title' => 'Luggage',
+				'prefix' => 'LUG'
 			],
 		], null, $this->table);
 	}

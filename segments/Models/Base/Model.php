@@ -29,6 +29,7 @@ class Model extends Database
     protected $relationalProps = [];
     protected $dynamicAttributes = [];
     protected $transforms = [];
+    protected $defaults = [];
 
     public function __construct()
     {

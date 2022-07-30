@@ -16,7 +16,7 @@
             @foreach(pages() as $page): 
                 <li><a href="{{ route('cms.page', ['page' => $page->title]) }}">{{ $page->title_beautify }}</a></li>
             @endforeach
-            <li><a href="#faq">FAQ</a></li>
+            <li><a href="{{ url('/') }}#faq">FAQ</a></li>
           <!-- <li><a href="about.html">About</a></li>
           <li><a href="services.html">Services</a></li>
           <li><a href="pricing.html">Pricing</a></li>
@@ -38,7 +38,7 @@
             </ul>
           </li>
           <li><a href="contact.html">Contact</a></li> -->
-          <li><a class="get-a-quote" href="#pricing">Pricing</a></li>
+          <li><a class="get-a-quote" href="{{ url('/') }}#pricing">Pricing</a></li>
         </ul>
       </nav><!-- .navbar -->
 

@@ -18,5 +18,7 @@ return [
     'AUTHOR' => [
         'NAME' => 'Mohammad Ali Manknojiya'
     ],
+
+    'ADMIN_EMAIL' => 'akbarmaknojiya@gmail.com'
     
 ];
