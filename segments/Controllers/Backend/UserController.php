@@ -46,7 +46,7 @@ class UserController
         }
 
 		$role = Role::where('name', 'user')->first()->id;
-		$userData = $request->getOnly(['first_name', 'last_name', 'email', 'password', 'expiration_date','contact_number','role_id','logo']);
+		$userData = $request->getOnly(['first_name', 'last_name', 'email', 'password', 'expiration_date','country_code','contact_number','role_id','logo']);
 		$userData['password'] = md5($userData['password']);
 		$userData['role_id'] = $role;
 
@@ -108,7 +108,7 @@ class UserController
             return redirect()->withFlashError(implode('<br>', $validator->errors()))->with('old', $request->all())->back();
         }
 
-		$userData = $request->getOnly(['first_name', 'last_name', 'email', 'password','contact_number','logo']);
+		$userData = $request->getOnly(['first_name', 'last_name', 'email', 'password','country_code','contact_number','logo']);
 
 		$logoPath = null;
 		if ($request->hasFile('logo')) {

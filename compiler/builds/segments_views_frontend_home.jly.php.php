@@ -69,7 +69,7 @@
             </ul>
           </li>
           <li><a href="contact.html">Contact</a></li> -->
-          <li><a class="get-a-quote" href="<?php echo url('/'); ?>#pricing">Pricing</a></li>
+          <li><a class="get-a-quote" href="<?php echo route('frontend.pricing'); ?>">Pricing</a></li>
         </ul>
       </nav><!-- .navbar -->
 
@@ -285,7 +285,7 @@
             <?php foreach($plans as $plan) { ?> 
                 <div class="col-lg-4 m-auto" data-aos="fade-up" data-aos-delay="200">
                     <div class="pricing-item featured">
-                    <h3><?php echo $plan->title; ?></h3>
+                    <h3><?php echo $plan->title; ?> (<?php echo $plan->category->prefix; ?>)</h3>
                     <h4><sup>$</sup><?php echo $plan->price; ?><span> / <?php echo $plan->days; ?> Days</span></h4>
                     <p><?php echo $plan->description; ?></p>
                     <!-- <ul>

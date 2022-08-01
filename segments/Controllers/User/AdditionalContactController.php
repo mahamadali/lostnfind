@@ -46,6 +46,7 @@ class AdditionalContactController
         $contact = new AdditionalContact();
         $contact->email = $request->email;
         $contact->full_name = $request->full_name;
+        $contact->country_code = $request->country_code;
         $contact->contact = $request->contact;
         $contact->user_id = auth()->id;
         $contact->save();
@@ -74,6 +75,7 @@ class AdditionalContactController
         $contact->email = $request->email;
         $contact->full_name = $request->full_name;
         $contact->contact = $request->contact;
+        $contact->country_code = $request->country_code;
         $contact->user_id = auth()->id;
         $contact->save();
 

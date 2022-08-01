@@ -6,13 +6,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title><?php echo setting('app.title', 'Quotations'); ?></title>
-    
+    <style>
+  .iti--separate-dial-code
+    {
+        width: 100% !important;
+    }
+</style>
     <link rel="stylesheet" href="<?php echo url('assets/vendors/feather/feather.css'); ?>">
     <link rel="stylesheet" href="<?php echo url('assets/vendors/ti-icons/css/themify-icons.css'); ?>">
     <link rel="stylesheet" href="<?php echo url('assets/vendors/css/vendor.bundle.base.css'); ?>">
     <link rel="stylesheet" href="<?php echo url('assets/css/vertical-layout-light/style.css'); ?>">
     <link rel="stylesheet" href="<?php echo url('assets/vendors/dataTables.net-bs4/dataTables.bootstrap4.css'); ?>">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
     
 
     <link rel="shortcut icon" href="<?php echo url(company()->logo); ?>" />
@@ -90,6 +95,21 @@
           </ul>
         </div>
       </li>
+
+      <li class="nav-item <?php echo (Bones\Str::contains(request()->currentPage(), '/admin/tags/')) ? 'active' : ''; ?>">
+        <a class="nav-link" data-toggle="collapse" href="#user_tags" aria-expanded="false" aria-controls="user_tags">
+          <i class="ti-list menu-icon"></i>
+          <span class="menu-title">Tags</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse <?php echo (Bones\Str::contains(request()->currentPage(), '/admin/tags/')) ? 'show' : ''; ?>" id="user_tags">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="<?php echo route('admin.tags.create'); ?>"> Add </a></li>
+            <li class="nav-item"> <a class="nav-link" href="<?php echo route('admin.tags.list'); ?>"> Tags </a></li>
+          </ul>
+        </div>
+      </li>
+
       <li class="nav-item <?php echo (Bones\Str::contains(request()->currentPage(), '/admin/subscriptions/')) ? 'active' : ''; ?>">
         <a class="nav-link" data-toggle="collapse" href="#subscription_menu" aria-expanded="false" aria-controls="subscription_menu">
           <i class="ti-list menu-icon"></i>
@@ -257,7 +277,8 @@
           <div class="col">
             <div class="form-group">
               <label>Contact Number</label>
-              <input type="text" class="form-control" name="contact_number" value="<?php echo $user->contact_number; ?>" />
+              <input type="hidden" name="country_code" id="country_code" value="<?php echo $user->country_code; ?>">
+              <input type="text" class="form-control" id="contact" name="contact_number" value="<?php echo $user->contact_number; ?>" />
             </div>
           </div>
 
@@ -319,14 +340,45 @@
     <script src="<?php echo url('assets/js/tabs.js'); ?>"></script>
     <script src="<?php echo url('assets/vendors/datatables.net/jquery.dataTables.js'); ?>"></script>
     <script src="<?php echo url('assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js'); ?>"></script>
-
     
+    <script src="<?php echo url('assets/js/js-intlTelInput.min.js'); ?>"></script>
     
 
     <script type="text/javascript">
         var APP_BASE_URL = '<?php echo url("/"); ?>';
     </script>
-    
+    <script>
+
+function getIp(callback) {
+  fetch("https://ipinfo.io/json?token=ee9dceccd60e6f", {
+    headers: { Accept: "application/json" },
+  })
+    .then((resp) => resp.json())
+    .catch(() => {
+      return {
+        country: "us",
+      };
+    })
+    .then((resp) => callback(resp.country));
+}
+
+  var phoneInputField = document.querySelector("#contact");
+  const phoneInput = window.intlTelInput(phoneInputField, {
+      initialCountry: "auto",
+      separateDialCode: true,
+      geoIpLookup:getIp,
+      autoPlaceholder: "aggressive",
+      nationalMode: true,
+      utilsScript: "<?php echo url('assets/js/utils.js'); ?>",
+  });
+
+  phoneInputField.addEventListener("countrychange",function() {
+    $('#country_code').val(phoneInput.getSelectedCountryData()['dialCode']);
+  });
+
+  phoneInput.setNumber("+<?php echo $user->country_code." ".$user->contact_number; ?>");
+
+</script>
 </body>
 
 </html>

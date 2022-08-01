@@ -10,6 +10,7 @@ use Mail\PlanSubscribedAdminNoty;
 use Models\Category;
 use Models\PurchasePlanRequest;
 use Models\Subscription;
+use Models\Tag;
 use Models\UserSubscription;
 
 class PaypalController
@@ -31,13 +32,12 @@ class PaypalController
 
     public function notify(Request $request)
     {
-        $raw_post_data = file_get_contents('php://input');
-        file_put_contents('ak.txt', $raw_post_data); 
+        // $raw_post_data = file_get_contents('php://input');
+        // file_put_contents('ak.txt', $raw_post_data); 
         // file_put_contents('paypal-ipn.txt', $raw_post_data);
-        //$raw_post_data = 'txn_type=subscr_signup&subscr_id=I-FJSSKN2S1DTJ&last_name=Maknojiya&residence_country=US&item_name=Basic+Plan&mc_currency=USD&business=akbarbusiness121%40gmail.com&verify_sign=AFkhNkMfTxB6Bn8JZ0.GG27ktc3LADAGsc3MnRWGjbJdYrdO0F88KmQd&payer_status=verified&test_ipn=1&payer_email=akbarbuyer121%40gmail.com&first_name=AkbarHusen&receiver_email=akbarbusiness121%40gmail.com&payer_id=F6DDYV68BGWU6&item_number=2&payer_business_name=test&custom=10&charset=windows-1252&notify_version=3.9&ipn_track_id=f9cef4367ea2c';
-        //$raw_post_data = 'mc_gross=29.95&protection_eligibility=Eligible&address_status=confirmed&payer_id=F6DDYV68BGWU6&address_street=1+Main+St&payment_date=06%3A16%3A24+Jul+30%2C+2022+PDT&payment_status=Completed&charset=windows-1252&address_zip=95131&first_name=AkbarHusen&mc_fee=1.54&address_country_code=US&address_name=test&notify_version=3.9&subscr_id=I-MUTRNFJ3V9NH&custom=12&payer_status=verified&business=akbarbusiness121%40gmail.com&address_country=United+States&address_city=San+Jose&verify_sign=AUYPrLRhPwz6NWMyz.t1t44Xh9AKAcSpOsoLcl2wjBDEKeispDKhnton&payer_email=akbarbuyer121%40gmail.com&txn_id=44B37428XN079043F&payment_type=instant&payer_business_name=test&last_name=Maknojiya&address_state=CA&receiver_email=akbarbusiness121%40gmail.com&payment_fee=1.54&receiver_id=N7VQQRXX8WXVQ&txn_type=subscr_payment&item_name=Basic+Plan&mc_currency=USD&item_number=2&residence_country=US&test_ipn=1&transaction_subject=Basic+Plan&payment_gross=29.95&ipn_track_id=7f5090cd7de47';
+        $raw_post_data = 'txn_type=subscr_eot&subscr_id=I-C76RD4F8DDBX&last_name=Maknojiya&residence_country=US&item_name=KEY+Plan&mc_currency=USD&business=akbarbusiness121%40gmail.com&verify_sign=AbK7GnyxIaqpRYxVe0z.bXihIBRnAntgtE3GtUv0mSwjPJFaUYs7rEIE&payer_status=verified&test_ipn=1&payer_email=akbarbuyer121%40gmail.com&first_name=AkbarHusen&receiver_email=akbarbusiness121%40gmail.com&payer_id=F6DDYV68BGWU6&item_number=2&payer_business_name=test&custom=15&charset=windows-1252&notify_version=3.9&ipn_track_id=adf2d08b41c84';
         
-        file_put_contents(locker_path('/paypal/ipn.txt'), $raw_post_data);
+        // file_put_contents(locker_path('/paypal/ipn.txt'), $raw_post_data);
 
         /* 
         * Read POST data 
@@ -107,7 +107,7 @@ class PaypalController
             $interval_unit = $interval_unit_arr[$interval]; 
             $subscr_date_valid_to = date("Y-m-d H:i:s", strtotime(" + $interval_count $interval_unit", strtotime($subscr_date))); 
             
-            if(!empty($txn_type) && $txn_type == 'subscr_signup'){ 
+            if(!empty($txn_type) && ($txn_type == 'subscr_signup' || $txn_type == 'subscr_eot')){ 
                 $subscr_id = $paypalInfo['subscr_id']; 
                 $payer_name = trim($paypalInfo['first_name'].' '.$paypalInfo['last_name']); 
                 $payer_email = $paypalInfo['payer_email']; 
@@ -141,7 +141,7 @@ class PaypalController
                 
                 $userSubscription = UserSubscription::where('ipn_track_id', $ipn_track_id)->first();
                 if(!empty($userSubscription)) {
-                    if($txn_type == 'subscr_signup'){ 
+                    if($txn_type == 'subscr_signup' || $txn_type == 'subscr_eot'){ 
                         $userSubscription->paypal_subscr_id = $subscr_id;
                         $userSubscription->subscr_interval = $interval;
                         $userSubscription->subscr_interval_count = $interval_count;
@@ -157,12 +157,16 @@ class PaypalController
                         $purchasePlanRequest->status = 'Active';
                         $purchasePlanRequest->save();
 
-                        Alert::as(new PlanSubscribed($userSubscription, $purchasePlanRequest))->notify();
+                        $tag = Tag::where('category_id', $purchasePlanRequest->category_id)->where('is_locked', 0)->first();
+                        $tag->is_locked = 1;
+                        $tag->save();
+
+                        Alert::as(new PlanSubscribed($userSubscription, $purchasePlanRequest, $tag))->notify();
                         
                         Alert::as(new PlanSubscribedAdminNoty($userSubscription, $purchasePlanRequest))->notify();
                     }
                 } else {
-                    if($txn_type == 'subscr_payment' || $txn_type == 'subscr_signup'){ 
+                    if($txn_type == 'subscr_payment' || $txn_type == 'subscr_signup' || $txn_type == 'subscr_eot'){ 
                         // Insert transaction data into the database 
                         
                         $userSubscription = new UserSubscription();
@@ -187,7 +191,11 @@ class PaypalController
                         $purchasePlanRequest->status = 'Active';
                         $purchasePlanRequest->save();
 
-                        Alert::as(new PlanSubscribed($userSubscription, $purchasePlanRequest))->notify();
+                        $tag = Tag::where('category_id', $purchasePlanRequest->category_id)->where('is_locked', 0)->first();
+                        $tag->is_locked = 1;
+                        $tag->save();
+
+                        Alert::as(new PlanSubscribed($userSubscription, $purchasePlanRequest, $tag))->notify();
                         Alert::as(new PlanSubscribedAdminNoty($userSubscription, $purchasePlanRequest))->notify();
                     }
                 }

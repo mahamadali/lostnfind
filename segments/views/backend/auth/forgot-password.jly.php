@@ -19,8 +19,8 @@
 		              <div class="brand-logo">
 					  <h5>{{ setting('app.title', 'Quotations') }}</h5>
 		              </div>
-		              <h4>Hello! let's get started</h4>
-		              <h6 class="font-weight-light">Sign in to continue.</h6>
+		              <h4>Reset password</h4>
+		              <h6 class="font-weight-light">You will receive reset password link</h6>
 					
 					  @if (session()->hasFlash('error')):
 						<div class="alert alert-danger">
@@ -34,18 +34,15 @@
 						</div>
 					  @endif
 
-		              <form class="pt-3" method="post" action="{{ route('auth.check.login') }}">
+		              <form class="pt-3" method="post" action="{{ route('auth.forgot-password.submit') }}">
 		                <div class="form-group">
-		                  <input type="email" name="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email">
-		                </div>
-		                <div class="form-group">
-		                  <input type="password" name="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
+		                  <input type="email" name="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email" required>
 		                </div>
 		                <div class="mt-3">
-		                  <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
+		                  <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">Submit</button>
 		                </div>
 		              </form>
-					  <center><a href="{{ route('auth.forgot-password') }}" class="text-right">Forgot password?</a></center>
+					  <center><a href="{{ route('auth.login') }}" class="text-right">Login</a></center>
 		            </div>
 		          </div>
 		        </div>

@@ -43,10 +43,10 @@
                                         <label>Phone Number :</label>
                                         <input type="text" class="form-control" name="phone" placeholder="Enter Phone Number">
                                     </div>
-                                    <div class="form-group mt-3">
+                                    <!-- <div class="form-group mt-3">
                                         <label>Address :</label>
                                         <input type="text" class="form-control" name="address" placeholder="Enter Address">
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <div class="row mt-4">

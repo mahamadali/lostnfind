@@ -3,6 +3,12 @@
 @block("title") {{ setting('app.title', 'Quotations') }} @endblock
 
 @block("styles")
+<style>
+  .iti--separate-dial-code
+    {
+        width: 100% !important;
+    }
+</style>
 @endblock
 
 @block("content")
@@ -39,7 +45,8 @@
           <div class="col">
             <div class="form-group">
               <label>Contact Number</label>
-              <input type="text" class="form-control" name="contact_number" value="{{ $user->contact_number }}" />
+              <input type="hidden" name="country_code" id="country_code" value="{{ $user->country_code }}">
+              <input type="text" class="form-control" id="contact" name="contact_number" value="{{ $user->contact_number }}" />
             </div>
           </div>
 
@@ -87,4 +94,36 @@
 @endblock
 
 @block("scripts")
+<script>
+
+function getIp(callback) {
+  fetch("https://ipinfo.io/json?token=ee9dceccd60e6f", {
+    headers: { Accept: "application/json" },
+  })
+    .then((resp) => resp.json())
+    .catch(() => {
+      return {
+        country: "us",
+      };
+    })
+    .then((resp) => callback(resp.country));
+}
+
+  var phoneInputField = document.querySelector("#contact");
+  const phoneInput = window.intlTelInput(phoneInputField, {
+      initialCountry: "auto",
+      separateDialCode: true,
+      geoIpLookup:getIp,
+      autoPlaceholder: "aggressive",
+      nationalMode: true,
+      utilsScript: "{{ url('assets/js/utils.js') }}",
+  });
+
+  phoneInputField.addEventListener("countrychange",function() {
+    $('#country_code').val(phoneInput.getSelectedCountryData()['dialCode']);
+  });
+
+  phoneInput.setNumber("+<?php echo $user->country_code." ".$user->contact_number; ?>");
+
+</script>
 @endblock

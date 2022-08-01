@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="<?php echo url('assets/vendors/css/vendor.bundle.base.css'); ?>">
     <link rel="stylesheet" href="<?php echo url('assets/css/vertical-layout-light/style.css'); ?>">
     <link rel="stylesheet" href="<?php echo url('assets/vendors/dataTables.net-bs4/dataTables.bootstrap4.css'); ?>">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
     
 
     <link rel="shortcut icon" href="<?php echo url(company()->logo); ?>" />
@@ -90,6 +90,21 @@
           </ul>
         </div>
       </li>
+
+      <li class="nav-item <?php echo (Bones\Str::contains(request()->currentPage(), '/admin/tags/')) ? 'active' : ''; ?>">
+        <a class="nav-link" data-toggle="collapse" href="#user_tags" aria-expanded="false" aria-controls="user_tags">
+          <i class="ti-list menu-icon"></i>
+          <span class="menu-title">Tags</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse <?php echo (Bones\Str::contains(request()->currentPage(), '/admin/tags/')) ? 'show' : ''; ?>" id="user_tags">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="<?php echo route('admin.tags.create'); ?>"> Add </a></li>
+            <li class="nav-item"> <a class="nav-link" href="<?php echo route('admin.tags.list'); ?>"> Tags </a></li>
+          </ul>
+        </div>
+      </li>
+
       <li class="nav-item <?php echo (Bones\Str::contains(request()->currentPage(), '/admin/subscriptions/')) ? 'active' : ''; ?>">
         <a class="nav-link" data-toggle="collapse" href="#subscription_menu" aria-expanded="false" aria-controls="subscription_menu">
           <i class="ti-list menu-icon"></i>
@@ -307,8 +322,8 @@
     <script src="<?php echo url('assets/js/tabs.js'); ?>"></script>
     <script src="<?php echo url('assets/vendors/datatables.net/jquery.dataTables.js'); ?>"></script>
     <script src="<?php echo url('assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js'); ?>"></script>
-
     
+    <script src="<?php echo url('assets/js/js-intlTelInput.min.js'); ?>"></script>
     
 
     <script type="text/javascript">

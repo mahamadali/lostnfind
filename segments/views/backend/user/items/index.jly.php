@@ -26,8 +26,7 @@
         <table class="table">
           <thead>
             <tr>
-                <th>Image</th>
-              <th>Category</th>
+              <th>Image</th>
               <th>Tag #</th>
               <th>Name</th>
               <th>Action</th>
@@ -42,7 +41,6 @@
                     <img src="{{ url($item->images[0]->path) }}">
                     @endif
                 </td>
-                <td>{{ $item->category->title }}</td>
                 <td>{{ $item->tag_number }}</td>
                 <td>{{ $item->name }}</td>
                 <td>

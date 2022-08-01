@@ -32,28 +32,28 @@ class PurchasePlanController
 
         $checkEntryAlreadyExist = PurchasePlanRequest::where('email', $request->user_email)->where('category_id', $request->category)->first();
         
-        if(isset($checkEntryAlreadyExist->email)) {
-            if($checkEntryAlreadyExist->status == 'Active' && $checkEntryAlreadyExist->category_id == $request->category) {
-                $message = 'Plan is already active with this email and Category';
-                return response()->json(['status' => 301, 'message' => $message]);
-            }
+        // if(isset($checkEntryAlreadyExist->email)) {
+        //     if($checkEntryAlreadyExist->status == 'Active' && $checkEntryAlreadyExist->category_id == $request->category) {
+        //         $message = 'Plan is already active with this email and Category';
+        //         return response()->json(['status' => 301, 'message' => $message]);
+        //     }
 
-            if($checkEntryAlreadyExist->status == 'Inactive') {
-                $message = 'You already requested before, We are redirecting you to paypal...';
-                $requestId = $checkEntryAlreadyExist->id;
-            }
+        //     if($checkEntryAlreadyExist->status == 'Inactive') {
+        //         $message = 'You already requested before, We are redirecting you to paypal...';
+        //         $requestId = $checkEntryAlreadyExist->id;
+        //     }
 
-            if($checkEntryAlreadyExist->status == 'Active') {
-                $purchasePlanRequest = new PurchasePlanRequest();
-                $purchasePlanRequest->email = $request->user_email;
-                $purchasePlanRequest->category_id = $request->category;
-                $purchasePlanRequest->plan_id = $plan->id;
-                $purchasePlanRequest = $purchasePlanRequest->save();
-                $requestId = $purchasePlanRequest->id;
-                $message = 'We are redirecting you to paypal...';
-            }
+        //     if($checkEntryAlreadyExist->status == 'Active') {
+        //         $purchasePlanRequest = new PurchasePlanRequest();
+        //         $purchasePlanRequest->email = $request->user_email;
+        //         $purchasePlanRequest->category_id = $request->category;
+        //         $purchasePlanRequest->plan_id = $plan->id;
+        //         $purchasePlanRequest = $purchasePlanRequest->save();
+        //         $requestId = $purchasePlanRequest->id;
+        //         $message = 'We are redirecting you to paypal...';
+        //     }
 
-        } else {
+        // } else {
             $purchasePlanRequest = new PurchasePlanRequest();
             $purchasePlanRequest->email = $request->user_email;
             $purchasePlanRequest->category_id = $request->category;
@@ -61,7 +61,7 @@ class PurchasePlanController
             $purchasePlanRequest = $purchasePlanRequest->save();
             $requestId = $purchasePlanRequest->id;
             $message = 'We are redirecting you to paypal...';
-        }
+        // }
         
         $redirectUrl = route("purchase-plan.paypal.index", ["plan" => $plan->id, "request_id" => $requestId]);
         return response()->json(['status' => 200, 'message' => $message, 'redirectUrl' => $redirectUrl]);

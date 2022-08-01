@@ -171,3 +171,11 @@ class AlertException extends Exception
         return $this;
     }
  }
+
+ class SMSException extends Exception
+ {
+    public function errorMessage()
+    {
+        return $this;
+    }
+ }

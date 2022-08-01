@@ -4,6 +4,7 @@ namespace Controllers\Frontend;
 
 use Bones\Alert;
 use Bones\Request;
+use Contributors\SMS\Texter;
 use Mail\WelcomeEmail;
 use Models\Category;
 use Models\Faq;
@@ -15,6 +16,7 @@ use Models\User;
 use Models\NotifyItem;
 use Mail\NotifyItemEmail;
 use Models\MessageSetting;
+use Models\SmsSetting;
 
 class HomeController
 {
@@ -31,6 +33,14 @@ class HomeController
             'faqs' => $faqs,
             'social_icons' => $social_icons,
             'categories' => $categories
+        ]);
+    }
+
+    public function pricing()
+    {
+        $plans = Subscription::get();
+        return render('frontend/pricing', [
+            'plans' => $plans
         ]);
     }
 
@@ -70,7 +80,7 @@ class HomeController
 			'email' => 'required|email',
             'first_name' => 'required',
             'phone' => 'required',
-            'address' => 'required',
+            // 'address' => 'required',
 		]);
 		if ($validator->hasError()) {
 			return response()->json(['status' => 304, 'errors' => $validator->errors()]);
@@ -81,7 +91,7 @@ class HomeController
         $notify->first_name = $request->first_name;
         $notify->email = $request->email;
         $notify->phone = $request->phone;
-        $notify->address = $request->address;
+        // $notify->address = $request->address;
         $notify->save();
 
         $template = MessageSetting::where('title','findsms')->first();
@@ -90,9 +100,27 @@ class HomeController
         $message = str_replace("{{item}}", $item->name,$message);
         $message = str_replace("{{phone}}", $request->phone,$message);
 
+        $messageSetting = SmsSetting::first();
+        
+        if(!empty($messageSetting)) {
+            Texter::to('+'.$item->user()->country_code.' '.$item->user()->contact_number)->body($message)->setTwilio([
+                'from_number' => '+'.$messageSetting->from_no,
+                'account_sid' => $messageSetting->sid,
+                'auth_token' => $messageSetting->token
+            ])->send();
+        }
+        
+
         Alert::as(new NotifyItemEmail($item->user()->email,$item->user()->first_name,$message))->notify();
         foreach($item->user()->contacts()->get() as $contact){
             Alert::as(new NotifyItemEmail($contact->email,$item->user()->first_name,$message))->notify();
+            if(!empty($messageSetting)) {
+                Texter::to('+'.$item->user()->country_code.' '.$contact->contact)->body($message)->setTwilio([
+                    'from_number' => '+'.$messageSetting->from_no,
+                    'account_sid' => $messageSetting->sid,
+                    'auth_token' => $messageSetting->token
+                ])->send();
+            }
         }
         return response()->json(['status' => 302, 'message' => 'Notification has been sent successfully!']);
         

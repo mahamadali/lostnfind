@@ -365,4 +365,102 @@ class Str
 
         return strtolower($string);
     }
+
+    /**
+     * Convert string to title case
+     * 
+     * @param string $string
+     * 
+     * @return string $string with title case
+     */
+    public static function toTitleCase($string)
+    {
+        return mb_convert_case($string, MB_CASE_TITLE, 'UTF-8');
+    }
+
+    /**
+     * Split string by uppercase letter
+     * 
+     * @param string $string
+     * 
+     * @return array
+     */
+    public static function ucsplit($string)
+    {
+        return preg_split('/(?=[A-Z])/', $string);
+    }
+
+    /**
+     * Convert mixed string to readable
+     * 
+     * @param string $slug
+     * 
+     * @return string readable $string
+     */
+    public static function toReadable($string)
+    {
+        $readableChunks = explode(' ', $string);
+
+        if (count($readableChunks) > 1) {
+            $readableChunks = array_map([static::class, 'toTitleCase'], $readableChunks);
+        } else {
+            $readableChunks = array_map([static::class, 'toTitleCase'], $readableChunks);
+        }
+
+        $readable = Str::multiReplace(implode('_', $readableChunks), ['-', '_', ' '], ['_', '_', '_']);
+
+        return trim(implode(' ', array_filter(explode('_', $readable))));
+        
+    }
+
+    /**
+     * Convert array|object to json
+     * 
+     * @param array|object $set
+     * 
+     * @return string json
+     */
+    public static function toJson($set)
+    {
+        return json_encode($set);
+    }
+
+    /**
+     * Check string is valid json
+     * 
+     * @param string $string
+     * 
+     * @return bool
+     */
+    public static function isJson($string)
+    {
+        return is_object(json_decode($string));
+    }
+
+    /**
+     * Convert about any english textual datetime description into a Unix timestamp
+     * 
+     * @param string $date
+     * 
+     * @return string timestamp
+     */
+    public static function toTimestamp($date)
+    {
+        return strtotime($date);
+    }
+
+    /**
+     * Check string is a valid Unix timestamp
+     * 
+     * @param string $string
+     * 
+     * @return bool
+     */
+    public static function isTimestamp($string)
+    {
+        return ((string) (int) $string === $string)
+            && ($string <= PHP_INT_MAX)
+            && ($string >= ~PHP_INT_MAX);
+    }
+
 }

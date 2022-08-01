@@ -42,9 +42,9 @@
               <table class="table table-bordered" id="item_info_table">
                       <tbody>
                         <tr >
-                          <td class="td_bold table-info">ID</td>
-                          <td class="table-primary">{{ $item->id }}</td>
-                          <td class="td_bold table-info"> ePet ID </td>
+                          <td class="td_bold table-info">Category</td>
+                          <td class="table-primary">{{ $item->category()->first()->title }}</td>
+                          <td class="td_bold table-info"> Tag ID </td>
                           <td class="table-primary"> {{ $item->tag_number }}</td>
                         </tr>
                         <tr>

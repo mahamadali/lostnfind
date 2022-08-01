@@ -24,6 +24,7 @@ Router::bunch('/user', ['as' => 'user.', 'barrier' => ['is-auth']], function() {
 		Router::post('/update/{item}', [ItemController::class, 'update' ])->name('update');
 		Router::post('/delete/{item}', [ItemController::class, 'delete' ])->name('delete');
 		Router::get('/view/{item}', [ ItemController::class, 'view' ])->name('view');
+		Router::post('/check-tag', [ItemController::class, 'checkTag' ])->name('checkTag');
 	});
 
 	Router::bunch('/additional-contacts', ['as' => 'additional-contacts.'], function() {

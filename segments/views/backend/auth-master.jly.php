@@ -14,6 +14,7 @@
       <!-- inject:css -->
       <link rel="stylesheet" href="{{ url('assets/css/vertical-layout-light/style.css') }}">
       <!-- endinject -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
       <link rel="shortcut icon" href="{{ url('assets/images/favicon.png') }}" />
     </head>
     <body>
@@ -24,6 +25,7 @@
         <script src="{{ url('assets/js/template.js') }}./"></script>
         <script src="{{ url('assets/js/settings.js') }}"></script>
         <script src="{{ url('assets/js/todolist.js') }}"></script>
+        <script src="{{ url('assets/js/js-intlTelInput.min.js') }}"></script>
         @plot('scripts')
     </body>
 </html>

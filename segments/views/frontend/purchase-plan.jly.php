@@ -26,7 +26,7 @@
         <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="200">
             <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
                 <div class="pricing-item featured">
-                <h3>{{ $plan->title }}</h3>
+                <h3>{{ $plan->title }} ({{ $plan->category->prefix }})</h3>
                 <h4><sup>$</sup>{{ $plan->price }}<span> / {{ $plan->days }} Days</span></h4>
                 <p>{{ $plan->description }}</p>
                 </div>
@@ -45,7 +45,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-4">
+                            <!-- <div class="row mt-4">
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label>Choose Category</label>
@@ -57,7 +57,8 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
+                            <input type="hidden" name="category" value="{{ $plan->category_id }}">
                             <div class="row mt-4">
                                 <div class="col-lg-12">
                                     <div class="form-group">

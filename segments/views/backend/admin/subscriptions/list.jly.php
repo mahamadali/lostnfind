@@ -26,6 +26,7 @@
         <table class="table">
           <thead>
             <tr>
+              <th>Category</th>
               <th>Title</th>
               <th>Description</th>
               <th>Price</th>
@@ -37,6 +38,7 @@
             @if (count($subscriptions) > 0):
               @foreach ($subscriptions as $subscription):
               <tr>
+                <td>{{ $subscription->category->title }} <small>{{ $subscription->category->prefix }}</small></td>
                 <td>{{ $subscription->title }}</td>
                 <td>{{ $subscription->description }}</td>
                 <td>${{ $subscription->price }}</td>

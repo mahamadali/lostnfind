@@ -343,17 +343,19 @@ class Router
             if ($paramCount >= count($optionalParamsClone)) {
                 throw new RouteException('Invalid Route Syntax: `' . self::$routes[$matchedRoute]['caption'] . '`. Dynamic parameters count [' . count($optionalParamsClone) . '] must be same with associated closure');
             }
-            $paramClass = (phpversion() >= 8) ? $param->getType() : $param->getClass()->name;
-            if ($param->hasType() && !Str::contains($paramClass, 'Bones\Request')) {
-                $bindModelImplicitly = (string) $paramClass;
-                $modelObj = (new $bindModelImplicitly);
-                $columnToBind = (property_exists($modelObj, 'route_bind_column')) ? self::accessProtected($modelObj, 'route_bind_column') : (self::accessProtected($modelObj, 'primary_key'));
-                $columnValueToCompare = $optionalParamsClone[$paramCount];
-                $optionalParamsClone[$paramCount] = $modelObj->where($columnToBind, $columnValueToCompare)->first();
-                if (empty($optionalParamsClone[$paramCount])) {
-                    throw new RouteException('No data found for {' . $columnValueToCompare . '} as {' . $columnToBind . '} [route_bind_column] in {' . $bindModelImplicitly . '} while implicit binding');
+            if ($param->hasType()) {
+                $paramClass = (phpversion() >= 8) ? $param->getType() : $param->getClass()->name;
+                if (!Str::contains($paramClass, 'Bones\Request')) {
+                    $bindModelImplicitly = (string) $paramClass;
+                    $modelObj = (new $bindModelImplicitly);
+                    $columnToBind = (property_exists($modelObj, 'route_bind_column')) ? self::accessProtected($modelObj, 'route_bind_column') : (self::accessProtected($modelObj, 'primary_key'));
+                    $columnValueToCompare = $optionalParamsClone[$paramCount];
+                    $optionalParamsClone[$paramCount] = $modelObj->where($columnToBind, $columnValueToCompare)->first();
+                    if (empty($optionalParamsClone[$paramCount])) {
+                        throw new RouteException('No data found for {' . $columnValueToCompare . '} as {' . $columnToBind . '} [route_bind_column] in {' . $bindModelImplicitly . '} while implicit binding');
+                    }
+                    $paramCount++;
                 }
-                $paramCount++;
             }
         }
 

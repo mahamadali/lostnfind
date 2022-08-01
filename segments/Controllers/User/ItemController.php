@@ -8,6 +8,7 @@ use Models\Category;
 use Models\User;
 use Models\Item;
 use Models\ItemImage;
+use Models\Tag;
 
 class ItemController
 {
@@ -34,6 +35,19 @@ class ItemController
         $data = json_decode($request->data);
         $item = new Item();
         foreach ($data as $key => $value) {
+            if($value->name == 'tag_number') {
+                $tag = Tag::where('tag_number', $value->value)->where('is_locked', 1)->first();
+                if(empty($tag)) {
+                    echo json_encode(['status' => 301, 'message' => 'Tag ID is incorrect!']);
+                    exit;
+                }
+                
+                $tag = Item::where('tag_number', $value->value)->first();
+                if(!empty($tag)) {
+                    echo json_encode(['status' => 301, 'message' => 'Tag ID used!']);
+                    exit;
+                }
+            }
             $column = $value->name;
             $input = $value->value;
 
@@ -46,8 +60,6 @@ class ItemController
             // }
             $item->{$column} = $input ?? '';
         }
-
-        $item->tag_number = $item->category()->first()->prefix."-".keyNumber(5);
         $item->user_id = auth()->id;
         $item = $item->save();
         
@@ -96,8 +108,6 @@ class ItemController
             $input = $value->value;
             $item->{$column} = $input ?? '';
         }
-
-        $item->tag_number = $item->category()->first()->prefix."-".keyNumber(5);
         $item->user_id = auth()->id;
         $item = $item->save();
         
@@ -133,4 +143,21 @@ class ItemController
 			'item' => $item
 		]);
 	}
+
+    public function checkTag(Request $request) {
+        $tag = Tag::where('tag_number', $request->tag_number)->where('is_locked', 1)->first();
+        if(empty($tag)) {
+            echo json_encode(['status' => 301, 'message' => 'Tag ID is incorrect!']);
+            exit;
+        }
+        
+        $item = Item::where('tag_number', $request->tag_number)->first();
+        if(!empty($item)) {
+            echo json_encode(['status' => 301, 'message' => 'Tag ID used!']);
+            exit;
+        }
+
+        echo json_encode(['status' => 200, 'tag' => $tag->with('category')]);
+        exit;
+    }
 }

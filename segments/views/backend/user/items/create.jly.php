@@ -13,23 +13,20 @@
       Create Item
     </div>
     <div class="card-body">
+      <div class="error-messages"></div>
       <form method="post" action="{{ route('user.items.store') }}" id="create-item-form" enctype="multipart/form-data">
         <div class="row">
           <div class="col">
             <div class="form-group">
-              <label>Cateogry</label>
-              <select name="category_id" id="category_id" class="form-control" required>
-                <option value="">Choose</option>
-                @foreach($categories as $category): 
-                <option value="{{ $category->id }}">{{ $category->title }}</option>
-                @endforeach
-              </select>
+              <label>Tag Number</label>
+              <input type="text" class="form-control" name="tag_number" id="tag_number" required>
+              <input type="hidden" name="category_id" id="category_id" value="">
             </div>
           </div>
           <div class="col">
             <div class="form-group">
               <label>Name</label>
-              <input type="text" name="name" class="form-control" require/>
+              <input type="text" name="name" class="form-control" required/>
             </div>
           </div>
         </div>
@@ -191,15 +188,48 @@ $('#create-item-form').submit(function(e){
 });
 
 myDropzoneNewCollection.on("successmultiple", function(multiple,xhr) {
+  $('.error-messages').html('');
+  var response = $.parseJSON(xhr);
+  if(response.status == 200) {
     window.location.href='{{ url("user/items") }}';
+  } else {
+    $('#create-item-form').find('button[type="submit"]').html("Submit");
+    $('#create-item-form').find('button[type="submit"]').prop('disabled', false);
+    $('.error-messages').html('<div class="alert alert-danger"><span>'+response.message+'</span></div>')
+    $(window).scrollTop(0);
+    myDropzoneNewCollection.removeAllFiles();
+  }
 });
 
 $(document).ready(function(){
   $('.pet_section').hide();
+
+  $('#tag_number').on('blur', function() {
+    $.ajax({
+      url: '{{ route("user.items.checkTag"); }}',
+      type: 'post',
+      data: {
+        tag_number: $(this).val()
+      },
+      dataType: 'json',
+      success: function(response) {
+        $('.error-messages').html('');
+        if(response.status == 200) {
+          $('#category_id').val(response.tag.category_id);
+          $('#category_id').attr('data-category_name', response.tag.category.title);
+        } else {
+          $('.error-messages').html('<div class="alert alert-danger"><span>'+response.message+'</span></div>')
+          $('#category_id').val('');
+          $('#category_id').attr('data-category_name', '');
+        }
+        $('#category_id').change();
+      }
+    });
+  });
 })
 
 $('#category_id').change(function(){
-  var category = $(this).find(":selected").text();
+  var category = $(this).attr("data-category_name");
   if(category == 'Pets'){
     $('.pet_section').show();
   }else{

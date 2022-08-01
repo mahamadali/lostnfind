@@ -3,10 +3,18 @@
 namespace Controllers\Backend;
 
 use Bones\Request;
+use Models\Category;
 use Models\Subscription;
 
 class SubscriptionController
 {
+	public $categories;
+
+	public function __construct()
+    {
+        $this->categories = Category::where('status', 'active')->get();
+    }
+	
 	public function index(Request $request)
 	{
 		$subscriptions = Subscription::orderBy('id')->get();
@@ -18,7 +26,7 @@ class SubscriptionController
 
 	public function create()
 	{
-		return render('backend/admin/subscriptions/create');
+		return render('backend/admin/subscriptions/create', ['categories' => $this->categories]);
 	}
 
 	public function store(Request $request)
@@ -27,14 +35,15 @@ class SubscriptionController
 			'title' => 'required|min:2|max:60',
             'description' => 'required',
             'price' => 'required',
-            'days' => 'required'
+            'days' => 'required',
+			'category_id' => 'required'
 		]);
 
 		if ($validator->hasError()) {
 			return redirect()->withFlashError(implode('<br>', $validator->errors()))->with('old', $request->all())->back();
 		}
 
-		$data = $request->getOnly(['title', 'description', 'price', 'days']);
+		$data = $request->getOnly(['title', 'description', 'price', 'days', 'category_id']);
 
 		$subscription = Subscription::create($data);
 
@@ -48,7 +57,8 @@ class SubscriptionController
 	public function edit(Request $request, Subscription $subscription)
 	{
 		return render('backend/admin/subscriptions/edit', [
-			'subscription' => $subscription
+			'subscription' => $subscription,
+			'categories' => $this->categories
 		]);
 	}
 
@@ -58,14 +68,15 @@ class SubscriptionController
 			'title' => 'required|min:2|max:60',
             'description' => 'required',
             'price' => 'required',
-            'days' => 'required'
+            'days' => 'required',
+			'category_id' => 'required'
 		]);
 
 		if ($validator->hasError()) {
 			return redirect()->withFlashError(implode('<br>', $validator->errors()))->with('old', $request->all())->back();
 		}
 
-		$data = $request->getOnly(['title', 'description', 'price', 'days']);
+		$data = $request->getOnly(['title', 'description', 'price', 'days', 'category_id']);
 
 		if (Subscription::where('id', $request->id)->update($data)) {
 			return redirect()->withFlashSuccess('Subscription updated successfully!')->with('old', $request->all())->back();

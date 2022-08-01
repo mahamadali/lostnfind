@@ -17,13 +17,9 @@
         <div class="row">
           <div class="col">
             <div class="form-group">
-              <label>Cateogry</label>
-              <select name="category_id" id="category_id" class="form-control" required>
-                <option value="">Choose</option>
-                @foreach($categories as $category): 
-                <option value="{{ $category->id }}" {{ $item->category->id == $category->id ? 'selected' : '' }}>{{ $category->title }}</option>
-                @endforeach
-              </select>
+              <label>Tag Number</label>
+              <input type="hidden" name="category_id" value="{{ $item->category()->first()->id }}">
+              <input type="text" class="form-control" value="{{ $item->tag_number }}" readonly>
             </div>
           </div>
           <div class="col">
@@ -193,7 +189,7 @@ var myDropzoneNewCollection = new Dropzone(".upload_item_images", {
     });
 
     myDropzoneNewCollection.on("successmultiple", function(multiple,xhr) {
-        // window.location.href='{{ url("user/items") }}';
+        window.location.href='{{ url("user/items") }}';
     });
 
     $(document).ready(function() {

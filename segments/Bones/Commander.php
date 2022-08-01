@@ -103,6 +103,12 @@ class Commander
             case 'dbfiller':
                 $this->createDBFillerFile();
                 break;
+            case 'mailer':
+                $this->createMailerFile();
+                break;
+            case 'texter':
+                $this->createTexterFile();
+                break;
             default:
                 return $this->throwError('%s is not a valid segment to create', [$commandFor]);
                 break;
@@ -129,6 +135,9 @@ class Commander
                 break;
             case 'dbfiller':
                 $this->removeDBFillerFile();
+                break;
+            case 'mailer':
+                $this->removeMailerFile();
                 break;
             default:
                 return $this->throwError('%s is not a valid segment to remove', [$commandFor]);
@@ -333,6 +342,70 @@ class Commander
         return (new Refill())->create($this->attribute, $this->extraAttrs);
     }
 
+    public function createMailerFile()
+    {
+        if (empty($this->attribute)) {
+            return $this->throwError('EMPTY [Mailer] FILE CAN NOT BE CREATED' . PHP_EOL);
+        }
+
+        $mailerFilePath = 'segments/Mail/' . $this->getDeCamelizedPath() . '.php';
+        if (file_exists($mailerFilePath)) {
+            return $this->throwError('[Mailer] FILE ALREADY EXISTS at %s' . PHP_EOL, [$mailerFilePath]);
+        }
+        $mailerFileDoors = explode('/', $mailerFilePath);
+        $mailerFileNameParts = explode('.php', basename($mailerFileDoors[count($mailerFileDoors) - 1]));
+        $nameSpace = 'Mail';
+        unset($mailerFileDoors[count($mailerFileDoors) - 1]);
+        foreach ($mailerFileDoors as $doorName => $door) {
+            $mailerFileDoors[$doorName] = Str::decamelize($door);
+            if (!in_array($door, ['segments', 'Mail'])) {
+                $nameSpace .= '\\' . $door;
+            }
+        }
+        if (!file_exists(implode('/', $mailerFileDoors))) {
+            mkdir(implode('/', $mailerFileDoors), 0644, true);
+        }
+        $f = fopen($mailerFilePath, 'wb');
+        if (!$f) {
+            return $this->throwError('%s can not create mailer file at ', [$mailerFilePath]);
+        }
+        fwrite($f, $this->getBaseMailerCode($mailerFileNameParts[0], $nameSpace));
+        fclose($f);
+        return $this->showMsg('Mailer saved at ' . $mailerFilePath . '!');
+    }
+
+    public function createTexterFile()
+    {
+        if (empty($this->attribute)) {
+            return $this->throwError('EMPTY [Texter] FILE CAN NOT BE CREATED' . PHP_EOL);
+        }
+
+        $texterFilePath = 'segments/SMS/' . $this->getDeCamelizedPath() . '.php';
+        if (file_exists($texterFilePath)) {
+            return $this->throwError('[Texter] FILE ALREADY EXISTS at %s' . PHP_EOL, [$texterFilePath]);
+        }
+        $texterFileDoors = explode('/', $texterFilePath);
+        $texterFileNameParts = explode('.php', basename($texterFileDoors[count($texterFileDoors) - 1]));
+        $nameSpace = 'SMS';
+        unset($texterFileDoors[count($texterFileDoors) - 1]);
+        foreach ($texterFileDoors as $doorName => $door) {
+            $texterFileDoors[$doorName] = Str::decamelize($door);
+            if (!in_array($door, ['segments', 'SMS'])) {
+                $nameSpace .= '\\' . $door;
+            }
+        }
+        if (!file_exists(implode('/', $texterFileDoors))) {
+            mkdir(implode('/', $texterFileDoors), 0644, true);
+        }
+        $f = fopen($texterFilePath, 'wb');
+        if (!$f) {
+            return $this->throwError('%s can not create texter file at ', [$texterFilePath]);
+        }
+        fwrite($f, $this->getBaseTexterCode($texterFileNameParts[0], $nameSpace));
+        fclose($f);
+        return $this->showMsg('Texter saved at ' . $texterFilePath . '!');
+    }
+
     public function setConfigSettings()
     {
         if (file_exists($this->settingDir)) {
@@ -362,6 +435,8 @@ class Commander
         $this->createSettingAppFile();
         $this->createSettingAliasFile();
         $this->createSettingDatabaseFile();
+        $this->createSettingSessionFile();
+        $this->createSettingAlertFile();
         $this->createSettingTemplateFile();
 
         return true;
@@ -403,11 +478,11 @@ class Commander
         $settingAliasFile = $this->settingDir . '/aliases.php';
 
         $settingContent = '<?php' . PHP_EOL . PHP_EOL;
-        $settingContent .= 'use Barriers\VerifyToken;' . PHP_EOL . PHP_EOL;
+        $settingContent .= 'use Barriers\VerifyRequest;' . PHP_EOL . PHP_EOL;
         $settingContent .= "return [" . PHP_EOL . PHP_EOL;
         $settingContent .= "\t// Add Barrier aliases to use as an alias" . PHP_EOL;
         $settingContent .= "\t'Barriers' => [" . PHP_EOL;
-        $settingContent .= "\t\t'verify-token' => VerifyToken::class," . PHP_EOL;
+        $settingContent .= "\t\t'verify-request' => VerifyRequest::class," . PHP_EOL;
         $settingContent .= "\t]," . PHP_EOL . PHP_EOL;
         $settingContent .= "];";
 
@@ -452,6 +527,76 @@ class Commander
         fclose($f);
 
         $this->showMsgAndContinue('%s [SETTING FILE] created!' . PHP_EOL, [$settingDatabaseFile]);
+    }
+
+    public function createSettingSessionFile()
+    {
+        $settingSessionFile = $this->settingDir . '/session.php';
+
+        $settingContent = '<?php' . PHP_EOL . PHP_EOL;
+        $settingContent .= "return [" . PHP_EOL . PHP_EOL;
+        $settingContent .= "\t'age' => 14400, // seconds" . PHP_EOL . PHP_EOL;
+        $settingContent .= "];";
+
+        $f = fopen($settingSessionFile, 'wb');
+        if (!$f) {
+            return $this->throwError('Setting file can not be created at %s' . PHP_EOL, [ $settingSessionFile ]);
+        }
+
+        fwrite($f, $settingContent);
+        fclose($f);
+
+        $this->showMsgAndContinue('%s [SETTING FILE] created!' . PHP_EOL, [$settingSessionFile]);
+    }
+
+    public function createSettingAlertFile()
+    {
+        $settingAliasFile = $this->settingDir . '/alert.php';
+
+        $settingContent = '<?php' . PHP_EOL . PHP_EOL;
+        $settingContent .= "return [" . PHP_EOL . PHP_EOL;
+        $settingContent .= "\t// Mail configuration" . PHP_EOL;
+        $settingContent .= "\t'mail' => [" . PHP_EOL . PHP_EOL;
+        $settingContent .= "\t\t'via' => 'smtp', // default | SMTP" . PHP_EOL . PHP_EOL;
+        $settingContent .= "\t\t'from' => [" . PHP_EOL;
+        $settingContent .= "\t\t\t\t'email' => 'admin@administration.com'," . PHP_EOL;
+        $settingContent .= "\t\t\t\t'name' => 'Administration'," . PHP_EOL;
+        $settingContent .= "\t\t]," . PHP_EOL . PHP_EOL;
+        $settingContent .= "\t\t'reply' => [" . PHP_EOL;
+        $settingContent .= "\t\t\t\t'email' => 'reply@administration.com'," . PHP_EOL;
+        $settingContent .= "\t\t\t\t'name' => 'Administration'," . PHP_EOL;
+        $settingContent .= "\t\t]," . PHP_EOL . PHP_EOL;
+        $settingContent .= "\t\t'smtp' => [" . PHP_EOL;
+        $settingContent .= "\t\t\t\t'host' => 'smtp.example.com'," . PHP_EOL;
+        $settingContent .= "\t\t\t\t'username' => 'username'," . PHP_EOL;
+        $settingContent .= "\t\t\t\t'password' => 'password'," . PHP_EOL;
+        $settingContent .= "\t\t\t\t'port' => 465," . PHP_EOL;
+        $settingContent .= "\t\t\t\t'encryption' => 'tls', // SSL | TLS" . PHP_EOL;
+        $settingContent .= "\t\t\t\t'debug' => false," . PHP_EOL;
+        $settingContent .= "\t\t\t\t'auth' => true," . PHP_EOL;
+        $settingContent .= "\t\t]," . PHP_EOL . PHP_EOL;
+        $settingContent .= "\t]," . PHP_EOL . PHP_EOL;
+        $settingContent .= "\t// SMS configuration" . PHP_EOL;
+        $settingContent .= "\t'sms' => [" . PHP_EOL . PHP_EOL;
+        $settingContent .= "\t\t'via' => 'twilio', // twilio" . PHP_EOL . PHP_EOL;
+        $settingContent .= "\t\t'twilio' => [" . PHP_EOL;
+        $settingContent .= "\t\t\t'account_sid' => 'TWILIO_ACCOUNT_SID'," . PHP_EOL;
+        $settingContent .= "\t\t\t'auth_token' => 'TWILIO_AUTH_TOKEN'," . PHP_EOL;
+        $settingContent .= "\t\t\t'from_number' => 'TWILIO_FROM_NUMBER'," . PHP_EOL;
+        $settingContent .= "\t\t\t'api_endpoint' => 'https://api.twilio.com/2010-04-01/'," . PHP_EOL;
+        $settingContent .= "\t\t]," . PHP_EOL . PHP_EOL;
+        $settingContent .= "\t]," . PHP_EOL . PHP_EOL;
+        $settingContent .= "];";
+
+        $f = fopen($settingAliasFile, 'wb');
+        if (!$f) {
+            return $this->throwError('Setting file can not be created at %s' . PHP_EOL, [ $settingAliasFile ]);
+        }
+
+        fwrite($f, $settingContent);
+        fclose($f);
+
+        $this->showMsgAndContinue('%s [SETTING FILE] created!' . PHP_EOL, [$settingAliasFile]);
     }
 
     public function createSettingTemplateFile()
@@ -515,6 +660,54 @@ class Commander
         return $baseControllerCode;
     }
 
+    public function getBaseMailerCode(string $name, string $nameSpace)
+    {
+        $baseControllerCode = '<?php' . PHP_EOL . PHP_EOL;
+        $baseControllerCode .= 'namespace ' . $nameSpace . ';' . PHP_EOL . PHP_EOL;
+        $baseControllerCode .= 'use Contributors\Mail\Mailer;' . PHP_EOL . PHP_EOL;
+        $baseControllerCode .= 'class ' . Str::decamelize($name) . ' extends Mailer' . PHP_EOL;
+        $baseControllerCode .= '{' . PHP_EOL;
+        $baseControllerCode .= "\tprotected \$data;" . PHP_EOL . PHP_EOL;
+        $baseControllerCode .= "\tpublic function __construct(\$data)" . PHP_EOL;
+        $baseControllerCode .= "\t{" . PHP_EOL;
+        $baseControllerCode .= "\t\t\$this->data = \$data;" . PHP_EOL;
+        $baseControllerCode .= "\t}" . PHP_EOL.PHP_EOL;
+        $baseControllerCode .= "\tpublic function prepare()" . PHP_EOL;
+        $baseControllerCode .= "\t{" . PHP_EOL;
+        $baseControllerCode .= "\t\treturn \$this->html(content('mails/welcome', ['data' => \$this->data]))" . PHP_EOL;
+        $baseControllerCode .= "\t\t\t\t\t->to('recepient_address')" . PHP_EOL;
+        $baseControllerCode .= "\t\t\t\t\t->subject('subject')" . PHP_EOL;
+        $baseControllerCode .= "\t\t\t\t\t->attach('path/to/file', 'attachment_alias');" . PHP_EOL;
+        $baseControllerCode .= "\t}" . PHP_EOL;
+        if (!empty($this->extraAttrs)) {
+        }
+        $baseControllerCode .= '}';
+        return $baseControllerCode;
+    }
+
+    public function getBaseTexterCode(string $name, string $nameSpace)
+    {
+        $baseControllerCode = '<?php' . PHP_EOL . PHP_EOL;
+        $baseControllerCode .= 'namespace ' . $nameSpace . ';' . PHP_EOL . PHP_EOL;
+        $baseControllerCode .= 'use Contributors\SMS\Texter;' . PHP_EOL . PHP_EOL;
+        $baseControllerCode .= 'class ' . Str::decamelize($name) . ' extends Texter' . PHP_EOL;
+        $baseControllerCode .= '{' . PHP_EOL;
+        $baseControllerCode .= "\tprotected \$data;" . PHP_EOL . PHP_EOL;
+        $baseControllerCode .= "\tpublic function __construct(\$data)" . PHP_EOL;
+        $baseControllerCode .= "\t{" . PHP_EOL;
+        $baseControllerCode .= "\t\t\$this->data = \$data;" . PHP_EOL;
+        $baseControllerCode .= "\t}" . PHP_EOL.PHP_EOL;
+        $baseControllerCode .= "\tpublic function prepare()" . PHP_EOL;
+        $baseControllerCode .= "\t{" . PHP_EOL;
+        $baseControllerCode .= "\t\treturn \$this->template(content('sms/account-activated', ['data' => \$this->data]))" . PHP_EOL;
+        $baseControllerCode .= "\t\t\t\t\t->to('recepient_number');" . PHP_EOL;
+        $baseControllerCode .= "\t}" . PHP_EOL;
+        if (!empty($this->extraAttrs)) {
+        }
+        $baseControllerCode .= '}';
+        return $baseControllerCode;
+    }
+
     public function getBaseViewCode()
     {
         $baseViewCode = "@php " . PHP_EOL . "\t// Paint your jolly stuff with code... " . PHP_EOL . "@endphp";
@@ -528,6 +721,9 @@ class Commander
         $baseBarrierCode .= 'use Bones\Request;' . PHP_EOL . PHP_EOL;
         $baseBarrierCode .= 'class ' . Str::decamelize($name) . PHP_EOL;
         $baseBarrierCode .= '{' . PHP_EOL;
+        $baseBarrierCode .= "\tpublic \$excludeRoutes = [" . PHP_EOL;
+        $baseBarrierCode .= "\t\t// define routes to exclude from barrier check" . PHP_EOL;
+        $baseBarrierCode .= "\t];" . PHP_EOL . PHP_EOL;
         $baseBarrierCode .= "\tpublic function check(Request \$request)" . PHP_EOL;
         $baseBarrierCode .= "\t{" . PHP_EOL;
         $baseBarrierCode .= "\t\treturn true;" . PHP_EOL;
@@ -576,6 +772,12 @@ class Commander
             return $this->throwError('dbfiller file path must be given or apply remove:dbfiller --all to remove all dbfiller files');
         }
         return (new Refill())->removeAllFiles($this->attribute);
+    }
+
+    public function removeMailerFile()
+    {
+        $mailerFilePath = 'segments/Mail/' . $this->attribute . '.php';
+        return $this->removeAsset($mailerFilePath, 'Mailer');
     }
 
     public function removeAsset($assetPath, $assetType = '')
@@ -671,7 +873,7 @@ class Commander
         echo '----------------------------------------------------------------------------------------------------' . PHP_EOL;
         echo count($routes) . ' routes registered' . PHP_EOL;
         echo '----------------------------------------------------------------------------------------------------' . PHP_EOL;
-        $mask = "%5.5s | %-30.30s | %-10s | %s\n";
+        $mask = "%6s | %-30.30s | %-10s | %s\n";
 
         foreach ($routes as $route) {
             if (empty($route['caption'])) $route['caption'] = '/';

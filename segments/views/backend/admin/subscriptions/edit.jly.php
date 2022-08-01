@@ -16,6 +16,19 @@
         <input type="hidden" name="id" value="{{ $subscription->id }}" />
         <div class="row">
           <div class="col">
+          <div class="form-group">
+          <label>Cateogry</label>
+          <select name="category_id" id="category_id" class="form-control" required>
+            <option value="">Choose</option>
+            @foreach($categories as $category): 
+            <option value="{{ $category->id }}" {{ $category->id == $subscription->category_id ? 'selected' : '' }}>{{ $category->title }} ({{ $category->prefix }})</option>
+            @endforeach
+          </select>
+          </div>
+        </div>
+        </div>
+        <div class="row">
+          <div class="col">
             <div class="form-group">
               <label>Title</label>
               <input type="text" class="form-control" name="title" value="{{ $subscription->title }}" />

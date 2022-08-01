@@ -5,7 +5,7 @@
 @block("styles")
 <style>
     #pricing {
-        margin-top: 50px;
+        margin-top: 80px;
     }
     .hero {
         min-height: auto;

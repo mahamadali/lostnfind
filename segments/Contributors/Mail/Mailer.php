@@ -23,12 +23,12 @@ class Mailer extends AutoMethodMap
     {
         $this->validate();
 
-        $sendVia = setting('mail.via', 'default');
+        $via = setting('alert.mail.via', 'default');
 
-        if ($sendVia == 'smtp') {
-            $this->sendViaPHPMailer();
+        if ($via == 'smtp') {
+            $this->viaPHPMailer();
         } else {
-            $this->sendViaDefaultMailer();
+            $this->viaDefaultMailer();
         }
     }
 
@@ -125,10 +125,10 @@ class Mailer extends AutoMethodMap
         return $headerString;
     }
 
-    public function sendViaDefaultMailer()
+    public function viaDefaultMailer()
     {
-        $this->headers('From', setting('mail.from.name', 'Administration') . ' <' . setting('mail.from.email', 'admin@administration.com') . '>');
-        $this->headers('Reply-To', setting('mail.reply.name', 'Administration') . ' <' . setting('mail.reply.email', 'admin@administration.com') . '>');
+        $this->headers('From', setting('alert.mail.from.name', 'Administration') . ' <' . setting('alert.mail.from.email', 'admin@administration.com') . '>');
+        $this->headers('Reply-To', setting('alert.mail.reply.name', 'Administration') . ' <' . setting('alert.mail.reply.email', 'admin@administration.com') . '>');
 
         if (!empty($this->attachments)) {
             $this->headers('MIME-Version', "1.0" . PHP_EOL . "Content-Type: multipart/mixed; boundary=\"1a2a3a\"");
@@ -165,22 +165,22 @@ class Mailer extends AutoMethodMap
         return true;
     }
 
-    public function sendViaPHPMailer()
+    public function viaPHPMailer()
     {
         $mail = new PHPMailer(true);
         try {
             //Server settings
-            $mail->SMTPDebug = setting('mail.smtp.debug', false);
+            $mail->SMTPDebug = setting('alert.mail.smtp.debug', false);
             $mail->isSMTP();
-            $mail->Host       = setting('mail.smtp.host');
+            $mail->Host       = setting('alert.mail.smtp.host');
             $mail->SMTPAuth   = true;
-            $mail->Username   = setting('mail.smtp.username');
-            $mail->Password   = setting('mail.smtp.password');
-            $mail->SMTPSecure = setting('mail.smtp.encryption');
-            $mail->Port       = setting('mail.smtp.port');
+            $mail->Username   = setting('alert.mail.smtp.username');
+            $mail->Password   = setting('alert.mail.smtp.password');
+            $mail->SMTPSecure = setting('alert.mail.smtp.encryption');
+            $mail->Port       = setting('alert.mail.smtp.port');
         
             // Set from
-            $mail->setFrom(setting('mail.from.email', 'admin@administration.com'), setting('mail.from.name', 'Administration'));
+            $mail->setFrom(setting('alert.mail.from.email', 'admin@administration.com'), setting('alert.mail.from.name', 'Administration'));
 
             //Recipients
             foreach ($this->to as $recipient) {
@@ -188,7 +188,7 @@ class Mailer extends AutoMethodMap
             }
 
             // Set from to
-            $mail->addReplyTo(setting('mail.reply.email', 'reply@administration.com'), setting('mail.reply.name', 'Administration'));
+            $mail->addReplyTo(setting('alert.mail.reply.email', 'reply@administration.com'), setting('alert.mail.reply.name', 'Administration'));
 
             // Set cc
             if (!empty($this->cc)) {

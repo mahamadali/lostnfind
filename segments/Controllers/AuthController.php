@@ -6,6 +6,7 @@ use Bones\Alert;
 use Bones\Request;
 use Bones\Session;
 use Jolly\Engine;
+use Mail\ResetPassword;
 use Mail\WelcomeEmail;
 use Models\PurchasePlanRequest;
 use Models\Role;
@@ -108,6 +109,7 @@ class AuthController
 		$user->last_name = $request->last_name;
 		$user->username = $request->username;
 		$user->email = $planRequest->email;
+		$user->country_code = $request->country_code;
 		$user->contact_number = $request->contact_number;
 		$user->password = md5($request->password);
 		$user->role_id = Role::where('name', 'user')->first()->id;
@@ -126,5 +128,43 @@ class AuthController
 
 	public function updateProfile(Request $request){
 		dd($request);
+	}
+
+	public function forgotPassword(Request $request)
+	{
+		return render('backend/auth/forgot-password');
+	}
+
+	public function forgotPasswordPost(Request $request) {
+		$user = User::where('email', $request->email)->first();
+		if(!empty($user)) {
+			Alert::as(new ResetPassword($user))->notify();
+		}
+		return redirect()->to(route('auth.forgot-password'))->withFlashSuccess('Reset password link sent to your email address.')->go();
+	}
+
+	public function resetPassword(Request $request, $token) {
+		$user = User::where('password', base64_decode($token))->first();
+		if(!empty($user)) {
+			return render('backend/auth/reset-password', [
+				'user' => $user
+			]);
+		} else {
+			return render('defaults/301', ['error' => 'Unauthenticated!']);
+		}
+	}
+
+	public function resetPasswordPost(Request $request, User $user) {
+		$validator = $request->validate([
+			'password' => 'required|min:6',
+			'cpassword' => 'required|eqt:password'
+		]);
+
+		if ($validator->hasError()) {
+			return redirect()->withFlashError(implode('<br>', $validator->errors()))->with('old', $request->all())->back();
+		}
+		
+		$user->update(['password' => md5($request->password)]);
+		return redirect()->to(route('auth.login'))->withFlashSuccess('Password has been changed successfully')->go();
 	}
 }

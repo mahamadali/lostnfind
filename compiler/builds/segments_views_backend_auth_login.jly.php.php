@@ -56,6 +56,7 @@
 		                  <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
 		                </div>
 		              </form>
+					  <center><a href="<?php echo route('auth.forgot-password'); ?>" class="text-right">Forgot password?</a></center>
 		            </div>
 		          </div>
 		        </div>
