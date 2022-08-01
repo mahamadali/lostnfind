@@ -5,6 +5,7 @@ use Controllers\Backend\DashboardController;
 use Controllers\Backend\UserController;
 use Controllers\Backend\CompanyController;
 use Controllers\Backend\CategoryController;
+use Controllers\Backend\TagsController;
 use Controllers\Backend\SubscriptionController;
 use Controllers\Backend\SmsSettingController;
 use Controllers\Backend\SocialmediaController;
@@ -34,6 +35,16 @@ Router::bunch('/admin', ['as' => 'admin.', 'barrier' => [IsAuthenticated::class]
 		Router::get('/edit/{category}', [ CategoryController::class, 'edit' ])->name('edit');
 		Router::post('/update', [ CategoryController::class, 'update' ])->name('update');
 		Router::post('/delete/{category}', [ CategoryController::class, 'delete' ])->name('delete');
+	});
+
+	Router::bunch('/tags', ['as' => 'tags.'], function() {
+		Router::get('/list', [ TagsController::class, 'index' ])->name('list');
+		Router::get('/create', [ TagsController::class, 'create' ])->name('create');
+		Router::post('/store', [ TagsController::class, 'store' ])->name('store');
+		Router::get('/edit/{tag}', [ TagsController::class, 'edit' ])->name('edit');
+		Router::post('/update/{tag}', [ TagsController::class, 'update' ])->name('update');
+		Router::post('/delete/{tag}', [ TagsController::class, 'delete' ])->name('delete');
+		Router::post('/import', [ TagsController::class, 'import' ])->name('import');
 	});
 
 	Router::bunch('/subscriptions', ['as' => 'subscriptions.'], function() {
