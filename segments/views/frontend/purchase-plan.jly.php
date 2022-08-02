@@ -41,7 +41,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label>Your Email: <small>This email will use as your primary email for your account login</small></label>
-                                        <input type="text" class="form-control" name="user_email" placeholder="Enter Your Email" required>
+                                        <input type="text" class="form-control" name="user_email" placeholder="Enter Your Email">
                                     </div>
                                 </div>
                             </div>
@@ -101,10 +101,12 @@ $(document).ready(function() {
                         $('#messages').append('<p align="center" style="color:red;">'+error+'</p>');
                     });
                 } else {
-                    $(formObj)[0].reset();
-                    $('#messages').append('<p align="center" style="color:green;">'+response.message+'</p>');
                     if(response.status == 200) {
+                        $(formObj)[0].reset();
+                        $('#messages').append('<p align="center" style="color:green;">'+response.message+'</p>');
                         window.location.href = response.redirectUrl;
+                    } else {
+                        $('#messages').append('<p align="center" style="color:red;">'+response.message+'</p>');
                     }
                 }
                 $(btnObj).html('Purchase Now');

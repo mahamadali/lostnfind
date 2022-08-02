@@ -6,6 +6,7 @@ use Bones\Request;
 use Models\Category;
 use Models\PurchasePlanRequest;
 use Models\Subscription;
+use Models\Tag;
 
 class PurchasePlanController 
 {
@@ -24,11 +25,18 @@ class PurchasePlanController
         $validator = $request->validate([
 			'user_email' => 'required',
             'category' => 'required'
-		]);
+		],[
+            'user_email.required' => 'Email is required'
+        ]);
 
 		if ($validator->hasError()) {
 			return response()->json(['status' => 304, 'errors' => $validator->errors()]);
 		}
+
+        $tag = Tag::where('category_id', $request->category)->where('is_locked', 0)->first();
+        if(empty($tag)) {
+            return response()->json(['status' => 301, 'message' => 'Sorry currently tag for this category is not available.']);
+        }
 
         $checkEntryAlreadyExist = PurchasePlanRequest::where('email', $request->user_email)->where('category_id', $request->category)->first();
         

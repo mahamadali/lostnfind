@@ -71,14 +71,11 @@ class TagsController
 			return redirect()->withFlashError(implode('<br>', $validator->errors()))->with('old', $request->all())->back();
 		}
 
-		$tagData = $request->getOnly(['category_id', 'tag_number']);
-        
+		$tag->category_id = $request->category_id;
+		$tag->tag_number = $request->tag_number;
+        $tag->save();
 
-		if ($tag->update($tagData)) {
-			return redirect()->withFlashSuccess('Tag updated successfully!')->with('old', $request->all())->back();
-		} else {
-			return redirect()->withFlashError('Oops! Something went wrong!')->back();
-		}
+		return redirect()->withFlashSuccess('Tag updated successfully!')->with('old', $request->all())->back();
 	}
 
 	public function delete(Request $request, Tag $tag)
