@@ -172,6 +172,7 @@ var myDropzoneNewCollection = new Dropzone(".upload_item_images", {
     // formData.append('name', $( '#create-item-form' ).find('input[name="name"]').val());
     tinyMCE.get("description").save();
     formData.append( "data", JSON.stringify($( '#create-item-form' ).serializeArray()));
+    formData.append('prevent_csrf_token', '{{ prevent_csrf_token() }}');
     },
 });
 

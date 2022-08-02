@@ -210,7 +210,8 @@ $(document).ready(function(){
       url: '{{ route("user.items.checkTag"); }}',
       type: 'post',
       data: {
-        tag_number: $(this).val()
+        tag_number: $(this).val(),
+        prevent_csrf_token: '{{ prevent_csrf_token() }}',
       },
       dataType: 'json',
       success: function(response) {
