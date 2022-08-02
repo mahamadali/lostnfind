@@ -19,7 +19,7 @@
           <div class="col">
             <div class="form-group">
               <label>Tag Number</label>
-              <input type="hidden" name="category_id" value="{{ $item->category()->first()->id }}">
+              <input type="hidden" name="category_id" value="{{ $item->category()->first()->id }}" data-category_name="{{ $item->category()->first()->title }}">
               <input type="text" class="form-control" value="{{ $item->tag_number }}" readonly>
             </div>
           </div>
@@ -196,7 +196,6 @@ var myDropzoneNewCollection = new Dropzone(".upload_item_images", {
 
     $(document).ready(function() {
         var itemImages = '<?php echo json_encode($item->images, TRUE) ?>';
-        console.log(itemImages);
         $.each(JSON.parse(itemImages), function(key,value) {
             console.log(value);
         fetch(value.full_path)
@@ -206,20 +205,14 @@ var myDropzoneNewCollection = new Dropzone(".upload_item_images", {
         myDropzoneNewCollection.addFile(file);
         });
       });
-
-      $('#category_id').trigger('change');
+      var category = $('input[name="category_id"]').attr("data-category_name");
+      
+        if(category == 'Pets'){
+          $('.pet_section').show();
+        }else{
+          $('.pet_section').hide();
+        }
     });
-
-   
-
-    $('#category_id').change(function(){
-      var category = $(this).find(":selected").text();
-      if(category == 'Pets'){
-        $('.pet_section').show();
-      }else{
-        $('.pet_section').hide();
-      }
-    })
 
    
 
