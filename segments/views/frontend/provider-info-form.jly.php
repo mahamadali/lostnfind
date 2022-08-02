@@ -7,6 +7,10 @@
     #pricing {
         margin-top: 50px;
     }
+    .iti--separate-dial-code
+    {
+        width: 100% !important;
+    }
 </style>
 @endblock
 
@@ -32,8 +36,8 @@
                             <div class="row mt-4">
                                 <div class="col-lg-12">
                                     <div class="form-group mt-3">
-                                        <label>First Name:</label>
-                                        <input type="text" class="form-control" name="first_name" placeholder="Enter First Name">
+                                        <label>Name:</label>
+                                        <input type="text" class="form-control" name="first_name" placeholder="Enter Name">
                                     </div>
                                     <div class="form-group mt-3">
                                         <label>Email:</label>
@@ -41,7 +45,8 @@
                                     </div>
                                     <div class="form-group mt-3">
                                         <label>Phone Number :</label>
-                                        <input type="text" class="form-control" name="phone" placeholder="Enter Phone Number">
+                                        <input type="hidden" name="country_code" id="country_code">
+                                        <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter Phone Number">
                                     </div>
                                     <!-- <div class="form-group mt-3">
                                         <label>Address :</label>
@@ -106,6 +111,33 @@ $(document).ready(function() {
             }
         })
     });
-})
+});
+
+function getIp(callback) {
+  fetch("https://ipinfo.io/json?token=ee9dceccd60e6f", {
+    headers: { Accept: "application/json" },
+  })
+    .then((resp) => resp.json())
+    .catch(() => {
+      return {
+        country: "us",
+      };
+    })
+    .then((resp) => callback(resp.country));
+}
+
+var phoneInputField = document.querySelector("#phone");
+const phoneInput = window.intlTelInput(phoneInputField, {
+    initialCountry: "auto",
+    separateDialCode: true,
+    geoIpLookup:getIp,
+    autoPlaceholder: "aggressive",
+    nationalMode: true,
+    utilsScript: "{{ url('assets/js/utils.js') }}",
+});
+
+phoneInputField.addEventListener("countrychange",function() {
+  $('#country_code').val(phoneInput.getSelectedCountryData()['dialCode']);
+});
 </script>
 @endblock

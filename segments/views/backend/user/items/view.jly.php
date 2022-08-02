@@ -23,19 +23,18 @@
         <div class="card-body">
             <div class="row">
             <div class="col-lg-4">
-                <div class=" text-center pb-4">
-                @if(!empty($item->images[0])):
-                  <img src="{{ url($item->images[0]->path) }}" alt="profile" class="mb-3" width="200" height="200"/>
-                @endif
-               
-                
                 <div class="mb-3">
                     <h3>{{ $item->name  }}</h3>
                     <div class="d-flex align-items-center justify-content-center">
                     </div>
                 </div>
-                
-                </div>
+                <div class=" text-center pb-4">
+                @if(!empty($item->images[0])):
+                  @foreach($item->images as $itemImage): 
+                  <img src="{{ url($itemImage->path) }}" alt="profile" class="mb-3" width="100" height="100"/>
+                  @endforeach
+                @endif
+               </div>
             </div>
             <div class="col-lg-8">
               <div class="card">

@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="<?php echo url('assets/vendors/css/vendor.bundle.base.css'); ?>">
     <link rel="stylesheet" href="<?php echo url('assets/css/vertical-layout-light/style.css'); ?>">
     <link rel="stylesheet" href="<?php echo url('assets/vendors/dataTables.net-bs4/dataTables.bootstrap4.css'); ?>">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
     
 
     <link rel="shortcut icon" href="<?php echo url(company()->logo); ?>" />
@@ -307,8 +307,8 @@
     <script src="<?php echo url('assets/js/tabs.js'); ?>"></script>
     <script src="<?php echo url('assets/vendors/datatables.net/jquery.dataTables.js'); ?>"></script>
     <script src="<?php echo url('assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js'); ?>"></script>
-
     
+    <script src="<?php echo url('assets/js/js-intlTelInput.min.js'); ?>"></script>
     
 
     <script type="text/javascript">

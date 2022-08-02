@@ -90,6 +90,7 @@ class HomeController
         $notify->item_id = $item->id;
         $notify->first_name = $request->first_name;
         $notify->email = $request->email;
+        $notify->country_code = $request->country_code;
         $notify->phone = $request->phone;
         // $notify->address = $request->address;
         $notify->save();
@@ -98,7 +99,7 @@ class HomeController
         $message = str_replace("{{first_name}}", $request->first_name,$template->content);
         $message = str_replace("{{category}}", $item->category->title,$message);
         $message = str_replace("{{item}}", $item->name,$message);
-        $message = str_replace("{{phone}}", $request->phone,$message);
+        $message = str_replace("{{phone}}", "+".$request->country_code.$request->phone,$message);
 
         $messageSetting = SmsSetting::first();
         

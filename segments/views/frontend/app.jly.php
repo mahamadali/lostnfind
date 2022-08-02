@@ -22,6 +22,7 @@
         <link href="{{ url('assets/frontend/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
         <link href="{{ url('assets/frontend/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
         <link href="{{ url('assets/frontend/vendor/aos/aos.css') }}" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
 
         <!-- Template Main CSS File -->
         <link href="{{ url('assets/frontend/css/main.css') }}" rel="stylesheet">
@@ -49,6 +50,7 @@
         <script src="{{ url('assets/frontend/vendor/swiper/swiper-bundle.min.js') }}"></script>
         <script src="{{ url('assets/frontend/vendor/aos/aos.js') }}"></script>
         <script src="{{ url('assets/frontend/vendor/php-email-form/validate.js') }}"></script>
+        <script src="{{ url('assets/js/js-intlTelInput.min.js') }}"></script>
 
         <!-- Template Main JS File -->
         <script src="{{ url('assets/frontend/js/main.js') }}"></script>

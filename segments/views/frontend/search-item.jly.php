@@ -49,16 +49,36 @@
                     <div class="col-lg-4">
                         <div class=" text-center pb-4">
                         
-                        @if(!empty($item->images[0])):
-                        <img src="{{ url($item->images[0]->path) }}" alt="profile" class="mb-3" width="200" height="200"/>
-                        @endif
-                    
-                        
-                        <div class="mb-3">
+                        <div class="">
                             <h3>{{ $item->name  }}</h3>
                             <div class="d-flex align-items-center justify-content-center">
                             </div>
                         </div>
+
+                        @if(!empty($item->images[0])):
+                            <div id="carouselItemImages" class="carousel carousel-dark slide" data-bs-ride="carousel" style="padding: 30px;">
+                            <div class="carousel-indicators">
+                                @foreach($item->images as $key1 => $itemImage): 
+                                    <button type="button" data-bs-target="#carouselItemImages" data-bs-slide-to="{{ $key1 }}" class="{{ $key1 == 0 ? 'active' : '' }}" aria-current="true" aria-label="Slide {{ $key1+1 }}"></button>
+                                @endforeach
+                            </div>
+                            <div class="carousel-inner">
+                                @foreach($item->images as $key2 => $itemImage):
+                                    <div class="carousel-item {{ $key2 == 0 ? 'active' : '' }}">
+                                        <img src="{{ url($itemImage->path) }}" class="d-block w-100" alt="...">
+                                    </div>
+                                @endforeach
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselItemImages" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselItemImages" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                            </div>
+                        @endif
                         
                         </div>
                     </div>

@@ -75,19 +75,19 @@ function getIp(callback) {
     .then((resp) => callback(resp.country));
 }
 
-  var phoneInputField = document.querySelector("#contact");
-  const phoneInput = window.intlTelInput(phoneInputField, {
-      initialCountry: "auto",
-      separateDialCode: true,
-      geoIpLookup:getIp,
-      autoPlaceholder: "aggressive",
-      nationalMode: true,
-      utilsScript: "{{ url('assets/js/utils.js') }}",
-  });
+var phoneInputField = document.querySelector("#contact");
+const phoneInput = window.intlTelInput(phoneInputField, {
+    initialCountry: "auto",
+    separateDialCode: true,
+    geoIpLookup:getIp,
+    autoPlaceholder: "aggressive",
+    nationalMode: true,
+    utilsScript: "{{ url('assets/js/utils.js') }}",
+});
 
-  phoneInputField.addEventListener("countrychange",function() {
-    $('#country_code').val(phoneInput.getSelectedCountryData()['dialCode']);
-  });
+phoneInputField.addEventListener("countrychange",function() {
+  $('#country_code').val(phoneInput.getSelectedCountryData()['dialCode']);
+});
 
 </script>
 
