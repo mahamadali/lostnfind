@@ -318,3 +318,12 @@ if (!function_exists('locker_path')) {
         return pathWith('locker', $path);
     }
 }
+
+if (!function_exists('prevent_csrf_token')) {
+    function prevent_csrf_token()
+    {
+        $prevent_csrf_token = md5(uniqid(mt_rand(), true));
+        session()->appendSet('prevent_csrf_token', $prevent_csrf_token, true);
+        return $prevent_csrf_token;
+    }
+}

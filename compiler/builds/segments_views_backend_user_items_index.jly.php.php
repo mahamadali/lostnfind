@@ -284,6 +284,7 @@
                     <span><i class="ti-pencil"></i></span>
                   </a>
                   <form method="post" action="<?php echo route('user.items.delete', ['item' => $item->id]); ?>" class="d-inline-block">
+                  <?php echo prevent_csrf(); ?>
                     <input type="hidden" name="_method" value="DELETE" />
                     <button type="submit" class="btn btn-sm btn-danger">
                       <span><i class="ti-trash"></i></span>

@@ -15,8 +15,7 @@
     <div class="card-body">
       <div class="error-messages"></div>
       <form method="post" action="{{ route('user.items.store') }}" id="create-item-form" enctype="multipart/form-data">
-      {{ prevent_csrf() }}
-        <div class="row">
+      <div class="row">
           <div class="col">
             <div class="form-group">
               <label>Tag Number</label>
@@ -171,6 +170,7 @@ var myDropzoneNewCollection = new Dropzone(".upload_item_images", {
     // formData.append('name', $( '#create-item-form' ).find('input[name="name"]').val());
     tinyMCE.get("description").save();
     formData.append( "data", JSON.stringify($( '#create-item-form' ).serializeArray()));
+    formData.append('prevent_csrf_token', '{{ prevent_csrf_token() }}');
     },
 });
 
