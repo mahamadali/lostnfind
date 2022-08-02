@@ -23,6 +23,7 @@
         <link href="<?php echo url('assets/frontend/vendor/glightbox/css/glightbox.min.css'); ?>" rel="stylesheet">
         <link href="<?php echo url('assets/frontend/vendor/swiper/swiper-bundle.min.css'); ?>" rel="stylesheet">
         <link href="<?php echo url('assets/frontend/vendor/aos/aos.css'); ?>" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
 
         <!-- Template Main CSS File -->
         <link href="<?php echo url('assets/frontend/css/main.css'); ?>" rel="stylesheet">
@@ -85,7 +86,7 @@
           <p data-aos="fade-up" data-aos-delay="100"><?php echo company()->info; ?></p>
 
           <form action="<?php echo route('frontend.search'); ?>" id="search-tag-form" class="form-search d-flex align-items-stretch mb-3" data-aos="fade-up" data-aos-delay="200">
-            <input type="text" name="tag" class="form-control" placeholder="Enter TAG #">
+            <input type="text" name="tag" class="form-control" placeholder="Enter TAG #" autocomplete="off">
             <button type="submit" class="btn btn-primary">Search</button>
           </form>
 
@@ -522,6 +523,7 @@
         <script src="<?php echo url('assets/frontend/vendor/swiper/swiper-bundle.min.js'); ?>"></script>
         <script src="<?php echo url('assets/frontend/vendor/aos/aos.js'); ?>"></script>
         <script src="<?php echo url('assets/frontend/vendor/php-email-form/validate.js'); ?>"></script>
+        <script src="<?php echo url('assets/js/js-intlTelInput.min.js'); ?>"></script>
 
         <!-- Template Main JS File -->
         <script src="<?php echo url('assets/frontend/js/main.js'); ?>"></script>

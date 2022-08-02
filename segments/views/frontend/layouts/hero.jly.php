@@ -7,7 +7,7 @@
           <p data-aos="fade-up" data-aos-delay="100">{{ company()->info }}</p>
 
           <form action="{{ route('frontend.search') }}" id="search-tag-form" class="form-search d-flex align-items-stretch mb-3" data-aos="fade-up" data-aos-delay="200">
-            <input type="text" name="tag" class="form-control" placeholder="Enter TAG #">
+            <input type="text" name="tag" class="form-control" placeholder="Enter TAG #" autocomplete="off">
             <button type="submit" class="btn btn-primary">Search</button>
           </form>
 
