@@ -37,6 +37,7 @@
                     <div class="card-body">
                         <h5>Submit Below Information: </h5>
                         <form method="post" action="{{ route('purchase-plan.process', ['plan' => $plan->id]) }}" id="process-purchsase-plan-form">
+                            {{ prevent_csrf() }}
                             <div class="row mt-4">
                                 <div class="col-lg-12">
                                     <div class="form-group">

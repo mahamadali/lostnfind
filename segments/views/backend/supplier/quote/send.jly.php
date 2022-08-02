@@ -8,6 +8,7 @@
 @block("content")
 
 <form method="post" action="{{ url('supplier/quote/'.$quote->id.'/save') }}" name="save-quote-prices" enctype="multipart/form-data">
+{{ prevent_csrf() }}
 
 <div class="card card-inverse-light-with-black-text flatten-border">
   <div class="card-header">

@@ -2,6 +2,7 @@
 
 namespace Bones;
 
+use Barriers\System\PreventCSRFToken;
 use Bones\Str;
 use Bones\Request;
 use Bones\Session;
@@ -133,7 +134,7 @@ class Router
                     return self::setError(404);
 
                 $callback = self::$routes[$matchedRoute['route']]['callback'];
-                if (!self::validateMethod(self::$routes[$matchedRoute['route']])) {
+                if (!self::validateRequest(self::$routes[$matchedRoute['route']])) {
                     return self::setError(402);
                 }
                 
@@ -165,7 +166,7 @@ class Router
             }
         } else {
             $callback = self::$routes[$route]['callback'];
-            if (!self::validateMethod(self::$routes[$route])) {
+            if (!self::validateRequest(self::$routes[$route])) {
                 return self::setError(402);
             }
             if ($callback instanceof Closure) {
@@ -191,7 +192,7 @@ class Router
         }
     }
 
-    public static function validateMethod(array $route = [])
+    public static function validateRequest(array $route = [])
     {
         if ($route['method'] == 'any') return true;
         $isValid = true;
@@ -200,7 +201,38 @@ class Router
             if ($method !== strtoupper($_SERVER['REQUEST_METHOD'])) {
                 $isValid = false;
             }
+
+            if (!in_array($method, ['GET', 'POST'])) {
+                if (!empty($_REQUEST['_method']) && $method == strtoupper($_REQUEST['_method'])) {
+                    $isValid = true;
+                }
+            }
+
+            if (!in_array($method, ['GET'])) {
+                $preventCSRFTokenBarrierClass = PreventCSRFToken::class;
+                if (class_exists($preventCSRFTokenBarrierClass)) {
+                    $preventCSRFTokenBarrier = new $preventCSRFTokenBarrierClass();
+
+                    // Skip defined $excludeRoutes from csrf-token check
+                    $skipCSRFCheck = false;
+                    if (isset($preventCSRFTokenBarrier->excludeRoutes) && !empty($excludeRoutes = $preventCSRFTokenBarrier->excludeRoutes)) {
+                        foreach ($excludeRoutes as $excludedRoute) {
+                            if (!$skipCSRFCheck && request()->matchesTo($excludedRoute)) {
+                                $skipCSRFCheck = true;
+                            }
+                        }
+                    }
+
+                    if (!$skipCSRFCheck && !$preventCSRFTokenBarrier->check(request())) {
+                        throw new RouteException('Unauthenticated: request denied by ' . $preventCSRFTokenBarrierClass . ' check', 402);
+                    }
+                } else {
+                    throw new RouteException('Unauthenticated: Barriers\System\PreventCSRFToken must exist with check method to prevent CSRF attack', 402);
+                }
+            }
+
         }
+        
         return $isValid;
     }
 
@@ -231,7 +263,20 @@ class Router
                         if (!method_exists($barrierClass, 'check')) {
                             throw new BadMethodException('Method not found: check() method must present in ' . $barrierClass, 404);
                         }
-                        if (!(new $barrierClass())->check(new Request($_REQUEST, $_FILES, $route))) {
+
+                        $barrierObj = new $barrierClass();
+
+                        // Skip defined $excludeRoutes from csrf-token check
+                        $skipBarrierCheck = false;
+                        if (isset($barrierObj->excludeRoutes) && !empty($excludeRoutes = $barrierObj->excludeRoutes)) {
+                            foreach ($excludeRoutes as $excludedRoute) {
+                                if (!$skipBarrierCheck && request()->matchesTo($excludedRoute)) {
+                                    $skipBarrierCheck = true;
+                                }
+                            }
+                        }
+
+                        if (!$skipBarrierCheck && !$barrierObj->check(request())) {
                             throw new RouteException('Unauthenticated: request denied by ' . $barrierClass . ' check', 402);
                         }
                     } else {
@@ -499,11 +544,15 @@ class Router
     {
         if (!is_array($barriers)) return self::$routes[$route];
         foreach ($barriers as $barrier) {
-            $barrier = trim($barrier);
-            if (!empty($barrierAlias = self::findBarrierByName($barrier))) {
-                $barrier = $barrierAlias;
+            if (is_array($barrier)) {
+                self::setBarriers($route, $barrier);
+            } else {
+                $barrier = trim($barrier);
+                if (!empty($barrierAlias = self::findBarrierByName($barrier))) {
+                    $barrier = $barrierAlias;
+                }
+                self::$routes[$route]['barriers'][] = ['name' => $barrier];
             }
-            self::$routes[$route]['barriers'][] = ['name' => $barrier];
         }
         return self::$routes[$route];
     }

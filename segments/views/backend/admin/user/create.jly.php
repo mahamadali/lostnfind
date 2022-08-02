@@ -19,6 +19,7 @@
     </div>
     <div class="card-body">
       <form method="post" action="{{ route('admin.users.store') }}" enctype="multipart/form-data">
+      {{ prevent_csrf() }}
         <div class="row">
           <div class="col">
             <div class="form-group">

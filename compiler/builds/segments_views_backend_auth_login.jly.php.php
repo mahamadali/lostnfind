@@ -47,6 +47,7 @@
 					  <?php } ?>
 
 		              <form class="pt-3" method="post" action="<?php echo route('auth.check.login'); ?>">
+					  <?php echo prevent_csrf(); ?>
 		                <div class="form-group">
 		                  <input type="email" name="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email">
 		                </div>

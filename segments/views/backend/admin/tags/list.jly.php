@@ -48,6 +48,7 @@
                     <span><i class="ti-pencil"></i></span>
                   </a>
                   <form method="post" action="{{ url('admin/tags/delete/'.$tag->id) }}" class="d-inline-block">
+                  {{ prevent_csrf() }}
                     <input type="hidden" name="_method" value="DELETE" />
                     <button type="submit" class="btn btn-sm btn-danger">
                       <span><i class="ti-trash"></i></span>
@@ -72,6 +73,7 @@
 <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
   <div class="modal-dialog">
   <form method="post" action="{{ route('admin.tags.import') }}" enctype="multipart/form-data">
+  {{ prevent_csrf() }}
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="importModalLabel">Import Tags</h5>

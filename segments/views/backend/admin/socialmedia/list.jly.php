@@ -46,6 +46,7 @@
                     <span><i class="ti-pencil"></i></span>
                   </a>
                   <form method="post" action="{{ url('admin/socialmedia/delete/'.$smedia->id) }}" class="d-inline-block">
+                  {{ prevent_csrf() }}
                     <input type="hidden" name="_method" value="DELETE" />
                     <button type="submit" class="btn btn-sm btn-danger">
                       <span><i class="ti-trash"></i></span>

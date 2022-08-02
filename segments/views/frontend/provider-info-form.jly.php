@@ -33,6 +33,7 @@
                     <div class="card-body">
                         <h5>Enter Your Details: </h5>
                         <form method="post" action="{{ route('provider-contact-info.process', ['item' => $item->id]) }}" id="process-purchsase-plan-form">
+                        {{ prevent_csrf() }}
                             <div class="row mt-4">
                                 <div class="col-lg-12">
                                     <div class="form-group mt-3">

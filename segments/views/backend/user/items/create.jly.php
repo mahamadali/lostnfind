@@ -15,6 +15,7 @@
     <div class="card-body">
       <div class="error-messages"></div>
       <form method="post" action="{{ route('user.items.store') }}" id="create-item-form" enctype="multipart/form-data">
+      {{ prevent_csrf() }}
         <div class="row">
           <div class="col">
             <div class="form-group">

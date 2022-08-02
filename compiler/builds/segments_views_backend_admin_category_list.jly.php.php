@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="<?php echo url('assets/vendors/css/vendor.bundle.base.css'); ?>">
     <link rel="stylesheet" href="<?php echo url('assets/css/vertical-layout-light/style.css'); ?>">
     <link rel="stylesheet" href="<?php echo url('assets/vendors/dataTables.net-bs4/dataTables.bootstrap4.css'); ?>">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
     
 
     <link rel="shortcut icon" href="<?php echo url(company()->logo); ?>" />
@@ -275,6 +275,7 @@
                     <span><i class="ti-pencil"></i></span>
                   </a>
                   <form method="post" action="<?php echo url('admin/category/delete/'.$category->id); ?>" class="d-inline-block">
+                    <?php echo prevent_csrf(); ?>
                     <input type="hidden" name="_method" value="DELETE" />
                     <button type="submit" class="btn btn-sm btn-danger">
                       <span><i class="ti-trash"></i></span>
@@ -312,8 +313,8 @@
     <script src="<?php echo url('assets/js/tabs.js'); ?>"></script>
     <script src="<?php echo url('assets/vendors/datatables.net/jquery.dataTables.js'); ?>"></script>
     <script src="<?php echo url('assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js'); ?>"></script>
-
     
+    <script src="<?php echo url('assets/js/js-intlTelInput.min.js'); ?>"></script>
     
 
     <script type="text/javascript">

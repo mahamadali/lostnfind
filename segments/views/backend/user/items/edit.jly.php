@@ -14,6 +14,7 @@
     </div>
     <div class="card-body">
       <form method="post" action="{{ route('user.items.update', ['item' => $item->id]) }}" id="create-item-form" enctype="multipart/form-data">
+      {{ prevent_csrf() }}
         <div class="row">
           <div class="col">
             <div class="form-group">

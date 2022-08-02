@@ -13,6 +13,7 @@
     </div>
     <div class="card-body">
       <form method="post" action="{{ route('admin.socialmedia.update') }}">
+      {{ prevent_csrf() }}
         <input type="hidden" name="id" value="{{ $socialmedia->id }}" />
         <div class="row">
           <div class="col">

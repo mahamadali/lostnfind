@@ -36,7 +36,6 @@ class Request extends Validation
                     $fileObj = [
                         'tmp_name' => $file['tmp_name'][$fileIndex],
                         'name' => $file['name'][$fileIndex],
-                        // 'full_path' => $file['full_path'][$fileIndex],
                         'error' => $file['error'][$fileIndex],
                         'type' => $file['type'][$fileIndex],
                         'size' => $file['size'][$fileIndex]
@@ -100,7 +99,7 @@ class Request extends Validation
             return (!empty($this->files)) ? (array_key_exists($fileName, $this->files) && !empty($this->files[$fileName][0]->file['tmp_name'])) : false;
         }
         else {
-            return (!empty($this->files)) ? (array_key_exists($fileName, $this->files) && !empty($this->files[$fileName]->file['tmp_name'])) : false;   
+            return (!empty($this->files)) ? (array_key_exists($fileName, $this->files) && !empty($this->files[$fileName]->file['tmp_name'])) : false;
         }
     }
 
@@ -202,11 +201,40 @@ class Request extends Validation
      * Get current request page
      * 
      */
-    public function currentPage()
+    public static function currentPage()
     {
         $appSubDir = rtrim(setting('app.sub_dir', ''), '/');
 
         return (Str::startsWith(trim($_SERVER['REQUEST_URI'], '/'), $appSubDir)) ? str_replace($appSubDir, '', trim($_SERVER['REQUEST_URI'], '/')) : $_SERVER['REQUEST_URI'];
+    }
+
+    /**
+     * Check current page matches to pattern
+     * 
+     * @param string $pattern
+     * 
+     * @return bool
+     */
+    public static function matchesTo($pattern)
+    {
+        $currentPage = self::currentPage();
+
+        if ((empty($currentPage) || $currentPage == '/') && $pattern == '/') return true;
+
+        if (!Str::startsWith($pattern, '/')) {
+            $currentPage = ltrim($currentPage, '/');
+        }
+        
+        $currentPageParts = explode('/', $currentPage);
+        $patternParts = explode('/', $pattern);
+
+        foreach ($patternParts as $index => $patternPart) {
+            if ($patternPart != '*' && (!isset($currentPageParts[$index]) || $patternPart != $currentPageParts[$index]))
+                return false;
+        }
+
+        return true;
+
     }
 
     /**

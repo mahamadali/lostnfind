@@ -19,6 +19,7 @@
     </div>
     <div class="card-body">
       <form method="post" action="{{ route('admin.users.update') }}" enctype="multipart/form-data">
+      {{ prevent_csrf() }}
         <input type="hidden" name="id" value="{{ $user->id }}" />
         <div class="row">
           <div class="col">

@@ -13,6 +13,7 @@
     </div>
     <div class="card-body">
       <form method="post" action="{{ route('admin.category.update') }}">
+        {{ prevent_csrf() }}
         <input type="hidden" name="id" value="{{ $category->id }}" />
         <div class="row">
           <div class="col">

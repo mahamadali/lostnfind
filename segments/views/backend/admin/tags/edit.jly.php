@@ -13,6 +13,7 @@
     </div>
     <div class="card-body">
       <form method="post" action="{{ route('admin.tags.update', ['tag' => $tag->id]) }}">
+      {{ prevent_csrf() }}
         <div class="row">
           <div class="col">
             <div class="form-group">

@@ -127,6 +127,15 @@ if (!function_exists('formData')) {
     }
 }
 
+if (!function_exists('prevent_csrf')) {
+    function prevent_csrf()
+    {
+        $prevent_csrf_token = md5(uniqid(mt_rand(), true));
+        session()->appendSet('prevent_csrf_token', $prevent_csrf_token, true);
+        return '<input type="hidden" name="prevent_csrf_token" value="'.$prevent_csrf_token.'" />' . PHP_EOL;
+    }
+}
+
 if (!function_exists('array_column')) {
     function array_column(array $input, $columnKey, $indexKey = null)
     {

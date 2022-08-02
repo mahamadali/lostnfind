@@ -22,6 +22,9 @@ class Session
     {
         if (session_status() === PHP_SESSION_NONE) {
 
+            ini_set('session.cookie_lifetime', setting('session.age', 14400));
+            ini_set('session.gc_maxlifetime', setting('session.age', 14400));
+            
             if ($cacheLimiter !== null) {
                 session_cache_limiter($cacheLimiter);
             }
@@ -72,6 +75,20 @@ class Session
     }
 
     /**
+     * Remove Session variable
+     */
+    public static function remove(string $key, bool $reserved = false): void
+    {
+        if (self::has($key, $reserved)) {
+            if ($reserved) {
+                unset($_SESSION[self::$reservedPrefix.$key]);
+            } else {
+                unset($_SESSION[self::$prefix.$key]);
+            }
+        }
+    }
+
+    /**
      * @param string $key
      * @param $value
      * @param bool optional $reserved 
@@ -91,17 +108,38 @@ class Session
     }
 
     /**
-     * Remove Session variable
+     * Remove specific element from session array
+     * 
+     * @param string $key to remove element from
+     * @param $element to remove
+     * @param bool optional $reserved 
+     * 
+     * @return Session
      */
-    public static function remove(string $key, bool $reserved = false): void
+    public static function removeFromSet(string $key, $element, bool $reserved = false)
     {
-        if (self::has($key, $reserved)) {
-            if ($reserved) {
-                unset($_SESSION[self::$reservedPrefix.$key]);
-            } else {
-                unset($_SESSION[self::$prefix.$key]);
+        $existingSet = (self::has($key, $reserved)) ? self::get($key, $reserved) : [];
+        
+        if (!is_array($existingSet)) {
+            throw new Exception('Session: removeSet() can only be applied on array');
+        }
+
+        $alteredSet = [];
+        if (count($existingSet) == count($existingSet, COUNT_RECURSIVE)) {
+            array_walk($existingSet, function($attribute) use ($element, &$alteredSet) {
+                if ($attribute != $element) {
+                    $alteredSet[] = $attribute;
+                }
+            });
+        } else {
+            foreach ($existingSet as $attribute => $set) {
+                if ($attribute != $element) {
+                    $alteredSet[$attribute] = $set;
+                }
             }
         }
+        
+        return self::set($key, $alteredSet, $reserved);
     }
 
     /**
