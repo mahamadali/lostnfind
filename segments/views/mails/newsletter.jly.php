@@ -4,8 +4,9 @@
 	<tr>
 		<td class="pad">
 			<div style="color:#000000;direction:ltr;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:15px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:18px;">
-				<h5>Hey </h5>
-				<p>Please click below link to active this newsletter email.</p>
+				<h5>Hey</h5>
+				<p>We have received your request to add your email ({{ $email }}) in our newsletters</p>
+				<p>Please click below link to active your newsletter email.</p>
 			</div>
 		</td>
 	</tr>

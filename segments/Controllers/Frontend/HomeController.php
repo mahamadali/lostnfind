@@ -19,19 +19,18 @@ use Models\MessageSetting;
 use Models\SmsSetting;
 use Models\Newsletter;
 use Mail\NewsletterEmail;
+use Models\Advertise;
 
 class HomeController
 {
     public function index()
     {
         $pages = Pages::get();
-        $plans = Subscription::get();
         $faqs = Faq::get();
         $social_icons = SocialMedia::get();
         $categories = Category::where('status', 'Active')->get();
         return render('frontend/home', [
             'pages' => $pages,
-            'plans' => $plans,
             'faqs' => $faqs,
             'social_icons' => $social_icons,
             'categories' => $categories
@@ -43,6 +42,14 @@ class HomeController
         $plans = Subscription::get();
         return render('frontend/pricing', [
             'plans' => $plans
+        ]);
+    }
+
+    public function advertisements()
+    {
+        $advertises = Advertise::get();
+        return render('frontend/advertises', [
+            'advertises' => $advertises
         ]);
     }
 
@@ -177,7 +184,7 @@ class HomeController
         $newsletter->status =  'Active';
         $newsletter->save();
 
-        return redirect( url('/'))->withFlashSuccess('Newsletter Email verified successfully!!')->with('old', $request->all())->go();
+        return redirect( url('/'))->withFlashSuccess('Email has been added in our newsletters successfully!!')->with('old', $request->all())->go();
 
     }
 }

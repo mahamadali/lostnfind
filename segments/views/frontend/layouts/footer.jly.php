@@ -48,7 +48,7 @@
       <div class="input-group mb-3">
           <input type="email" class="form-control"name="email" id="newsletter_email" placeholder="Enter your email..." aria-label="Recipient's username" aria-describedby="basic-addon2">
           <div class="input-group-append">
-            <button type="submit" class="btn btn-primary" style="height: -webkit-fill-available;">Submit</button>
+            <button type="submit" class="btn btn-primary" style="height: -webkit-fill-available;border-radius: 0;">Submit</button>
           </div>
         </div>
       </form> 

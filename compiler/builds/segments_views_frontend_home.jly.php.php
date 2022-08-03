@@ -71,6 +71,7 @@
             </ul>
           </li>
           <li><a href="contact.html">Contact</a></li> -->
+          <li><a href="<?php echo route('frontend.advertisements'); ?>">Advertisements</a></li>
           <li><a class="get-a-quote" href="<?php echo route('frontend.pricing'); ?>">Pricing</a></li>
         </ul>
       </nav><!-- .navbar -->
@@ -238,33 +239,6 @@
       </div>
     </section><!-- End Features Section -->
 
-    <!-- ======= Pricing Section ======= -->
-    <section id="pricing" class="pricing pt-0">
-      <div class="container" data-aos="fade-up">
-
-        <div class="section-header">
-          <span>Pricing</span>
-          <h2>Pricing</h2>
-
-        </div>
-
-        <div class="row gy-4">
-            <?php foreach($plans as $plan) { ?> 
-                <div class="col-lg-4 m-auto" data-aos="fade-up" data-aos-delay="200">
-                    <div class="pricing-item featured">
-                    <h3><?php echo $plan->title; ?> (<?php echo $plan->category->prefix; ?>)</h3>
-                    <h4><sup>$</sup><?php echo $plan->price; ?><span> / <?php echo $plan->days; ?> Days</span></h4>
-                    <p><?php echo $plan->description; ?></p>
-                    <a href="<?php echo route('purchase-plan.index', ['plan' => $plan->id]); ?>" class="buy-btn text-center" style="width:100%;">Purchase Now</a>
-                    </div>
-                </div>
-            <?php } ?>
-        </div>
-
-      </div>
-    </section>
-    <!-- End Pricing Section -->
-
     
 
     <!-- ======= Frequently Asked Questions Section ======= -->
@@ -354,7 +328,7 @@
       <div class="input-group mb-3">
           <input type="email" class="form-control"name="email" id="newsletter_email" placeholder="Enter your email..." aria-label="Recipient's username" aria-describedby="basic-addon2">
           <div class="input-group-append">
-            <button type="submit" class="btn btn-primary" style="height: -webkit-fill-available;">Submit</button>
+            <button type="submit" class="btn btn-primary" style="height: -webkit-fill-available;border-radius: 0;">Submit</button>
           </div>
         </div>
       </form> 

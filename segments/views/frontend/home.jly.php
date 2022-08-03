@@ -93,33 +93,6 @@
       </div>
     </section><!-- End Features Section -->
 
-    <!-- ======= Pricing Section ======= -->
-    <section id="pricing" class="pricing pt-0">
-      <div class="container" data-aos="fade-up">
-
-        <div class="section-header">
-          <span>Pricing</span>
-          <h2>Pricing</h2>
-
-        </div>
-
-        <div class="row gy-4">
-            @foreach($plans as $plan): 
-                <div class="col-lg-4 m-auto" data-aos="fade-up" data-aos-delay="200">
-                    <div class="pricing-item featured">
-                    <h3>{{ $plan->title }} ({{ $plan->category->prefix }})</h3>
-                    <h4><sup>$</sup>{{ $plan->price }}<span> / {{ $plan->days }} Days</span></h4>
-                    <p>{{ $plan->description }}</p>
-                    <a href="{{ route('purchase-plan.index', ['plan' => $plan->id]) }}" class="buy-btn text-center" style="width:100%;">Purchase Now</a>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-
-      </div>
-    </section>
-    <!-- End Pricing Section -->
-
     
 
     <!-- ======= Frequently Asked Questions Section ======= -->

@@ -5,7 +5,7 @@
 @endif
 
 @if (session()->hasFlash('success')):
-  <div class="alert alert-success">
+  <div class="alert alert-success text-center">
     <span>{{ session()->flash('success') }}</span>
   </div>
 @endif

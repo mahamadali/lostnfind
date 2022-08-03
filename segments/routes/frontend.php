@@ -7,6 +7,7 @@ use Controllers\Frontend\PaypalController;
 
 Router::get('/', [ HomeController::class, 'index' ])->name('frontend.home');
 Router::get('/search', [ HomeController::class, 'search' ])->name('frontend.search');
+Router::get('/advertisements', [ HomeController::class, 'advertisements' ])->name('frontend.advertisements');
 Router::get('/pricing', [ HomeController::class, 'pricing' ])->name('frontend.pricing');
 
 Router::bunch('/provider-contact-info', ['as' => 'provider-contact-info.'], function() {
