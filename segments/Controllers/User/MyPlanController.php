@@ -14,7 +14,9 @@ class MyPlanController
         if(count($planRequested) > 0) {
             foreach($planRequested as $key => $planRequest) {
                 $plans[] = $planRequest->plan()->first();
-                $plans[$key]->transaction = $planRequest->user_subscription()->first();
+                $transaction = $planRequest->user_subscription()->first();
+                $plans[$key]->transaction = $transaction;
+                $plans[$key]->api_subscription = ApiSubscriptionDetail($transaction->paypal_subscr_id);
                 $plans[$key]->category = $planRequest->category()->first()->title;
             }
         }

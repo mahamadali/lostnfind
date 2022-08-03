@@ -34,4 +34,5 @@ Router::bunch('/paypal', ['as' => 'paypal.'], function() {
     Router::get('/cancel', [PaypalController::class, 'cancel' ])->name('cancel');
     Router::get('/notify', [PaypalController::class, 'notify' ])->name('notify');
     Router::get('/update-subscriptions', [PaypalController::class, 'update' ])->name('update');
+    Router::get('/reactivate/{usersubscription}', [PaypalController::class, 'reactivate' ])->name('reactivate');
 });

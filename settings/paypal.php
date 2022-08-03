@@ -9,5 +9,6 @@ return [
     'PAYPAL_NOTIFY_URL' => 'http://dev.wisencode.com/webhooks/paypal/notify.php',
     'CLIENT_ID' => 'Abq-FaXMbz8SN40vkWajMWOhxH4Y0-5fqEQGsYZdpiJDHEIUBBJWsxlN4Afc6VnL5pO8haTaFKXYgaTx',
     'SECRET' => 'EF3qqz78XV_xpaN7EGAqDnSBx0-mQ3gMV3IAmAidjnjFEcdXACkik2_JlmEPbmHnsfXMy5A3Fj3ySat_',
+    'API_ENDPOINT' => 'https://api-m.sandbox.paypal.com/v1/billing/subscriptions/',
     'CURRENCY' => 'USD',
 ];
