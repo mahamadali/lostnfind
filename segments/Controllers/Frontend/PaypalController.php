@@ -35,7 +35,7 @@ class PaypalController
         // $raw_post_data = file_get_contents('php://input');
         // file_put_contents('ak.txt', $raw_post_data); 
         // file_put_contents('paypal-ipn.txt', $raw_post_data);
-        $raw_post_data = 'txn_type=subscr_eot&subscr_id=I-C76RD4F8DDBX&last_name=Maknojiya&residence_country=US&item_name=KEY+Plan&mc_currency=USD&business=akbarbusiness121%40gmail.com&verify_sign=AbK7GnyxIaqpRYxVe0z.bXihIBRnAntgtE3GtUv0mSwjPJFaUYs7rEIE&payer_status=verified&test_ipn=1&payer_email=akbarbuyer121%40gmail.com&first_name=AkbarHusen&receiver_email=akbarbusiness121%40gmail.com&payer_id=F6DDYV68BGWU6&item_number=2&payer_business_name=test&custom=15&charset=windows-1252&notify_version=3.9&ipn_track_id=adf2d08b41c84';
+        $raw_post_data = 'amount3=20.95&address_status=confirmed&subscr_date=03%3A37%3A30+Aug+03%2C+2022+PDT&payer_id=PRMKM77KHA6CJ&address_street=1+Main+St&mc_amount3=20.95&charset=windows-1252&address_zip=95131&first_name=Ak&reattempt=1&address_country_code=US&address_name=Ak+Husen&notify_version=3.9&subscr_id=I-W4F73S6TSN2W&custom=2&payer_status=verified&business=akbarbusiness121%40gmail.com&address_country=United+States&address_city=San+Jose&verify_sign=AFd.erwt7VoeoUMr85yut0RloHozAkTVXPeTuoOFj11nZm8NOV3zwUfP&payer_email=akbar-buyer%40gmail.com&last_name=Husen&address_state=CA&receiver_email=akbarbusiness121%40gmail.com&recurring=1&txn_type=subscr_signup&item_name=BIKE+Plan&mc_currency=USD&item_number=5&residence_country=US&test_ipn=1&period3=1+Y&ipn_track_id=78c2c2aace3a4';
         
         // file_put_contents(locker_path('/paypal/ipn.txt'), $raw_post_data);
 
@@ -114,7 +114,7 @@ class PaypalController
                 $item_name = $paypalInfo['item_name']; 
                 $item_number = $paypalInfo['item_number']; 
                 $custom = $paypalInfo['custom']; 
-                $paid_amount = '0.00'; 
+                $paid_amount = $paypalInfo['amount3'] ?? 0.00; 
                 $currency_code = $paypalInfo['mc_currency']; 
                 $payment_status = !empty($paypalInfo['payment_status'])?$paypalInfo['payment_status']:'';
                 $txn_id = ''; 
@@ -125,7 +125,7 @@ class PaypalController
                 $item_name = $paypalInfo['item_name']; 
                 $item_number = $paypalInfo['item_number']; 
                 $custom = $paypalInfo['custom']; 
-                $paid_amount =  !empty($paypalInfo['mc_gross'])?$paypalInfo['mc_gross']:0; 
+                $paid_amount =  !empty($paypalInfo['amount3'])?$paypalInfo['amount3'] : 0.00; 
                 $currency_code = $paypalInfo['mc_currency']; 
                 $payment_status = !empty($paypalInfo['payment_status'])?$paypalInfo['payment_status']:''; 
                 
@@ -148,6 +148,7 @@ class PaypalController
                         $userSubscription->valid_from = $subscr_date;
                         $userSubscription->valid_to = $subscr_date_valid_to;
                         $userSubscription->save();
+                        
                     }elseif($txn_type == 'subscr_payment'){ 
                         $userSubscription->txn_id = $txn_id;
                         $userSubscription->payment_status = $payment_status;
@@ -160,6 +161,9 @@ class PaypalController
                         $tag = Tag::where('category_id', $purchasePlanRequest->category_id)->where('is_locked', 0)->first();
                         $tag->is_locked = 1;
                         $tag->save();
+
+                        $userSubscription->tag_number = $tag->tag_number;
+                        $userSubscription->save();
 
                         Alert::as(new PlanSubscribed($userSubscription, $purchasePlanRequest, $tag))->notify();
                         
@@ -185,7 +189,7 @@ class PaypalController
                         $userSubscription->payment_status = $payment_status;
                         $userSubscription->ipn_track_id = $ipn_track_id;
                         $userSubscription->payment_method = 'paypal';
-                        $userSubscription->save();
+                        $userSubscription = $userSubscription->save();
                         
                         $purchasePlanRequest = PurchasePlanRequest::find($userSubscription->user_id);
                         $purchasePlanRequest->status = 'Active';
@@ -195,6 +199,10 @@ class PaypalController
                         $tag->is_locked = 1;
                         $tag->save();
 
+                        $userSubscription->tag_number = $tag->tag_number;
+                        $userSubscription->status = 'Active';
+                        $userSubscription->save();
+
                         Alert::as(new PlanSubscribed($userSubscription, $purchasePlanRequest, $tag))->notify();
                         Alert::as(new PlanSubscribedAdminNoty($userSubscription, $purchasePlanRequest))->notify();
                     }
@@ -203,5 +211,24 @@ class PaypalController
         } 
         die;
         
+    }
+
+    public function update(Request $request) {
+        $userSubscriptions = UserSubscription::get();
+        foreach($userSubscriptions as $userSubscription) {
+            $subscr_id = $userSubscription->paypal_subscr_id;
+            $subscription_details = ApiSubscriptionDetail($subscr_id);
+            if(!empty($subscription_details)) {
+                $userSubscription->status = $subscription_details->status;
+                if($subscription_details->status != 'ACTIVE') {
+                    $userSubscription->valid_to = date('Y-m-d H:i:s');
+                    $planRequested = $userSubscription->plan_requested_info();
+                    $planRequested->status = 'Inactive';
+                    $planRequested->save();
+                }
+                $userSubscription->save();
+            }
+        }
+        exit;
     }
 }

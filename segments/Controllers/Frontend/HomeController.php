@@ -56,10 +56,9 @@ class HomeController
         $item = Item::where('tag_number', $request->tag)->first();
       
         if(!empty($item)) {
-            $userRequestedPlan = $item->user()->requested_plan();
-           
-        
-            if(empty($userRequestedPlan)) {
+            $transaction = $item->transaction();
+            
+            if($transaction->status != 'ACTIVE') {
                 $item = [];
             }
         }

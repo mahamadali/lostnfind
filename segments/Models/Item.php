@@ -28,4 +28,8 @@ class Item extends Model
         return $this->parallelTo(Category::class, 'category_id')->first();
     }
 
+    public function transaction() {
+        return $this->hasOne(UserSubscription::class, 'tag_number', 'tag_number')->first();
+    }
+
 }

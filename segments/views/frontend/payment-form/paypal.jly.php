@@ -15,8 +15,10 @@
         <input type="hidden" name="a3" id="item_price" value="{{ $plan->price; }}">
         <input type="hidden" name="p3" id="interval_count" value="{{ $planIntervalInfo->interval_count }}">
         <input type="hidden" name="t3" id="interval" value="{{ $planIntervalInfo->interval }}">
+        <input type="hidden" name="src" value="1">
+        <input type="hidden" name="sra" value="1">
 
-        <input type="hidden" name="rm" value="0" />
+        <input type="hidden" name="rm" value="2" />
 
         <!-- Custom variable user ID -->
         <input type="hidden" name="custom" value="{{ $planRequest->id; }}">
