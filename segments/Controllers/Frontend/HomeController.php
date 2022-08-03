@@ -17,6 +17,8 @@ use Models\NotifyItem;
 use Mail\NotifyItemEmail;
 use Models\MessageSetting;
 use Models\SmsSetting;
+use Models\Newsletter;
+use Mail\NewsletterEmail;
 
 class HomeController
 {
@@ -136,5 +138,46 @@ class HomeController
         return response()->json(['status' => 302, 'message' => 'Notification has been sent successfully!']);
         
         
+    }
+
+    public function newsletterStore(Request $request){
+
+        $validator = $request->validate([
+			'email' => 'required|email'
+		]);
+		if ($validator->hasError()) {
+			return response()->json(['status' => 304, 'error' => $validator->errors()[0]]);
+		}
+        $checkEmail = Newsletter::where('email',$request->email)->first();
+        if(!empty($checkEmail)){
+            return response()->json(['status' => 304, 'error' =>'Newsletter Email already exist in this system!']);
+        }
+
+        $newsletter = new Newsletter();
+        $newsletter->email =  $request->email;
+        $newsletter->save();
+
+        Alert::as(new NewsletterEmail($request->email))->notify();
+        return response()->json(['status' => 200, 'message' => 'Email has been sent successfully!']);
+
+    }
+
+    public function verifyNewsletterEmail(Request $request,$email){
+       
+        $checkEmail = Newsletter::where('email',$email)->first();
+        if(!empty($checkEmail)){
+            if($checkEmail->status == 'Active'){
+                return redirect( url('/'))->withFlashError('Already newsletter email verified!!')->with('old', $request->all())->go();
+            }
+        }else{
+            return redirect(url('/'))->withFlashError('Newsletter Email not exist in system!!')->with('old', $request->all())->go();
+        }
+
+        $newsletter = Newsletter::where('email',$email)->first();
+        $newsletter->status =  'Active';
+        $newsletter->save();
+
+        return redirect( url('/'))->withFlashSuccess('Newsletter Email verified successfully!!')->with('old', $request->all())->go();
+
     }
 }
