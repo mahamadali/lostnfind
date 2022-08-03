@@ -29,9 +29,11 @@
         @plot('styles')
     </head>
     <body>
+    
         @include('frontend/layouts/header')
         @plot('hero')
         <main id="main">
+        @include('frontend/layouts/alert')
         @plot('content')
         </main>
         @include('frontend/layouts/footer')
@@ -54,6 +56,44 @@
 
         <!-- Template Main JS File -->
         <script src="{{ url('assets/frontend/js/main.js') }}"></script>
+
+        <script>
+            $(document).ready(function() {
+                $('#newsletter-form').submit(function(e) {
+                    e.preventDefault();
+                    var btnObj = $(this).find('button[type="submit"]');
+                    var formObj = $(this);
+                    $(btnObj).html('Processing...');
+                    $(btnObj).prop('disabled', true);
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        type: 'post',
+                        data: $(this).serializeArray(),
+                        dataType: 'json',
+                        success: function(response) {
+                            $('#messages').html('');
+                            if(response.status == 304) {
+                                $('#messages').append('<p align="center" style="color:red;">'+response.error+'</p>');
+                            } else {
+                                $(formObj)[0].reset();
+                                $('#messages').append('<p align="center" style="color:green;">'+response.message+'</p>');
+                                // if(response.status == 200) {
+                                //     window.location.href = response.redirectUrl;
+                                // }
+                            }
+                            $(btnObj).html('Submit');
+                            $(btnObj).prop('disabled', false);
+                        },
+                        error: function() {
+                            $(btnObj).html('Submit');
+                            $(btnObj).prop('disabled', false);
+                        }
+                    })
+                });
+            });
+            </script>
+
+
         @plot('scripts')
     </body>
 </html>

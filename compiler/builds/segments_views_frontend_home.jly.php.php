@@ -30,6 +30,7 @@
         
     </head>
     <body>
+    
           <!-- ======= Header ======= -->
   <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
@@ -131,6 +132,29 @@
     </div>
   </section><!-- End Hero Section -->
         <main id="main">
+        <?php if(session()->hasFlash('error')) { ?>
+  <div class="alert alert-danger">
+    <span><?php echo session()->flash('error'); ?></span>
+  </div>
+<?php } ?>
+
+<?php if(session()->hasFlash('success')) { ?>
+  <div class="alert alert-success">
+    <span><?php echo session()->flash('success'); ?></span>
+  </div>
+<?php } ?>
+
+<?php if(session()->hasFlash('warning')) { ?>
+  <div class="alert alert-warning">
+    <span><?php echo session()->flash('warning'); ?></span>
+  </div>
+<?php } ?>
+
+<?php if(session()->hasFlash('info')) { ?>
+  <div class="alert alert-info">
+    <span><?php echo session()->flash('info'); ?></span>
+  </div>
+<?php } ?>
         <!-- ======= Services Section ======= -->
     <section id="service" class="services pt-0">
       <div class="container" data-aos="fade-up">
@@ -285,7 +309,7 @@
 
 <div class="container">
   <div class="row gy-4">
-    <div class="col-lg-5 col-md-12 footer-info">
+    <div class="col-lg-3 col-md-12 footer-info">
       <a href="<?php echo url('/'); ?>" class="logo d-flex align-items-center">
         <!-- <span>Logis</span> -->
         <img src="<?php echo url(company()->logo); ?>" height="50">
@@ -298,7 +322,7 @@
       </div>
     </div>
 
-    <div class="col-lg-2 col-6 footer-links">
+    <div class="col-lg-3 col-6 footer-links">
       <h4>Useful Links</h4>
       <ul>
         <?php foreach(pages() as $page) { ?> 
@@ -312,16 +336,7 @@
       </ul>
     </div>
 
-    <div class="col-lg-2 col-6 footer-links">
-      <!-- <h4>Our Services</h4>
-      <ul>
-        <li><a href="#">Web Design</a></li>
-        <li><a href="#">Web Development</a></li>
-        <li><a href="#">Product Management</a></li>
-        <li><a href="#">Marketing</a></li>
-        <li><a href="#">Graphic Design</a></li>
-      </ul> -->
-    </div>
+    
 
     <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
       <h4>Contact Us</h4>
@@ -330,7 +345,24 @@
         <strong>Phone:</strong>  <?php echo company()->phone_number; ?><br>
         <strong>Email:</strong> <?php echo company()->email; ?><br>
       </p>
+    </div>
 
+    <div class="col-lg-3 col-6 footer-links">
+      <h4>Newsletter</h4>
+      <form method="post" action="<?php echo route('newsletter.store'); ?>" id="newsletter-form">
+      <?php echo prevent_csrf(); ?>
+      <div class="input-group mb-3">
+          <input type="email" class="form-control"name="email" id="newsletter_email" placeholder="Enter your email..." aria-label="Recipient's username" aria-describedby="basic-addon2">
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-primary" style="height: -webkit-fill-available;">Submit</button>
+          </div>
+        </div>
+      </form> 
+      <div class="row mt-4">
+          <div class="col-lg-12">
+              <div id="messages"></div>
+          </div>
+      </div>
     </div>
 
   </div>
@@ -340,16 +372,9 @@
   <div class="copyright">
     &copy; Copyright <strong><span><?php echo company()->name; ?></span></strong>. All Rights Reserved
   </div>
-  <!-- <div class="credits"> -->
-    <!-- All the links in the footer should remain intact. -->
-    <!-- You can delete the links only if you purchased the pro version. -->
-    <!-- Licensing information: https://bootstrapmade.com/license/ -->
-    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/logis-bootstrap-logistics-website-template/ -->
-    <!-- Designed by <a href="<?php echo url('/'); ?>">BootstrapMade</a> -->
-  <!-- </div> -->
 </div>
 
-</footer><!-- End Footer -->
+</footer>
 <!-- End Footer -->
         <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
@@ -370,6 +395,44 @@
 
         <!-- Template Main JS File -->
         <script src="<?php echo url('assets/frontend/js/main.js'); ?>"></script>
+
+        <script>
+            $(document).ready(function() {
+                $('#newsletter-form').submit(function(e) {
+                    e.preventDefault();
+                    var btnObj = $(this).find('button[type="submit"]');
+                    var formObj = $(this);
+                    $(btnObj).html('Processing...');
+                    $(btnObj).prop('disabled', true);
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        type: 'post',
+                        data: $(this).serializeArray(),
+                        dataType: 'json',
+                        success: function(response) {
+                            $('#messages').html('');
+                            if(response.status == 304) {
+                                $('#messages').append('<p align="center" style="color:red;">'+response.error+'</p>');
+                            } else {
+                                $(formObj)[0].reset();
+                                $('#messages').append('<p align="center" style="color:green;">'+response.message+'</p>');
+                                // if(response.status == 200) {
+                                //     window.location.href = response.redirectUrl;
+                                // }
+                            }
+                            $(btnObj).html('Submit');
+                            $(btnObj).prop('disabled', false);
+                        },
+                        error: function() {
+                            $(btnObj).html('Submit');
+                            $(btnObj).prop('disabled', false);
+                        }
+                    })
+                });
+            });
+            </script>
+
+
         
     </body>
 </html>

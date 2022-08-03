@@ -17,6 +17,11 @@ Router::bunch('/cms', ['as' => 'cms.'], function() {
 	Router::get('/{page}', [ HomeController::class, 'page' ])->name('page');
 });
 
+Router::bunch('/newsletter', ['as' => 'newsletter.'], function() {
+	Router::post('/store', [ HomeController::class, 'newsletterStore' ])->name('store');
+    Router::get('/verify/{email}', [ HomeController::class, 'verifyNewsletterEmail' ])->name('verify');
+});
+
 Router::bunch('/purchase-plan', ['as' => 'purchase-plan.'], function() {
     Router::bunch('/{plan}', [], function() {
         Router::get('/', [PurchasePlanController::class, 'index' ])->name('index');
@@ -36,3 +41,4 @@ Router::bunch('/paypal', ['as' => 'paypal.'], function() {
     Router::get('/update-subscriptions', [PaypalController::class, 'update' ])->name('update');
     Router::get('/reactivate/{usersubscription}', [PaypalController::class, 'reactivate' ])->name('reactivate');
 });
+
