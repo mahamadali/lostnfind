@@ -35,6 +35,7 @@
 					  @endif
 
 		              <form class="pt-3" method="post" action="{{ route('auth.reset-password.submit', ['user' => $user->id]) }}">
+					  	{{ prevent_csrf() }}
 		                <div class="form-group">
 		                  <input type="password" name="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
 		                </div>
