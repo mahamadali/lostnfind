@@ -103,7 +103,36 @@
                       <div class="media">
                        
                         <div class="media-body">
-                          <p>Plan</p>
+                        <div class="row">
+                              @if(!empty($plans)):
+                                  @foreach($plans as $plan): 
+                                      <div class="col-md-4 mb-4 stretch-card transparent">
+                                          <div class="card card-tale">
+                                          <div class="card-body">
+                                              <p class="fs-30 mb-2">{{ !empty($plan) ? $plan->title : '' }}</p>
+
+                                              <p class="mb-2">{{ $plan->description }}</p>
+                                              
+                                              <p class="mb-5">{{ !empty($plan) ? $plan->days. " Days" : 'No Plan Active' }} </p>
+
+                                              <p class="fs-30 mb-2">{{ $plan->category }}</p>
+
+                                              <p class="mb-2">Plan activated on {{ date('M d, Y', strtotime($plan->transaction->valid_from)) }}</p>
+
+                                              @if(strtotime($plan->transaction->valid_to) > strtotime(date('Y-m-d H:i:s'))):
+                                                  <p class="mb-2">Will expire on {{ date('M d, Y', strtotime($plan->transaction->valid_to)) }}</p>
+                                              @else
+                                                  <p class="mb-4 fs-30 text-pink">Expired!</p>
+                                                  <a href="#" class="btn btn-primary">Renew</a>
+                                              @endif
+                                              
+
+                                          </div>
+                                          </div>
+                                      </div>
+                                  @endforeach
+                              @endif
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -111,21 +140,77 @@
                       <div class="media">
                         
                         <div class="media-body">
-                          <p>
-                             Contact
-                          </p>
-                         
+                          <div class="table-responsive">  
+                            <table id="item-listing" class="table dataTable no-footer">
+                              <thead>
+                                <tr>
+                                  <th>Full Name</th>
+                                  <th>Email</th>
+                                  <th>Contact No.</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              @if ($totalContacts > 0):
+                                @foreach ($additionalContacts as $contact):
+                                <tr>
+                                  <td>{{ $contact->full_name }}</td>
+                                  <td>{{ $contact->email }}</td>
+                                  <td>{{ $contact->contact }}</td>
+                                </tr>
+                                @endforeach
+                              @else
+                                <tr>
+                                  <td colspan="3" class="text-center text-muted">No data found</td>
+                                </tr>
+                              @endif
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
 
                     <div class="tab-pane fade" id="pills-transaction" role="tabpanel" aria-labelledby="pills-transaction-tab">
                       <div class="media">
-                        <div class="media-body">
-                          <p>
-                          Transaction
-                          </p>
-                          
+                        <div class="media-body" style="width: 100%;">
+                          <div class="table-responsive">  
+                              <table id="item-listing" class="table dataTable no-footer">
+                                <thead>
+                                  <tr>
+                                    <th>TX ID</th>
+                                    <th>Subscriber Id</th>
+                                    <th>Payment Method</th>
+                                    <th>Payment Status</th>
+                                    <th>Plan</th>
+                                    <th>Interval</th>
+                                    <th>Start</th>
+                                    <th>End</th>
+                                    <th>Amount</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  @if ($totalTransactions > 0):
+                                    @foreach ($transactions->get() as $transaction):
+                                    <tr>
+                                      <td>{{ $transaction->txn_id }}</td>
+                                      <td>{{ $transaction->paypal_subscr_id }}</td>
+                                      <td>{{ $transaction->payment_method }}</td>
+                                      <td>{{ $transaction->payment_status }}</td>
+                                      <td>{{ $transaction->plan()->title }}</td>
+                                      <td>{{ $transaction->subscr_interval_count }} {{ $transaction->subscr_interval }}</td>
+                                      <td>{{ date('M d, Y', strtotime($transaction->valid_from)) }}</td>
+                                      <td>{{ date('M d, Y', strtotime($transaction->valid_to)) }}</td>
+                                      <td>{{ $transaction->plan()->price }} {{ $transaction->currency_code }}</td>
+                                    </tr>
+                                    @endforeach
+                                  @else
+                                    <tr>
+                                      <td colspan="9" class="text-center text-muted">No data found</td>
+                                    </tr>
+                                  @endif
+                              </tbody>
+                              </table>
+                            </div>
                         </div>
                       </div>
                     </div>

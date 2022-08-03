@@ -11,7 +11,7 @@
       <p>{{ company()->info }}</p>
       <div class="social-links d-flex mt-4">
         @foreach(social_icons() as $icon): 
-            <a href="{{ $icon->url }}" class="{{ $icon->title }}"><i class="bi {{ $icon->icon }}"></i></a>
+            <a href="{{ $icon->url }}" class="{{ $icon->title }}"><img src="{{ url($icon->icon) }}" class="img-fluid" style="border-radius:50%" height="100%" weight="100%"> </a>
         @endforeach
       </div>
     </div>

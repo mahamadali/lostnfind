@@ -96,6 +96,20 @@
         </div>
       </li>
 
+      <li class="nav-item {{ (Bones\Str::contains(request()->currentPage(), '/admin/advertise/')) ? 'active' : '' }}">
+        <a class="nav-link" data-toggle="collapse" href="#advertise" aria-expanded="false" aria-controls="advertise">
+          <i class="ti-list menu-icon"></i>
+          <span class="menu-title">Adveritse</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse {{ (Bones\Str::contains(request()->currentPage(), '/admin/advertise/')) ? 'show' : '' }}" id="advertise">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="{{ route('admin.advertise.create') }}"> Add </a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('admin.advertise.list') }}"> Adveritse </a></li>
+          </ul>
+        </div>
+      </li>
+
       <li class="nav-item {{ (request()->currentPage() == '/admin/smssetting/index') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.smssetting.index') }}">
           <i class="ti-email menu-icon"></i>

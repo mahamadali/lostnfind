@@ -9,6 +9,7 @@ use Controllers\Backend\TagsController;
 use Controllers\Backend\SubscriptionController;
 use Controllers\Backend\SmsSettingController;
 use Controllers\Backend\SocialmediaController;
+use Controllers\Backend\AdvertiseController;
 use Controllers\Backend\FaqController;
 use Controllers\Backend\PagesController;
 use Controllers\Backend\MessageSettingController;
@@ -87,6 +88,16 @@ Router::bunch('/admin', ['as' => 'admin.', 'barrier' => [IsAuthenticated::class]
 		Router::get('/edit/{category}', [ SocialmediaController::class, 'edit' ])->name('edit');
 		Router::post('/update', [ SocialmediaController::class, 'update' ])->name('update');
 		Router::post('/delete/{category}', [ SocialmediaController::class, 'delete' ])->name('delete');
+	});
+
+	
+	Router::bunch('/advertise', ['as' => 'advertise.'], function() {
+		Router::get('/list', [ AdvertiseController::class, 'index' ])->name('list');
+		Router::get('/create', [ AdvertiseController::class, 'create' ])->name('create');
+		Router::post('/store', [ AdvertiseController::class, 'store' ])->name('store');
+		Router::get('/edit/{category}', [ AdvertiseController::class, 'edit' ])->name('edit');
+		Router::post('/update', [ AdvertiseController::class, 'update' ])->name('update');
+		Router::post('/delete/{category}', [ AdvertiseController::class, 'delete' ])->name('delete');
 	});
 
 	Router::bunch('/faq', ['as' => 'faq.'], function() {

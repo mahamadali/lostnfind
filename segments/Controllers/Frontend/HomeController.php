@@ -63,8 +63,19 @@ class HomeController
             }
         }
 
+        $template = MessageSetting::where('title','finditem')->first();
+        if(!empty($item)){
+            $search_message = str_replace("{{item}}", strtoupper($item->category->prefix),$template->content);
+        }else{
+            $search_message = str_replace("{{item}}", 'ITEM',$template->content);
+        }
+        
+
+
+
         return render('frontend/search-item', [
             'item' => $item,
+            'search_message' => $search_message,
         ]);
     }
 

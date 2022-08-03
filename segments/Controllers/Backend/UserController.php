@@ -5,6 +5,7 @@ namespace Controllers\Backend;
 use Bones\Request;
 use Models\Role;
 use Models\User;
+use Models\AdditionalContact;
 
 class UserController
 {
@@ -157,8 +158,30 @@ class UserController
 
 	public function view(Request $request, User $user)
 	{
+
+		$plans = [];
+		$planRequested = $user->requested_plans();
+        if(count($planRequested) > 0) {
+            foreach($planRequested as $key => $planRequest) {
+                $plans[] = $planRequest->plan()->first();
+                $plans[$key]->transaction = $planRequest->user_subscription()->first();
+                $plans[$key]->category = $planRequest->category()->first()->title;
+            }
+        }
+
+		$additionalContacts = AdditionalContact::where('user_id',$user->id)->orderBy('id')->get();
+		$totalContacts = count($additionalContacts);
+
+		$transactions = $user->transactions();
+        $totalTransactions = count($transactions->get());
+
 		return render('backend/admin/user/view', [
-			'user' => $user
+			'user' => $user,
+			'plans' => $plans,
+			'additionalContacts' => $additionalContacts,
+			'totalContacts' => $totalContacts,
+			'transactions' => $transactions,
+            'totalTransactions' => $totalTransactions
 		]);
 	}
 

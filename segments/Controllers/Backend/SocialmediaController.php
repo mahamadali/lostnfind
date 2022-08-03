@@ -25,7 +25,7 @@ class SocialmediaController
 	{
 		$validator = $request->validate([
 			'title' => 'required|min:2|max:30',
-			'icon' => 'required',
+			// 'icon' => 'required',
 			'url' => 'required'
 		]);
 
@@ -34,14 +34,26 @@ class SocialmediaController
 		}
 
 		$socialmediaData = $request->getOnly(['title','icon','url']);
+		
+		if ($request->hasFile('files')) {
+            $files = $request->files('files');
+            foreach($files as $file) {
+                $uploadTo = 'assets/uploads/footermenu/';
+				$uploadAs = 'menu-' . uniqid() . '.' . $file->extension;
+				if ($file->save(pathWith($uploadTo), $uploadAs)) {
+					$socialmediaData['icon'] = $uploadTo . $uploadAs;
+				}
+            }
+		}
 
 		$socialmedia = SocialMedia::create($socialmediaData);
+		
 
 		if (!empty($socialmedia)) {
 			$socialmedia->save();
-			return redirect(route('admin.socialmedia.list'))->withFlashSuccess('Social media footer menu created successfully!')->go();
+			echo json_encode(['status' => 200, 'message' => 'Social media footer menu created successfully!']);
 		} else {
-			return redirect()->withFlashError('Something went wrong!')->back();
+			echo json_encode(['status' => 200, 'message' => 'Something went wrong!']);
 		}
 	}
 
@@ -56,7 +68,7 @@ class SocialmediaController
 	{
 		$validator = $request->validate([
 			'title' => 'required|min:2|max:30',
-			'icon' => 'required',
+			// 'icon' => 'required',
 			'url' => 'required',
 		]);
 
@@ -66,10 +78,21 @@ class SocialmediaController
 
 		$socialmediaData = $request->getOnly(['title','icon','url']);
 
+		if ($request->hasFile('files')) {
+            $files = $request->files('files');
+            foreach($files as $file) {
+                $uploadTo = 'assets/uploads/footermenu/';
+				$uploadAs = 'menu-' . uniqid() . '.' . $file->extension;
+				if ($file->save(pathWith($uploadTo), $uploadAs)) {
+					$socialmediaData['icon'] = $uploadTo . $uploadAs;
+				}
+            }
+		}
+
 		if (SocialMedia::where('id', $request->id)->update($socialmediaData)) {
-			return redirect()->withFlashSuccess('Social media footer menu updated successfully!')->with('old', $request->all())->back();
+			echo json_encode(['status' => 200, 'message' => 'Social media footer menu updated successfully!']);
 		} else {
-			return redirect()->withFlashError('Oops! Something went wrong!')->back();
+			echo json_encode(['status' => 203, 'message' => 'Something went wrong!']);
 		}
 	}
 
