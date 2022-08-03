@@ -35,6 +35,7 @@
 					  @endif
 
 		              <form class="pt-3" method="post" action="{{ route('auth.forgot-password.submit') }}">
+					  	{{ prevent_csrf() }}
 		                <div class="form-group">
 		                  <input type="email" name="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email" required>
 		                </div>

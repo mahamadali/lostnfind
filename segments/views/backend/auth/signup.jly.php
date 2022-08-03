@@ -34,6 +34,7 @@
 					  @endif
 
 		              <form class="pt-3" method="post" action="{{ route('auth.signup-post', ['plan_request' => $planRequest->id]) }}">
+					  	{{ prevent_csrf() }}
                         <div class="form-group">
 		                  <input type="first_name" name="first_name" class="form-control form-control-lg" id="first_name" value="{{ old('first_name') }}" placeholder="First Name">
 		                </div>

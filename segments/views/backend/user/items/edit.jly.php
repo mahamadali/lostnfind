@@ -14,7 +14,7 @@
     </div>
     <div class="card-body">
       <form method="post" action="{{ route('user.items.update', ['item' => $item->id]) }}" id="create-item-form" enctype="multipart/form-data">
-      {{ prevent_csrf() }}
+      
         <div class="row">
           <div class="col">
             <div class="form-group">
@@ -191,7 +191,7 @@ var myDropzoneNewCollection = new Dropzone(".upload_item_images", {
     });
 
     myDropzoneNewCollection.on("successmultiple", function(multiple,xhr) {
-        window.location.href='{{ url("user/items") }}';
+        // window.location.href='{{ url("user/items") }}';
     });
 
     $(document).ready(function() {
