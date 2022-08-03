@@ -25,7 +25,7 @@ class SocialmediaController
 	{
 		$validator = $request->validate([
 			'title' => 'required|min:2|max:30',
-			'icon' => 'required',
+			// 'icon' => 'required',
 			'url' => 'required'
 		]);
 
@@ -34,6 +34,24 @@ class SocialmediaController
 		}
 
 		$socialmediaData = $request->getOnly(['title','icon','url']);
+
+		if ($request->hasFile('files')) {
+            $files = $request->files('files');
+			
+			foreach($files as $file) {
+                $uploadTo = 'assets/uploads/footermenu/';
+				$path = $file['name'];
+				$ext = pathinfo($path, PATHINFO_EXTENSION);
+				$uploadAs = 'menu-' . uniqid() . '.' . $ext;
+				
+				if ($file->save(pathWith($uploadTo), $uploadAs)) {
+					opd($uploadAs);
+					$socialmediaData['icon'] = $uploadTo . $uploadAs;
+				}
+            }
+		}else{
+			return redirect()->withFlashError('Please upload correct icon')->with('old', $request->all())->back();
+		}
 
 		$socialmedia = SocialMedia::create($socialmediaData);
 

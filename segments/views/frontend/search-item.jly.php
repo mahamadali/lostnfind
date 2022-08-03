@@ -27,7 +27,7 @@
         <div class="section-header">
           <span>Search Item</span>
           <h2>Search Item</h2>
-          <p>IF YOU FOUND A PET PLEASE ENTER THE TAG BELOW</p>
+          <p>{{ $search_message }}</p>
 
         </div>
 
