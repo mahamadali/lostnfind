@@ -70,13 +70,13 @@
       maxFilesize: 500,
       paramName: "files", // The name that will be used to transfer the file
       addRemoveLinks: true,
-      uploadMultiple: false,
+      uploadMultiple: true,
       maxFiles: 1,
       parallelUploads: 1, 
       acceptedFiles: ".jpeg,.jpg,.png,.gif,.webp,.bmp,.heic,.tiff",
       sending: function(file, xhr, formData) {
       // var add_watermark_checked = $('.add_watermark').prop("checked") ? 1 : 0;
-      formData.append('title', $( '#create-footermenu-form' ).find('select[name="title"]').val());
+      formData.append('title', $( '#create-footermenu-form' ).find('input[name="title"]').val());
       formData.append('url', $( '#create-footermenu-form' ).find('input[name="url"]').val());
       // formData.append( "data", JSON.stringify($( '#create-footermenu-form' ).serializeArray()));
       formData.append('prevent_csrf_token', '{{ prevent_csrf_token() }}');
@@ -85,9 +85,14 @@
 
   $('#create-footermenu-form').submit(function(e){  
       e.preventDefault();
+     
       if (!myDropzoneNewCollection.files || !myDropzoneNewCollection.files.length) {
           alert('Please Select Picture(s)');
-      } else {
+      }else if($( '#create-footermenu-form' ).find('input[name="title"]').val() == ''){
+          alert('Please enter title');
+      }else if($( '#create-footermenu-form' ).find('input[name="url"]').val() == ''){
+          alert('Please enter url');
+      }else {
           $('#create-footermenu-form').find('button[type="submit"]').html("One moment...beginning to create new item...");
           $('#create-footermenu-form').find('button[type="submit"]').prop('disabled', true);
           e.preventDefault();
@@ -101,7 +106,7 @@
     $('.error-messages').html('');
     var response = $.parseJSON(xhr);
     if(response.status == 200) {
-      window.location.href='{{ url("user/items") }}';
+      window.location.href='{{ url("admin/socialmedia/list") }}';
     } else {
       $('#create-footermenu-form').find('button[type="submit"]').html("Submit");
       $('#create-footermenu-form').find('button[type="submit"]').prop('disabled', false);

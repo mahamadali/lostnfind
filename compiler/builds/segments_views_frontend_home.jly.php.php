@@ -293,7 +293,7 @@
       <p><?php echo company()->info; ?></p>
       <div class="social-links d-flex mt-4">
         <?php foreach(social_icons() as $icon) { ?> 
-            <a href="<?php echo $icon->url; ?>" class="<?php echo $icon->title; ?>"><i class="bi <?php echo $icon->icon; ?>"></i></a>
+            <a href="<?php echo $icon->url; ?>" class="<?php echo $icon->title; ?>"><img src="<?php echo url($icon->icon); ?>" class="img-fluid" style="border-radius:50%" height="100%" weight="100%"> </a>
         <?php } ?>
       </div>
     </div>

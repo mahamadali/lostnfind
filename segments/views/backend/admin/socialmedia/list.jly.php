@@ -39,7 +39,7 @@
               @foreach ($socialmedia as $smedia):
               <tr>
                 <td>{{ $smedia->title }}</td>
-                <td>{{ $smedia->icon }}</td>
+                <td> <img src="{{ url($smedia->icon) }}"></td>
                 <td>{{ $smedia->url }}</td>
                 <td>
                   <a href="{{ url('admin/socialmedia/edit/'.$smedia->id) }}" class="btn btn-sm btn-info">
