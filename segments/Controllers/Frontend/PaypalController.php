@@ -222,6 +222,7 @@ class PaypalController
                 $userSubscription->status = $subscription_details->status;
                 if($subscription_details->status != 'ACTIVE') {
                     $userSubscription->valid_to = date('Y-m-d H:i:s');
+                } else if($subscription_details->status == 'EXPIRED') {
                     $planRequested = $userSubscription->plan_requested_info();
                     $planRequested->status = 'Inactive';
                     $planRequested->save();
@@ -230,5 +231,20 @@ class PaypalController
             }
         }
         exit;
+    }
+
+    public function reactivate(Request $request, UserSubscription $usersubscription) {
+        
+        $response = renew_subscription($usersubscription);
+        if(isset($response->debug_id)) {
+            return redirect()->withFlashError($response->message)->back();
+        }
+        $newDate = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'). ' + '.$usersubscription->subscr_interval_count.' years'));
+        $usersubscription->valid_to = $newDate;
+        $usersubscription->status = 'ACTIVE';
+        $usersubscription->save();
+
+        return redirect(route('user.my-plans.index'))->withFlashSuccess('Plan will reactivate soon.')->go();
+
     }
 }

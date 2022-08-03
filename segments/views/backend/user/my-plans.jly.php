@@ -23,12 +23,14 @@
                     <p class="fs-30 mb-2">{{ $plan->category }}</p>
 
                     <p class="mb-2">Plan activated on {{ date('M d, Y', strtotime($plan->transaction->valid_from)) }}</p>
-
+                    
                     @if(strtotime($plan->transaction->valid_to) > strtotime(date('Y-m-d H:i:s'))):
                         <p class="mb-2">Will expire on {{ date('M d, Y', strtotime($plan->transaction->valid_to)) }}</p>
                     @else
-                        <p class="mb-4 fs-30 text-pink">Expired!</p>
-                        <a href="#" class="btn btn-primary">Renew</a>
+                        <p class="mt-4 mb-4 fs-30 text-pink">{{ $plan->transaction->status }}</p>
+                        @if($plan->api_subscription->status == 'SUSPENDED' && daysDiff($plan->api_subscription->status_update_time) < 30):
+                            <a href="{{ route('paypal.reactivate', ['usersubscription' => $plan->transaction->id]) }}" class="btn btn-primary">Activate</a>
+                        @endif
                     @endif
                     
 
