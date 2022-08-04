@@ -20,7 +20,9 @@
                     
                     <p class="mb-5">{{ !empty($plan) ? $plan->days. " Days" : 'No Plan Active' }} </p>
 
-                    <p class="fs-30 mb-2">{{ $plan->category }}</p>
+                    <p class="fs-30 mb-4">{{ $plan->category }}</p>
+
+                    <p class="fs-30 mb-2">{{ $plan->transaction->tag_number }}</p>
 
                     <p class="mb-2">Plan activated on {{ date('M d, Y', strtotime($plan->transaction->valid_from)) }}</p>
                     
