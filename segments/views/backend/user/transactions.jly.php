@@ -32,7 +32,7 @@
           </thead>
           <tbody>
             @if ($totalTransactions > 0):
-              @foreach ($transactions->get() as $transaction):
+              @foreach (user()->transactions()->get() as $transaction):
               <tr>
                 <td>{{ $transaction->txn_id }}</td>
                 <td>{{ $transaction->paypal_subscr_id }}</td>
