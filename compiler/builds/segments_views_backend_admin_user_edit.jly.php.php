@@ -37,16 +37,19 @@
     <ul class="navbar-nav navbar-nav-right">
       <li class="nav-item nav-profile dropdown">
         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-          <i class="ti-user text-primary"></i> <?php echo auth()->first_name." ".auth()->last_name; ?>
+          <?php if(file_exists(auth()->logo)) { ?>
+            <img src="<?php echo url(auth()->logo); ?>" class="img-fluid" style="height: 34px;width:auto;">
+          <?php } else { ?>
+            <i class="ti-user text-primary"></i>
+          <?php } ?>
+          <?php echo auth()->first_name." ".auth()->last_name; ?>
         </a>
         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
 
-          <?php if(auth()->role->name == 'user') { ?>
           <a class="dropdown-item" href="<?php echo url('user/profile/edit/'.auth()->id); ?>">
             <i class="ti-user text-primary"></i>
             Update Profile 
           </a>
-          <?php } ?>
           <a class="dropdown-item" href="<?php echo route('auth.logout'); ?>">
             <i class="ti-power-off text-primary"></i>
             Logout 

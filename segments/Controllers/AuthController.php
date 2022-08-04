@@ -150,7 +150,7 @@ class AuthController
 				'user' => $user
 			]);
 		} else {
-			return render('defaults/301', ['error' => 'Unauthenticated!']);
+			return render('defaults/301', ['stop_msg' => 'You already used this token to reset password!']);
 		}
 	}
 
@@ -163,8 +163,9 @@ class AuthController
 		if ($validator->hasError()) {
 			return redirect()->withFlashError(implode('<br>', $validator->errors()))->with('old', $request->all())->back();
 		}
-		
-		$user->update(['password' => md5($request->password)]);
+		$user = User::find($user->id);
+		$user->password = md5($request->password);
+		$user->save();
 		return redirect()->to(route('auth.login'))->withFlashSuccess('Password has been changed successfully')->go();
 	}
 }

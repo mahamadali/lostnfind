@@ -10,16 +10,19 @@
     <ul class="navbar-nav navbar-nav-right">
       <li class="nav-item nav-profile dropdown">
         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-          <i class="ti-user text-primary"></i> {{ auth()->first_name." ".auth()->last_name }}
+          @if(file_exists(auth()->logo)):
+            <img src="{{ url(auth()->logo) }}" class="img-fluid" style="height: 34px;width:auto;">
+          @else
+            <i class="ti-user text-primary"></i>
+          @endif
+          {{ auth()->first_name." ".auth()->last_name }}
         </a>
         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
 
-          @if(auth()->role->name == 'user'):
           <a class="dropdown-item" href="{{ url('user/profile/edit/'.auth()->id) }}">
             <i class="ti-user text-primary"></i>
             Update Profile 
           </a>
-          @endif
           <a class="dropdown-item" href="{{ route('auth.logout') }}">
             <i class="ti-power-off text-primary"></i>
             Logout 

@@ -51,9 +51,9 @@ class ItemController
             $column = $value->name;
             $input = $value->value;
 
-            // if($column == 'category_id' && $input == ''){
-            //     return redirect()->withFlashError('category id field is required!')->with('old', $request->all())->back();
-            // }
+            if($column == 'category_id' && $input == ''){
+                return redirect()->withFlashError('category id field is required!')->with('old', $request->all())->back();
+            }
 
             // if($column == 'name' && $input == ''){
             //     return redirect()->withFlashError('name field is required!')->with('old', $request->all())->back();
