@@ -6,5 +6,10 @@ settings/database.php
 composer.lock
 assets/uploads/item
 assets/uploads/company-logos
+assets/uploads/advertise
+assets/uploads/footermenu
+assets/uploads/user-logos
 compiler/builds
 settings/mail.php
+settings/alert.php
+settings/paypal.php
