@@ -67,7 +67,7 @@ class HomeController
         if(!empty($item)) {
             $transaction = $item->transaction();
             
-            if($transaction->status != 'ACTIVE') {
+            if(empty($transaction) || $transaction->status != 'ACTIVE') {
                 $item = [];
             }
         }
