@@ -25,8 +25,8 @@
 
           <div class="col">
             <div class="form-group">
-              <label>Description</label>
-              <textarea  class="form-control" name="description" >{{ old('description') }}</textarea> 
+              <label>Link</label>
+              <input  class="form-control" name="description"  value="{{ old('description') }}"></input> 
             </div>
           </div>
         </div>
@@ -77,7 +77,7 @@
       sending: function(file, xhr, formData) {
       // var add_watermark_checked = $('.add_watermark').prop("checked") ? 1 : 0;
       formData.append('title', $( '#create-advertise-form' ).find('input[name="title"]').val());
-      formData.append('description', $( '#create-advertise-form' ).find('textarea[name="description"]').val());
+      formData.append('description', $( '#create-advertise-form' ).find('input[name="description"]').val());
       // formData.append( "data", JSON.stringify($( '#create-advertise-form' ).serializeArray()));
       formData.append('prevent_csrf_token', '{{ prevent_csrf_token() }}');
       },
@@ -90,7 +90,7 @@
           alert('Please Select Picture(s)');
       }else if($( '#create-advertise-form' ).find('input[name="title"]').val() == ''){
           alert('Please enter title');
-      }else if($( '#create-advertise-form' ).find('textarea[name="description"]').val() == ''){
+      }else if($( '#create-advertise-form' ).find('input[name="description"]').val() == ''){
           alert('Please enter description');
       }else {
           $('#create-advertise-form').find('button[type="submit"]').html("One moment...beginning to create new item...");

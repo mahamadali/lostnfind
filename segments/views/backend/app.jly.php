@@ -25,6 +25,7 @@
             <div class="main-panel">
                 <div class="content-wrapper">
                     @include('backend/layouts/alerts')
+                    @include('backend/layouts/advertise')
                     @plot('content')
                 </div>
                 @include('backend/layouts/footer')

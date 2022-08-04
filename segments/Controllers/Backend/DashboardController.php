@@ -12,6 +12,7 @@ class DashboardController
 {
 	public function index(Request $request)
 	{
+		
 		$total_users = count(User::whereHas('role', function($query) {
 			return $query->where('name', 'user');
 		})->where('status', 'Active')->get());
@@ -21,7 +22,7 @@ class DashboardController
 		$total_tags = count(Tag::get());
 
 		$total_items = count(Item::where('status', 'Active')->get());
-
+		
 		return render('backend/admin/dashboard', [
 			'total_users' => $total_users,
 			'total_categories' => $total_categories,

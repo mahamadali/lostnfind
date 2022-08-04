@@ -130,6 +130,13 @@
           <span class="menu-title">Renewal Mail Setting</span>
         </a>
       </li>
+
+      <li class="nav-item {{ (request()->currentPage() == '/admin/newsletter/index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.newsletter.list') }}">
+          <i class="ti-user menu-icon"></i>
+          <span class="menu-title">Newsletter List</span>
+        </a>
+      </li>
     @endif
     @if (auth()->role->name == 'user'):
       <li class="nav-item {{ (request()->currentPage() == '/user/dashboard') ? 'active' : '' }}">

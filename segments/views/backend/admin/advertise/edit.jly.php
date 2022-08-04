@@ -26,8 +26,8 @@
 
           <div class="col">
             <div class="form-group">
-              <label>Description</label>
-              <textarea  class="form-control" name="description" >{{ $advertise->description }}</textarea> 
+              <label>Link</label>
+              <input  class="form-control" name="description" value="{{ $advertise->description }}"></input> 
             </div>
           </div>
         </div>
@@ -84,7 +84,7 @@ var myDropzoneNewCollection = new Dropzone(".upload_item_images", {
     // formData.append('name', $( '#create-advertise-form' ).find('input[name="name"]').val());
     formData.append('id', $( '#create-advertise-form' ).find('input[name="id"]').val());
     formData.append('title', $( '#create-advertise-form' ).find('input[name="title"]').val());
-    formData.append('description', $( '#create-advertise-form' ).find('textarea[name="description"]').val());  
+    formData.append('description', $( '#create-advertise-form' ).find('input[name="description"]').val());  
     // formData.append( "data", JSON.stringify($( '#create-advertise-form' ).serializeArray()));
     formData.append('prevent_csrf_token', '{{ prevent_csrf_token() }}');
     },
@@ -96,7 +96,7 @@ var myDropzoneNewCollection = new Dropzone(".upload_item_images", {
             alert('Please Select Picture(s)');
         }else if($( '#create-advertise-form' ).find('input[name="title"]').val() == ''){
           alert('Please enter title');
-        }else if($( '#create-advertise-form' ).find('textarea[name="description"]').val() == ''){
+        }else if($( '#create-advertise-form' ).find('input[name="description"]').val() == ''){
             alert('Please enter description');
         } else {
             $('#create-advertise-form').find('button[type="submit"]').html("One moment...beginning to create new item...");
