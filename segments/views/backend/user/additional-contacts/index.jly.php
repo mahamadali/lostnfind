@@ -21,7 +21,7 @@
           </a>
         </div>
       </div>
-        <table class="table">
+        <table class="table table-responsive">
           <thead>
             <tr>
               <th>Full Name</th>
@@ -36,7 +36,7 @@
               <tr>
                 <td>{{ $contact->full_name }}</td>
                 <td>{{ $contact->email }}</td>
-                <td>{{ $contact->contact }}</td>
+                <td>{{ formatPhoneNumber($contact->contact) }}</td>
                 <td>
                   <a href="{{ url('user/additional-contacts/edit/'.$contact->id) }}" class="btn btn-sm btn-info">
                     <span><i class="ti-pencil"></i></span>

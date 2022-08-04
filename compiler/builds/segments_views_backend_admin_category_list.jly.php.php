@@ -153,6 +153,20 @@
         </div>
       </li>
 
+      <li class="nav-item <?php echo (Bones\Str::contains(request()->currentPage(), '/admin/advertise/')) ? 'active' : ''; ?>">
+        <a class="nav-link" data-toggle="collapse" href="#advertise" aria-expanded="false" aria-controls="advertise">
+          <i class="ti-list menu-icon"></i>
+          <span class="menu-title">Adveritse</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse <?php echo (Bones\Str::contains(request()->currentPage(), '/admin/advertise/')) ? 'show' : ''; ?>" id="advertise">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="<?php echo route('admin.advertise.create'); ?>"> Add </a></li>
+            <li class="nav-item"> <a class="nav-link" href="<?php echo route('admin.advertise.list'); ?>"> Adveritse </a></li>
+          </ul>
+        </div>
+      </li>
+
       <li class="nav-item <?php echo (request()->currentPage() == '/admin/smssetting/index') ? 'active' : ''; ?>">
         <a class="nav-link" href="<?php echo route('admin.smssetting.index'); ?>">
           <i class="ti-email menu-icon"></i>
@@ -241,9 +255,9 @@
   </div>
 <?php } ?>
                     <div class="row">
-  <div class="col-md-12">
-    <div class="card card-inverse-light-with-black-text flatten-border">
-      <div class="card-header">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
         <div class="row">
           <div class="col-md-2">
             <h6>Categories</h6>
@@ -252,45 +266,48 @@
             <a class="btn btn-md btn-primary float-right" href="<?php echo route('admin.category.create'); ?>">
               Add Category
             </a>
-          </div>
         </div>
-      </div>
-      <div class="card-body">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Prefix</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php if(count($categories) > 0) { ?>
-              <?php foreach($categories as $category) { ?>
+        </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
               <tr>
-                <td><?php echo $category->title; ?></td>
-                <td><?php echo $category->prefix; ?></td>
-                <td>
-                  <a href="<?php echo url('admin/category/edit/'.$category->id); ?>" class="btn btn-sm btn-info">
-                    <span><i class="ti-pencil"></i></span>
-                  </a>
-                  <form method="post" action="<?php echo url('admin/category/delete/'.$category->id); ?>" class="d-inline-block">
-                    <?php echo prevent_csrf(); ?>
-                    <input type="hidden" name="_method" value="DELETE" />
-                    <button type="submit" class="btn btn-sm btn-danger">
-                      <span><i class="ti-trash"></i></span>
-                      </a>
-                  </form>
-                </td>
+                <th>Name</th>
+                <th>Prefix</th>
+                <th>Status</th>
+                <th>Action</th>
               </tr>
+            </thead>
+            <tbody>
+              <?php if(count($categories) > 0) { ?>
+                <?php foreach($categories as $category) { ?>
+                <tr>
+                  <td><?php echo $category->title; ?></td>
+                  <td><?php echo $category->prefix; ?></td>
+                  <td><?php echo $category->status; ?></td>
+                  <td>
+                    <a href="<?php echo url('admin/category/edit/'.$category->id); ?>" class="btn btn-sm btn-info">
+                      <span><i class="ti-pencil"></i></span>
+                    </a>
+                    <form method="post" action="<?php echo url('admin/category/delete/'.$category->id); ?>" class="d-inline-block">
+                      <?php echo prevent_csrf(); ?>
+                      <input type="hidden" name="_method" value="DELETE" />
+                      <button type="submit" class="btn btn-sm btn-danger">
+                        <span><i class="ti-trash"></i></span>
+                        </a>
+                    </form>
+                  </td>
+                </tr>
+                <?php } ?>
+              <?php } else { ?>
+                <tr>
+                  <td colspan="3" class="text-center text-muted">No data found</td>
+                </tr>
               <?php } ?>
-            <?php } else { ?>
-              <tr>
-                <td colspan="3" class="text-center text-muted">No data found</td>
-              </tr>
-            <?php } ?>
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
+        
       </div>
     </div>
   </div>

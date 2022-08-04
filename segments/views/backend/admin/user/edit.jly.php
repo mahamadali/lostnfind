@@ -22,13 +22,13 @@
       {{ prevent_csrf() }}
         <input type="hidden" name="id" value="{{ $user->id }}" />
         <div class="row">
-          <div class="col">
+          <div class="col-md-6">
             <div class="form-group">
               <label>First Name</label>
               <input type="text" class="form-control" name="first_name" value="{{ $user->first_name }}" />
             </div>
           </div>
-          <div class="col">
+          <div class="col-md-6">
             <div class="form-group">
               <label>Last Name</label>
               <input type="text" class="form-control" name="last_name" value="{{ $user->last_name }}" />
@@ -36,14 +36,14 @@
           </div>
         </div>
         <div class="row">
-          <div class="col">
+          <div class="col-md-6">
             <div class="form-group">
               <label>Email</label>
               <input type="email" class="form-control" name="email" value="{{ $user->email }}" @if(auth()->role->name == 'user'): disabled @endif />
             </div>
           </div>
 
-          <div class="col">
+          <div class="col-md-6">
             <div class="form-group">
               <label>Contact Number</label>
               <input type="hidden" name="country_code" id="country_code" value="{{ $user->country_code }}">
@@ -53,13 +53,13 @@
 
         </div>
         <div class="row">
-          <div class="col">
+          <div class="col-md-6">
             <div class="form-group">
               <label>Password</label>
               <input type="password" class="form-control" name="password" />
             </div>
           </div>
-          <div class="col">
+          <div class="col-md-6">
             <div class="form-group">
               <label>Confirm Password</label>
               <input type="password" class="form-control" name="confirm_password" />
@@ -68,13 +68,13 @@
         </div>
 
         <div class="row">
-          <div class="col">
+          <div class="col-md-6">
             <div class="form-group">
               <label>Logo</label>
               <input type="file" class="form-control" name="logo" />
             </div>
           </div>
-          <div class="col">
+          <div class="col-md-6">
               @if(!empty($user->logo)):
               <img src="{{ url($user->logo) }}" height="70" class="mt-2">
               @endif
@@ -82,7 +82,7 @@
         </div>
         
         <div class="row mt-2">
-          <div class="col">
+          <div class="col-md-6">
             <div class="form-group">
               <button type="submit" class="btn btn-primary btn-lg">Save</button>
             </div>

@@ -71,7 +71,7 @@
             </ul>
           </li>
           <li><a href="contact.html">Contact</a></li> -->
-          <li><a href="<?php echo route('frontend.advertisements'); ?>">Advertisements</a></li>
+          <!-- <li><a href="<?php echo route('frontend.advertisements'); ?>">Advertisements</a></li> -->
           <li><a class="get-a-quote" href="<?php echo route('frontend.pricing'); ?>">Pricing</a></li>
         </ul>
       </nav><!-- .navbar -->
@@ -140,7 +140,7 @@
 <?php } ?>
 
 <?php if(session()->hasFlash('success')) { ?>
-  <div class="alert alert-success">
+  <div class="alert alert-success text-center">
     <span><?php echo session()->flash('success'); ?></span>
   </div>
 <?php } ?>

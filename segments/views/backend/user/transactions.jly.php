@@ -16,7 +16,7 @@
           <h4 class="card-title">My Transactions</h4>
         </div>
       </div>
-        <table class="table">
+        <table class="table table-responsive">
           <thead>
             <tr>
               <th>TX ID</th>

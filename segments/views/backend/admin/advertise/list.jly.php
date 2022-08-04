@@ -10,9 +10,9 @@
 @block("content")
 
 <div class="row">
-  <div class="col-md-12">
-    <div class="card card-inverse-light-with-black-text flatten-border">
-      <div class="card-header">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
         <div class="row">
           <div class="col-md-2">
             <h6>Advertises</h6>
@@ -23,9 +23,7 @@
             </a>
           </div>
         </div>
-      </div>
-      <div class="card-body">
-        <table class="table">
+        <table class="table table-responsive">
           <thead>
             <tr>
               <th>Name</th>

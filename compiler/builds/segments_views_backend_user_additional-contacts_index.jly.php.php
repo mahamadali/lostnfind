@@ -268,7 +268,7 @@
           </a>
         </div>
       </div>
-        <table class="table">
+        <table class="table table-responsive">
           <thead>
             <tr>
               <th>Full Name</th>
@@ -283,7 +283,7 @@
               <tr>
                 <td><?php echo $contact->full_name; ?></td>
                 <td><?php echo $contact->email; ?></td>
-                <td><?php echo $contact->contact; ?></td>
+                <td><?php echo formatPhoneNumber($contact->contact); ?></td>
                 <td>
                   <a href="<?php echo url('user/additional-contacts/edit/'.$contact->id); ?>" class="btn btn-sm btn-info">
                     <span><i class="ti-pencil"></i></span>

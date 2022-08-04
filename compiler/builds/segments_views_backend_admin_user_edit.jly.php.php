@@ -158,6 +158,20 @@
         </div>
       </li>
 
+      <li class="nav-item <?php echo (Bones\Str::contains(request()->currentPage(), '/admin/advertise/')) ? 'active' : ''; ?>">
+        <a class="nav-link" data-toggle="collapse" href="#advertise" aria-expanded="false" aria-controls="advertise">
+          <i class="ti-list menu-icon"></i>
+          <span class="menu-title">Adveritse</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse <?php echo (Bones\Str::contains(request()->currentPage(), '/admin/advertise/')) ? 'show' : ''; ?>" id="advertise">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="<?php echo route('admin.advertise.create'); ?>"> Add </a></li>
+            <li class="nav-item"> <a class="nav-link" href="<?php echo route('admin.advertise.list'); ?>"> Adveritse </a></li>
+          </ul>
+        </div>
+      </li>
+
       <li class="nav-item <?php echo (request()->currentPage() == '/admin/smssetting/index') ? 'active' : ''; ?>">
         <a class="nav-link" href="<?php echo route('admin.smssetting.index'); ?>">
           <i class="ti-email menu-icon"></i>
@@ -251,15 +265,16 @@
     </div>
     <div class="card-body">
       <form method="post" action="<?php echo route('admin.users.update'); ?>" enctype="multipart/form-data">
+      <?php echo prevent_csrf(); ?>
         <input type="hidden" name="id" value="<?php echo $user->id; ?>" />
         <div class="row">
-          <div class="col">
+          <div class="col-md-6">
             <div class="form-group">
               <label>First Name</label>
               <input type="text" class="form-control" name="first_name" value="<?php echo $user->first_name; ?>" />
             </div>
           </div>
-          <div class="col">
+          <div class="col-md-6">
             <div class="form-group">
               <label>Last Name</label>
               <input type="text" class="form-control" name="last_name" value="<?php echo $user->last_name; ?>" />
@@ -267,14 +282,14 @@
           </div>
         </div>
         <div class="row">
-          <div class="col">
+          <div class="col-md-6">
             <div class="form-group">
               <label>Email</label>
               <input type="email" class="form-control" name="email" value="<?php echo $user->email; ?>" <?php if(auth()->role->name == 'user') { ?> disabled <?php } ?> />
             </div>
           </div>
 
-          <div class="col">
+          <div class="col-md-6">
             <div class="form-group">
               <label>Contact Number</label>
               <input type="hidden" name="country_code" id="country_code" value="<?php echo $user->country_code; ?>">
@@ -284,13 +299,13 @@
 
         </div>
         <div class="row">
-          <div class="col">
+          <div class="col-md-6">
             <div class="form-group">
               <label>Password</label>
               <input type="password" class="form-control" name="password" />
             </div>
           </div>
-          <div class="col">
+          <div class="col-md-6">
             <div class="form-group">
               <label>Confirm Password</label>
               <input type="password" class="form-control" name="confirm_password" />
@@ -299,13 +314,13 @@
         </div>
 
         <div class="row">
-          <div class="col">
+          <div class="col-md-6">
             <div class="form-group">
               <label>Logo</label>
               <input type="file" class="form-control" name="logo" />
             </div>
           </div>
-          <div class="col">
+          <div class="col-md-6">
               <?php if(!empty($user->logo)) { ?>
               <img src="<?php echo url($user->logo); ?>" height="70" class="mt-2">
               <?php } ?>
@@ -313,7 +328,7 @@
         </div>
         
         <div class="row mt-2">
-          <div class="col">
+          <div class="col-md-6">
             <div class="form-group">
               <button type="submit" class="btn btn-primary btn-lg">Save</button>
             </div>

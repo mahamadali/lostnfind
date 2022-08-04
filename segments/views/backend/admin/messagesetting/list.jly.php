@@ -8,22 +8,20 @@
 @block("content")
 
 <div class="row">
-  <div class="col-md-12">
-    <div class="card card-inverse-light-with-black-text flatten-border">
-      <div class="card-header">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
         <div class="row">
           <div class="col-md-2">
             <h6>Templates</h6>
           </div>
-          <div class="col">
+          <!-- <div class="col">
             <a class="btn btn-md btn-primary float-right" href="{{ route('admin.messagesetting.create') }}">
               Add Template
             </a>
-          </div>
+          </div> -->
         </div>
-      </div>
-      <div class="card-body">
-        <table class="table">
+        <table class="table table-responsive">
           <thead>
             <tr>
               <th>Title</th>
