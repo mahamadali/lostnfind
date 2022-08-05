@@ -191,7 +191,7 @@ var myDropzoneNewCollection = new Dropzone(".upload_item_images", {
     });
 
     myDropzoneNewCollection.on("successmultiple", function(multiple,xhr) {
-        // window.location.href='{{ url("user/items") }}';
+        window.location.href='{{ url("user/items") }}';
     });
 
     $(document).ready(function() {
