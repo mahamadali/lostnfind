@@ -32,16 +32,19 @@
     <ul class="navbar-nav navbar-nav-right">
       <li class="nav-item nav-profile dropdown">
         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-          <i class="ti-user text-primary"></i> <?php echo auth()->first_name." ".auth()->last_name; ?>
+          <?php if(!empty(auth()->logo) && file_exists(auth()->logo)) { ?>
+            <img src="<?php echo url(auth()->logo); ?>" class="img-fluid" style="height: 34px;width:auto;">
+          <?php } else { ?>
+            <i class="ti-user text-primary"></i>
+          <?php } ?>
+          <?php echo auth()->first_name." ".auth()->last_name; ?>
         </a>
         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
 
-          <?php if(auth()->role->name == 'user') { ?>
           <a class="dropdown-item" href="<?php echo url('user/profile/edit/'.auth()->id); ?>">
             <i class="ti-user text-primary"></i>
             Update Profile 
           </a>
-          <?php } ?>
           <a class="dropdown-item" href="<?php echo route('auth.logout'); ?>">
             <i class="ti-power-off text-primary"></i>
             Logout 
@@ -153,6 +156,20 @@
         </div>
       </li>
 
+      <li class="nav-item <?php echo (Bones\Str::contains(request()->currentPage(), '/admin/advertise/')) ? 'active' : ''; ?>">
+        <a class="nav-link" data-toggle="collapse" href="#advertise" aria-expanded="false" aria-controls="advertise">
+          <i class="ti-list menu-icon"></i>
+          <span class="menu-title">Adveritse</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse <?php echo (Bones\Str::contains(request()->currentPage(), '/admin/advertise/')) ? 'show' : ''; ?>" id="advertise">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="<?php echo route('admin.advertise.create'); ?>"> Add </a></li>
+            <li class="nav-item"> <a class="nav-link" href="<?php echo route('admin.advertise.list'); ?>"> Adveritse </a></li>
+          </ul>
+        </div>
+      </li>
+
       <li class="nav-item <?php echo (request()->currentPage() == '/admin/smssetting/index') ? 'active' : ''; ?>">
         <a class="nav-link" href="<?php echo route('admin.smssetting.index'); ?>">
           <i class="ti-email menu-icon"></i>
@@ -171,6 +188,13 @@
         <a class="nav-link" href="<?php echo route('admin.renewalmailsetting.index'); ?>">
           <i class="ti-email menu-icon"></i>
           <span class="menu-title">Renewal Mail Setting</span>
+        </a>
+      </li>
+
+      <li class="nav-item <?php echo (request()->currentPage() == '/admin/newsletter/index') ? 'active' : ''; ?>">
+        <a class="nav-link" href="<?php echo route('admin.newsletter.list'); ?>">
+          <i class="ti-user menu-icon"></i>
+          <span class="menu-title">Newsletter List</span>
         </a>
       </li>
     <?php } ?>
@@ -240,6 +264,34 @@
     <span><?php echo session()->flash('info'); ?></span>
   </div>
 <?php } ?>
+                    <?php if(auth()->role->name == 'user') { ?>
+    <?php if(!empty(advertisements())) { ?>
+    <div id="carouselExampleIndicators" class="carousel slide mb-4" data-ride="carousel" style="border: 10px solid white;">
+        <ol class="carousel-indicators">
+            <?php foreach(advertisements() as $key1 => $itemImage) { ?> 
+                <li data-target="#carouselExampleIndicators" data-slide-to="<?php echo $key1; ?>" class="<?php echo $key1 == 0 ? 'active' : ''; ?>"></li>
+            <?php } ?>
+        </ol>
+        <div class="carousel-inner">
+            <?php foreach(advertisements() as $key => $advertisemnet) { ?>
+            <div class="carousel-item <?php if($key == 0) { ?> active <?php } ?>">
+                <a href="<?php echo $advertisemnet->description; ?>">
+                 <img class="d-block w-100" src="<?php echo url($advertisemnet->image); ?>" alt="<?php echo $advertisemnet->title; ?>" style="max-height: 200px;">
+                </a> 
+            </div>
+            <?php } ?>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <?php } ?>
+<?php } ?>    
                     <div class="content-wrapper">
     <div class="row">
     <div class="col-12">
@@ -339,6 +391,7 @@
                         <div class="row">
                               <?php if(!empty($plans)) { ?>
                                   <?php foreach($plans as $plan) { ?> 
+                                      <?php if($plan->transaction->owner_id == $user->id) { ?>
                                       <div class="col-md-4 mb-4 stretch-card transparent">
                                           <div class="card card-tale">
                                           <div class="card-body">
@@ -363,6 +416,7 @@
                                           </div>
                                           </div>
                                       </div>
+                                    <?php } ?>
                                   <?php } ?>
                               <?php } ?>
                           </div>

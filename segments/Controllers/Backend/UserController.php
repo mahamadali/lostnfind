@@ -70,6 +70,8 @@ class UserController
 					return redirect()->withFlashError('Logo upload failed!')->with('old', $request->all())->back();
 				}
 			}
+		} else {
+			$userData['logo'] = '';
 		}
 
 

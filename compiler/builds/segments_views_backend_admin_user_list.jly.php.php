@@ -265,17 +265,18 @@
   </div>
 <?php } ?>
                     <?php if(auth()->role->name == 'user') { ?>
-    <div id="carouselExampleIndicators" class="carousel slide mb-3" data-ride="carousel" style="border: 10px solid white;">
+    <?php if(!empty(advertisements())) { ?>
+    <div id="carouselExampleIndicators" class="carousel slide mb-4" data-ride="carousel" style="border: 10px solid white;">
         <ol class="carousel-indicators">
-            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            <?php foreach(advertisements() as $key1 => $itemImage) { ?> 
+                <li data-target="#carouselExampleIndicators" data-slide-to="<?php echo $key1; ?>" class="<?php echo $key1 == 0 ? 'active' : ''; ?>"></li>
+            <?php } ?>
         </ol>
         <div class="carousel-inner">
             <?php foreach(advertisements() as $key => $advertisemnet) { ?>
             <div class="carousel-item <?php if($key == 0) { ?> active <?php } ?>">
                 <a href="<?php echo $advertisemnet->description; ?>">
-                 <img class="d-block w-100" src="<?php echo url($advertisemnet->image); ?>" alt="<?php echo $advertisemnet->title; ?>" style="max-height: 600px;">
+                 <img class="d-block w-100" src="<?php echo url($advertisemnet->image); ?>" alt="<?php echo $advertisemnet->title; ?>" style="max-height: 200px;">
                 </a> 
             </div>
             <?php } ?>
@@ -288,7 +289,8 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
-        </div>
+    </div>
+    <?php } ?>
 <?php } ?>    
                     <div class="row">
   <div class="col-md-12 grid-margin stretch-card">

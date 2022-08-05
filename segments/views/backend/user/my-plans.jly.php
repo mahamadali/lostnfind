@@ -21,7 +21,7 @@
                     
                     <p class="mb-5">{{ !empty($plan) ? $plan->days. " Days" : 'No Plan Active' }} </p>
 
-                    <p class="fs-30 mb-4">{{ $plan->category }}</p>
+                    <!-- <p class="fs-30 mb-4">{{ $plan->category }}</p> -->
 
                     <p class="fs-30 mb-2">{{ $plan->transaction->tag_number }}</p>
 
@@ -35,8 +35,6 @@
                             <a href="{{ route('paypal.reactivate', ['usersubscription' => $plan->transaction->id]) }}" class="btn btn-primary">Activate</a>
                         @endif
                     @endif
-                    
-
                 </div>
                 </div>
             </div>
