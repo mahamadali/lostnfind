@@ -27,7 +27,7 @@
             <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
                 <div class="pricing-item featured">
                 <h3>Plan "{{ $plan->title }}" for Category "{{ $planRequestInfo->category()->first()->title }}" is successfully subscribed</h3>
-                <p>You will get <b>tag id</b> in your email soon, so you can use to create an item in your portal</p>
+                <p>You will get <b>TAG ID</b> in your email soon, so you can use to create an item in your portal</p>
                 <p>Enjoy Our Services!</p>
                 </div>
             </div>

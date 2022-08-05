@@ -155,7 +155,7 @@ class PaypalController
                         $userSubscription->save();
 
                         $purchasePlanRequest = PurchasePlanRequest::find($userSubscription->user_id);
-                        $purchasePlanRequest->status = 'Active';
+                        $purchasePlanRequest->status = 'ACTIVE';
                         $purchasePlanRequest->save();
 
                         $tag = Tag::where('category_id', $purchasePlanRequest->category_id)->where('is_locked', 0)->first();
@@ -192,7 +192,7 @@ class PaypalController
                         $userSubscription = $userSubscription->save();
                         
                         $purchasePlanRequest = PurchasePlanRequest::find($userSubscription->user_id);
-                        $purchasePlanRequest->status = 'Active';
+                        $purchasePlanRequest->status = 'ACTIVE';
                         $purchasePlanRequest->save();
 
                         $tag = Tag::where('category_id', $purchasePlanRequest->category_id)->where('is_locked', 0)->first();
@@ -224,7 +224,7 @@ class PaypalController
                     $userSubscription->valid_to = date('Y-m-d H:i:s');
                 } else if($subscription_details->status == 'EXPIRED') {
                     $planRequested = $userSubscription->plan_requested_info();
-                    $planRequested->status = 'Inactive';
+                    $planRequested->status = 'INACTIVE';
                     $planRequested->save();
                 }
                 $userSubscription->save();
