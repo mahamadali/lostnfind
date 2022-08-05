@@ -32,16 +32,19 @@
     <ul class="navbar-nav navbar-nav-right">
       <li class="nav-item nav-profile dropdown">
         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-          <i class="ti-user text-primary"></i> <?php echo auth()->first_name." ".auth()->last_name; ?>
+          <?php if(!empty(auth()->logo) && file_exists(auth()->logo)) { ?>
+            <img src="<?php echo url(auth()->logo); ?>" class="img-fluid" style="height: 34px;width:auto;">
+          <?php } else { ?>
+            <i class="ti-user text-primary"></i>
+          <?php } ?>
+          <?php echo auth()->first_name." ".auth()->last_name; ?>
         </a>
         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
 
-          <?php if(auth()->role->name == 'user') { ?>
           <a class="dropdown-item" href="<?php echo url('user/profile/edit/'.auth()->id); ?>">
             <i class="ti-user text-primary"></i>
             Update Profile 
           </a>
-          <?php } ?>
           <a class="dropdown-item" href="<?php echo route('auth.logout'); ?>">
             <i class="ti-power-off text-primary"></i>
             Logout 
@@ -187,6 +190,13 @@
           <span class="menu-title">Renewal Mail Setting</span>
         </a>
       </li>
+
+      <li class="nav-item <?php echo (request()->currentPage() == '/admin/newsletter/index') ? 'active' : ''; ?>">
+        <a class="nav-link" href="<?php echo route('admin.newsletter.list'); ?>">
+          <i class="ti-user menu-icon"></i>
+          <span class="menu-title">Newsletter List</span>
+        </a>
+      </li>
     <?php } ?>
     <?php if(auth()->role->name == 'user') { ?>
       <li class="nav-item <?php echo (request()->currentPage() == '/user/dashboard') ? 'active' : ''; ?>">
@@ -254,6 +264,32 @@
     <span><?php echo session()->flash('info'); ?></span>
   </div>
 <?php } ?>
+                    <?php if(auth()->role->name == 'user') { ?>
+    <div id="carouselExampleIndicators" class="carousel slide mb-4" data-ride="carousel" style="border: 10px solid white;">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <?php foreach(advertisements() as $key => $advertisemnet) { ?>
+            <div class="carousel-item <?php if($key == 0) { ?> active <?php } ?>">
+                <a href="<?php echo $advertisemnet->description; ?>">
+                 <img class="d-block w-100" src="<?php echo url($advertisemnet->image); ?>" alt="<?php echo $advertisemnet->title; ?>" style="max-height: 200px;">
+                </a> 
+            </div>
+            <?php } ?>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+        </div>
+<?php } ?>    
                     <div class="row">
   <div class="col-md-12 grid-margin">
     <div class="row">

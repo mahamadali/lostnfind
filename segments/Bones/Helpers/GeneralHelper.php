@@ -3,6 +3,7 @@ use Models\Company;
 use Models\Pages;
 use Models\SocialMedia;
 use Models\User;
+use Models\Advertise;
 
 if (! function_exists('generateOTP')) {
     /**
@@ -251,6 +252,14 @@ if (! function_exists('formatPhoneNumber')) {
         }
     
         return $phoneNumber;
+    }
+}
+
+if (! function_exists('advertisements')) {
+    function advertisements()
+    {
+        $advertisements = Advertise::orderBy('id')->get();
+        return $advertisements;
     }
 }
 

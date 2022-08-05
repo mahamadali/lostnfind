@@ -10,7 +10,7 @@
     <ul class="navbar-nav navbar-nav-right">
       <li class="nav-item nav-profile dropdown">
         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-          @if(file_exists(auth()->logo)):
+          @if(!empty(auth()->logo) && file_exists(auth()->logo)):
             <img src="{{ url(auth()->logo) }}" class="img-fluid" style="height: 34px;width:auto;">
           @else
             <i class="ti-user text-primary"></i>

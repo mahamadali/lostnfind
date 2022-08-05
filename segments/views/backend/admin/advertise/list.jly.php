@@ -28,7 +28,7 @@
             <tr>
               <th>Name</th>
               <th>Image</th>
-              <th>Description</th>
+              <th>Link</th>
               <th>Action</th>
             </tr>
           </thead>

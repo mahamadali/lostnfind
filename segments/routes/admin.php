@@ -16,6 +16,7 @@ use Controllers\Backend\MessageSettingController;
 use Controllers\Backend\RenewalMailSettingController;
 use Controllers\AuthController;
 use Barriers\Admin\IsAuthenticated;
+use Controllers\Backend\NewsletterController;
 
 Router::bunch('/admin', ['as' => 'admin.', 'barrier' => [IsAuthenticated::class]], function() {
 	Router::get('/dashboard', [ DashboardController::class, 'index' ])->name('dashboard');
@@ -117,6 +118,12 @@ Router::bunch('/admin', ['as' => 'admin.', 'barrier' => [IsAuthenticated::class]
 		Router::post('/update', [ PagesController::class, 'update' ])->name('update');
 		Router::post('/delete/{category}', [ PagesController::class, 'delete' ])->name('delete');
 	});
+
+	Router::bunch('/newsletter', ['as' => 'newsletter.'], function() {
+		Router::get('/list', [ NewsletterController::class, 'index' ])->name('list');
+	});
+
+	
 
 });
 
