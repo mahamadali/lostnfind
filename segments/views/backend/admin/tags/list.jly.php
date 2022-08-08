@@ -11,7 +11,7 @@
   <div class="col-md-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
-        <div class="row">
+        <div class="row mb-2">
           <div class="col-md-2">
             <h6>Tags</h6>
           </div>
@@ -25,7 +25,8 @@
             </a>
           </div>
         </div>
-        <table class="table table-responsive">
+        <div class="table-responsive">
+        <table class="table datatable">
           <thead>
             <tr>
               <th>Tag Number</th>
@@ -62,6 +63,7 @@
             @endif
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   </div>

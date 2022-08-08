@@ -296,7 +296,7 @@
   <div class="col-md-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
-        <div class="row">
+        <div class="row mb-2">
           <div class="col-md-2">
             <h6>Users</h6>
           </div>
@@ -306,7 +306,8 @@
             </a>
           </div>
         </div>
-        <table class="table table-responsive">
+        <div class="table-responsive">
+        <table class="table datatable">
           <thead>
             <tr>
               <th>Name</th>
@@ -351,6 +352,7 @@
             <?php } ?>
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   </div>
@@ -379,6 +381,15 @@
 
     <script type="text/javascript">
         var APP_BASE_URL = '<?php echo url("/"); ?>';
+        $(document).ready(function() {
+            $("table.datatable").DataTable({
+                "aLengthMenu": [
+                    [5, 10, 15, -1],
+                    [5, 10, 15, "All"]
+                ],
+                "iDisplayLength": 10,
+            });
+        });
     </script>
     
 </body>
