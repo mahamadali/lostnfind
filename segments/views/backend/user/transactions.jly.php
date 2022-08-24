@@ -20,11 +20,11 @@
           <thead>
             <tr>
               <th>TX ID</th>
-              <th>Subscriber Id</th>
+              <th>Payment Id</th>
               <th>Payment Method</th>
               <th>Payment Status</th>
               <th>Plan</th>
-              <th>Interval</th>
+              <!-- <th>Interval</th> -->
               <th>Start</th>
               <th>End</th>
               <th>Amount</th>
@@ -39,7 +39,7 @@
                 <td>{{ $transaction->payment_method }}</td>
                 <td>{{ $transaction->payment_status }}</td>
                 <td>{{ $transaction->plan()->title }}</td>
-                <td>{{ $transaction->subscr_interval_count }} {{ $transaction->subscr_interval }}</td>
+                <!-- <td>{{ $transaction->subscr_interval_count }} {{ $transaction->subscr_interval }}</td> -->
                 <td>{{ date('M d, Y', strtotime($transaction->valid_from)) }}</td>
                 <td>{{ date('M d, Y', strtotime($transaction->valid_to)) }}</td>
                 <td>{{ $transaction->plan()->price }} {{ $transaction->currency_code }}</td>

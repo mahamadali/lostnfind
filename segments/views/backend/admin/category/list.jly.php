@@ -45,8 +45,13 @@
                     <form method="post" action="{{ url('admin/category/delete/'.$category->id) }}" class="d-inline-block">
                       {{ prevent_csrf() }}
                       <input type="hidden" name="_method" value="DELETE" />
-                      <button type="submit" class="btn btn-sm btn-danger">
-                        <span><i class="ti-trash"></i></span>
+                      <button type="submit" class="btn btn-sm @if($category->status == 'active'): btn-danger @else btn-success  @endif">
+                        @if($category->status == 'active'):
+                          <span>Inactive</span>
+                        @else
+                          <span>Active</span>
+                        @endif
+                        
                         </a>
                     </form>
                   </td>

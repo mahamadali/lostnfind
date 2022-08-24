@@ -36,10 +36,13 @@ Router::bunch('/purchase-plan', ['as' => 'purchase-plan.'], function() {
 });
 
 Router::bunch('/paypal', ['as' => 'paypal.'], function() {
-    Router::get('/success', [PaypalController::class, 'success' ])->name('success');
+    Router::post('/success', [PaypalController::class, 'success' ])->name('success');
     Router::get('/cancel', [PaypalController::class, 'cancel' ])->name('cancel');
     Router::post('/notify', [PaypalController::class, 'notify' ])->name('notify');
     Router::get('/update-subscriptions', [PaypalController::class, 'update' ])->name('update');
     Router::get('/reactivate/{usersubscription}', [PaypalController::class, 'reactivate' ])->name('reactivate');
+
+    Router::get('/check-renew-plan-cron', [PaypalController::class, 'checkRenewPlanCron' ])->name('check-renew-plan-cron');
+    Router::get('/plan-renew/{plan_request}', [PaypalController::class, 'planRenew' ])->name('plan-renew');
 });
 

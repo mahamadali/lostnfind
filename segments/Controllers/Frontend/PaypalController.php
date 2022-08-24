@@ -12,17 +12,81 @@ use Models\PurchasePlanRequest;
 use Models\Subscription;
 use Models\Tag;
 use Models\UserSubscription;
+use Mail\PlanRenew;
 
 class PaypalController
 {
     public function success(Request $request)
     {
+      
         $planRequestInfo = PurchasePlanRequest::find($request->request_id);
         $plan = $planRequestInfo->plan()->first();
-        return render('frontend/payment-form/success', [
-            'plan' => $plan,
-            'planRequestInfo' => $planRequestInfo
-        ]);
+        $subscr_date = date('Y-m-d H:i:s');
+        $subscr_date_valid_to = date("Y-m-d H:i:s", strtotime(" + $plan->days days", strtotime($subscr_date)));
+
+        $subscription_availbale = UserSubscription::where('user_id',$request->request_id)->first();
+        if(empty($subscription_availbale)){
+
+            $userSubscription = new UserSubscription();
+            $userSubscription->user_id = $request->request_id;
+            $userSubscription->plan_id = $request->plan_id;
+            $userSubscription->paypal_subscr_id = $request->PayerID;
+            $userSubscription->txn_id = $request->txn_id;
+            $userSubscription->valid_from = $subscr_date;
+            $userSubscription->valid_to = $subscr_date_valid_to;
+            $userSubscription->paid_amount = $request->payment_gross;
+            $userSubscription->currency_code = $request->mc_currency;
+            $userSubscription->payer_name = $request->first_name.' '.$request->last_name;
+            $userSubscription->payer_email = $request->payer_email;
+            $userSubscription->payment_status = $request->payment_status;
+            $userSubscription->payment_method = 'paypal';
+            $userSubscription = $userSubscription->save();
+            
+            $purchasePlanRequest = PurchasePlanRequest::find($request->request_id);
+            $purchasePlanRequest->status = 'Active';
+            $purchasePlanRequest->save();
+
+            $tag = Tag::where('category_id', $purchasePlanRequest->category_id)->where('is_locked', 0)->first();
+            $tag->is_locked = 1;
+            $tag->save();
+
+            $userSubscription->tag_number = $tag->tag_number;
+            $userSubscription->status = 'ACTIVE';
+            $userSubscription->save();
+
+            Alert::as(new PlanSubscribed($userSubscription, $purchasePlanRequest, $tag))->notify();
+            Alert::as(new PlanSubscribedAdminNoty($userSubscription, $purchasePlanRequest))->notify();
+
+            return render('frontend/payment-form/success', [
+                'plan' => $plan,
+                'planRequestInfo' => $planRequestInfo
+            ]);
+
+        }else{
+            $cur_date = date('Y-m-d H:i:s');
+            $valid_to =  $subscription_availbale->valid_to;
+
+            $datediff = strtotime($valid_to) - strtotime($cur_date);
+            $day_remain = round($datediff / (60 * 60 * 24));
+            $days_increment = $day_remain + $plan->days;
+
+            $subscr_date_valid_to = date("Y-m-d H:i:s", strtotime(" + $days_increment days", strtotime($cur_date)));
+            
+            $subscription_availbale->paypal_subscr_id = $request->PayerID;
+            $subscription_availbale->valid_to = $subscr_date_valid_to;
+            $subscription_availbale->txn_id = $request->txn_id;
+            $subscription_availbale->paid_amount = $request->payment_gross;
+            $subscription_availbale->status = 'ACTIVE';
+            $subscription_availbale->save();
+
+            return render('frontend/payment-form/success', [
+                'plan' => $plan,
+                'planRequestInfo' => $planRequestInfo
+            ]);
+        }
+       
+
+        
     }
 
     public function cancel(Request $request)
@@ -32,6 +96,8 @@ class PaypalController
 
     public function notify(Request $request)
     {
+
+        exit;
         $raw_post_data = file_get_contents('php://input');
         file_put_contents('ak.txt', $raw_post_data); 
         // file_put_contents('paypal-ipn.txt', $raw_post_data);
@@ -246,5 +312,64 @@ class PaypalController
 
         return redirect(route('user.my-plans.index'))->withFlashSuccess('Plan will reactivate soon.')->go();
 
+    }
+
+
+    public function checkRenewPlanCron(Request $request) {
+        $userSubscriptions = UserSubscription::get();
+        foreach($userSubscriptions as $userSubscription) {
+
+            if($userSubscription->status == 'ACTIVE') {
+                $today_date = date('Y-m-d H:i:s');
+                $valid_to =  date("Y-m-d H:i:s", strtotime($userSubscription->valid_to));
+                $before_ten_days_valid_date = date("Y-m-d H:i:s", strtotime(" - 10 days", strtotime($valid_to)));
+
+                if($before_ten_days_valid_date <= $today_date && $today_date <= $valid_to){
+                    $datediff = strtotime($valid_to) - strtotime($today_date);
+                    $date_remain = round($datediff / (60 * 60 * 24));
+                    $message = 'Your plan expired in '.$date_remain.' days';
+
+                    $planRequestInfo = PurchasePlanRequest::find($userSubscription->user_id);
+
+                    Alert::as(new PlanRenew($userSubscription, $planRequestInfo, $message))->notify();
+
+                }
+            }
+        }
+    }
+
+
+    public function planRenew(Request $request,$plan_req_id) {
+        $planRequestInfo = PurchasePlanRequest::find($plan_req_id);
+        $plan = $planRequestInfo->plan()->first();
+
+        
+        if(!empty($planRequestInfo)){
+            $paypalConfig = [
+                'email' => setting('paypal.paypal_id'),
+                'return_url' =>  setting('paypal.paypal_return_url').'?plan_id='.$plan->id.'&request_id='.$planRequestInfo->id,
+                'cancel_url' => setting('paypal.paypal_cancel_url').'?plan_id='.$plan->id,
+                'notify_url' => setting('paypal.paypal_notify_url')
+            ];
+            $paypalUrl = setting('paypal.paypal_url');
+            
+            $data['cmd'] = '_xclick';
+            $data['business'] = $paypalConfig['email'];
+            $data['return'] = stripslashes($paypalConfig['return_url']);
+            $data['cancel_return'] = stripslashes($paypalConfig['cancel_url']);
+            $data['notify_url'] = stripslashes($paypalConfig['notify_url']);
+            $data['item_name'] = $plan->title;
+            $data['item_number'] = $plan->id;
+            $data['amount'] = $plan->renew_price;
+            $data['currency_code'] = setting('paypal.currency');
+            $data['rm'] = 2;
+            $data['quantity'] = 1;
+            $data['custom'] = $plan_req_id;
+            $queryString = http_build_query($data);
+            header('location:' . $paypalUrl . '?' . $queryString);
+            // dd($paypalUrl . '?' . $queryString);
+            exit();
+        }
+       
     }
 }

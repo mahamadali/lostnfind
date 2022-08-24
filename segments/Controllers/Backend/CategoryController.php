@@ -74,8 +74,19 @@ class CategoryController
 	public function delete(Request $request, Category $category)
 	{
 		if (!empty($category)) {
-			Category::where('id', $category->id)->update(['status' => 'Inactive']);
-			return redirect()->withFlashError('Category inactive successfully!')->back();
+			// Category::where('id', $category->id)->update(['status' => 'Inactive']);
+			$categpry = Category::where('id', $category->id)->first();
+			if($categpry->status == 'active'){
+				$categpry->status = 'inactive';
+				$categpry->save();
+				return redirect()->withFlashError('Category Inactive successfully!')->back();
+			}else{
+				$categpry->status = 'active';
+				$categpry->save();
+				return redirect()->withFlashSuccess('Category Active successfully!')->back();
+			}
+			
+			
 		} else {
 			return redirect()->withFlashError('You have no access to delete this item!')->back();
 		}

@@ -35,6 +35,7 @@ class SubscriptionController
 			'title' => 'required|min:2|max:60',
             'description' => 'required',
             'price' => 'required',
+			'renew_price' => 'required',
             'days' => 'required',
 			'category_id' => 'required'
 		]);
@@ -43,7 +44,7 @@ class SubscriptionController
 			return redirect()->withFlashError(implode('<br>', $validator->errors()))->with('old', $request->all())->back();
 		}
 
-		$data = $request->getOnly(['title', 'description', 'price', 'days', 'category_id']);
+		$data = $request->getOnly(['title', 'description', 'price', 'renew_price', 'days', 'category_id']);
 
 		$subscription = Subscription::create($data);
 
@@ -68,6 +69,7 @@ class SubscriptionController
 			'title' => 'required|min:2|max:60',
             'description' => 'required',
             'price' => 'required',
+			'renew_price' => 'required',
             'days' => 'required',
 			'category_id' => 'required'
 		]);
@@ -76,7 +78,7 @@ class SubscriptionController
 			return redirect()->withFlashError(implode('<br>', $validator->errors()))->with('old', $request->all())->back();
 		}
 
-		$data = $request->getOnly(['title', 'description', 'price', 'days', 'category_id']);
+		$data = $request->getOnly(['title', 'description', 'price', 'renew_price', 'days', 'category_id']);
 
 		if (Subscription::where('id', $request->id)->update($data)) {
 			return redirect()->withFlashSuccess('Subscription updated successfully!')->with('old', $request->all())->back();

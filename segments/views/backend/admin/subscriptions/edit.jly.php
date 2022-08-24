@@ -52,6 +52,16 @@
             </div>
           </div>
         </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label>Renew Price</label>
+              <input type="text" class="form-control" name="renew_price" value="{{ $subscription->renew_price }}" />
+            </div>
+          </div>
+        </div>
+
         <div class="row">
           <div class="col">
             <div class="form-group">
