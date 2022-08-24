@@ -265,6 +265,7 @@
   </div>
 <?php } ?>
                     <?php if(auth()->role->name == 'user') { ?>
+    <?php if(!empty(advertisements())) { ?>
     <div id="carouselExampleIndicators" class="carousel slide mb-4" data-ride="carousel" style="border: 10px solid white;">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -288,7 +289,8 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
-        </div>
+    </div>
+    <?php } ?>
 <?php } ?>    
                     <div class="row">
   <div class="col-md-12 grid-margin">
