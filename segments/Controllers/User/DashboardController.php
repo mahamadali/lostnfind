@@ -18,7 +18,7 @@ class DashboardController
 
 		$contacts = count(AdditionalContact::where('user_id', auth()->id)->get());
 
-		$userPlans = user()->requested_plans();
+		$userPlans = user()->transactions()->get();
 		
 		return render('backend/user/dashboard', [
 			'items' => $items,

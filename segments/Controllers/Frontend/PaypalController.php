@@ -32,10 +32,10 @@ class PaypalController
 
     public function notify(Request $request)
     {
-        // $raw_post_data = file_get_contents('php://input');
-        // file_put_contents('ak.txt', $raw_post_data); 
+        $raw_post_data = file_get_contents('php://input');
+        file_put_contents('ak.txt', $raw_post_data); 
         // file_put_contents('paypal-ipn.txt', $raw_post_data);
-        $raw_post_data = 'amount3=20.95&address_status=confirmed&subscr_date=03%3A37%3A30+Aug+03%2C+2022+PDT&payer_id=PRMKM77KHA6CJ&address_street=1+Main+St&mc_amount3=20.95&charset=windows-1252&address_zip=95131&first_name=Ak&reattempt=1&address_country_code=US&address_name=Ak+Husen&notify_version=3.9&subscr_id=I-W4F73S6TSN2W&custom=2&payer_status=verified&business=akbarbusiness121%40gmail.com&address_country=United+States&address_city=San+Jose&verify_sign=AFd.erwt7VoeoUMr85yut0RloHozAkTVXPeTuoOFj11nZm8NOV3zwUfP&payer_email=akbar-buyer%40gmail.com&last_name=Husen&address_state=CA&receiver_email=akbarbusiness121%40gmail.com&recurring=1&txn_type=subscr_signup&item_name=BIKE+Plan&mc_currency=USD&item_number=5&residence_country=US&test_ipn=1&period3=1+Y&ipn_track_id=78c2c2aace3a4';
+        //$raw_post_data = 'amount3=20.95&address_status=confirmed&subscr_date=03%3A37%3A30+Aug+03%2C+2022+PDT&payer_id=PRMKM77KHA6CJ&address_street=1+Main+St&mc_amount3=20.95&charset=windows-1252&address_zip=95131&first_name=Ak&reattempt=1&address_country_code=US&address_name=Ak+Husen&notify_version=3.9&subscr_id=I-W4F73S6TSN2W&custom=2&payer_status=verified&business=akbarbusiness121%40gmail.com&address_country=United+States&address_city=San+Jose&verify_sign=AFd.erwt7VoeoUMr85yut0RloHozAkTVXPeTuoOFj11nZm8NOV3zwUfP&payer_email=akbar-buyer%40gmail.com&last_name=Husen&address_state=CA&receiver_email=akbarbusiness121%40gmail.com&recurring=1&txn_type=subscr_signup&item_name=BIKE+Plan&mc_currency=USD&item_number=5&residence_country=US&test_ipn=1&period3=1+Y&ipn_track_id=78c2c2aace3a4';
         
         // file_put_contents(locker_path('/paypal/ipn.txt'), $raw_post_data);
 
@@ -200,7 +200,7 @@ class PaypalController
                         $tag->save();
 
                         $userSubscription->tag_number = $tag->tag_number;
-                        $userSubscription->status = 'Active';
+                        $userSubscription->status = 'ACTIVE';
                         $userSubscription->save();
 
                         Alert::as(new PlanSubscribed($userSubscription, $purchasePlanRequest, $tag))->notify();
@@ -224,7 +224,7 @@ class PaypalController
                     $userSubscription->valid_to = date('Y-m-d H:i:s');
                 } else if($subscription_details->status == 'EXPIRED') {
                     $planRequested = $userSubscription->plan_requested_info();
-                    $planRequested->status = 'Inactive';
+                    $planRequested->status = 'INACTIVE';
                     $planRequested->save();
                 }
                 $userSubscription->save();

@@ -47,6 +47,15 @@
 
     <script type="text/javascript">
         var APP_BASE_URL = '{{ url("/") }}';
+        $(document).ready(function() {
+            $("table.datatable").DataTable({
+                "aLengthMenu": [
+                    [5, 10, 15, -1],
+                    [5, 10, 15, "All"]
+                ],
+                "iDisplayLength": 10,
+            });
+        });
     </script>
     @plot('scripts')
 </body>

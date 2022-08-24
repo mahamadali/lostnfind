@@ -9,7 +9,8 @@ assets/uploads/company-logos
 assets/uploads/advertise
 assets/uploads/footermenu
 assets/uploads/user-logos
-compiler/builds
+compiler/builds/
 settings/mail.php
 settings/alert.php
 settings/paypal.php
+ak.txt

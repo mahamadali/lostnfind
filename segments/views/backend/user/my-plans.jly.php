@@ -11,6 +11,7 @@
 <div class="row">
     @if(!empty($plans)):
         @foreach($plans as $plan): 
+            @if($plan->transaction->owner_id == auth()->id):
             <div class="col-md-4 mb-4 stretch-card transparent">
                 <div class="card card-tale">
                 <div class="card-body">
@@ -20,7 +21,7 @@
                     
                     <p class="mb-5">{{ !empty($plan) ? $plan->days. " Days" : 'No Plan Active' }} </p>
 
-                    <p class="fs-30 mb-4">{{ $plan->category }}</p>
+                    <!-- <p class="fs-30 mb-4">{{ $plan->category }}</p> -->
 
                     <p class="fs-30 mb-2">{{ $plan->transaction->tag_number }}</p>
 
@@ -34,11 +35,10 @@
                             <a href="{{ route('paypal.reactivate', ['usersubscription' => $plan->transaction->id]) }}" class="btn btn-primary">Activate</a>
                         @endif
                     @endif
-                    
-
                 </div>
                 </div>
             </div>
+            @endif
         @endforeach
     @endif
 </div>
