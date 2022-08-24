@@ -12,6 +12,7 @@
     @if(!empty($plans)):
         @foreach($plans as $plan): 
             @if($plan->transaction->owner_id == auth()->id):
+                
             <div class="col-md-4 mb-4 stretch-card transparent">
                 <div class="card card-tale">
                 <div class="card-body">
@@ -31,9 +32,9 @@
                         <p class="mb-2">Will expire on {{ date('M d, Y', strtotime($plan->transaction->valid_to)) }}</p>
                     @else
                         <p class="mt-4 mb-4 fs-30 text-pink">{{ $plan->transaction->status }}</p>
-                        @if($plan->api_subscription->status == 'SUSPENDED' && daysDiff($plan->api_subscription->status_update_time) < 30):
-                            <a href="{{ route('paypal.reactivate', ['usersubscription' => $plan->transaction->id]) }}" class="btn btn-primary">Activate</a>
-                        @endif
+                       
+                            <a href="{{ route('paypal.plan-renew', ['plan_request' => $plan->transaction->user_id]) }}" class="btn btn-primary">Activate</a>
+                       
                     @endif
                 </div>
                 </div>
