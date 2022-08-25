@@ -12,6 +12,10 @@ use Models\PurchasePlanRequest;
 use Models\UserSubscription;
 use Mail\PlanSubscribed;
 use Mail\PlanSubscribedAdminNoty;
+use Contributors\SMS\Texter;
+use Models\MessageSetting;
+use Models\SmsSetting;
+
 
 
 
@@ -213,8 +217,12 @@ class TagsController
 
 		if(!empty($user_id)){
 			$user_detail = User::where('id',$user_id)->first();
+			$user_country_code = $user_detail->country_code;
+			$user_contact_number = $user_detail->contact_number;
 			$email = $user_detail->email;
 		}else{
+			$user_country_code = '';
+			$user_contact_number = '';
 			$email = $request->email;
 		}
 
@@ -264,7 +272,24 @@ class TagsController
 		$tag->save();
 
 		Alert::as(new PlanSubscribed($userSubscription, $PurchasePlanRequestInfo, $tag))->notify();
-		Alert::as(new PlanSubscribedAdminNoty($userSubscription, $PurchasePlanRequestInfo))->notify();
+
+
+		$template = MessageSetting::where('title','adminfreetag')->first();
+        $message = $template->content;
+
+        $messageSetting = SmsSetting::first();
+
+		if(!empty($user_contact_number) && !empty($user_country_code)){
+			try {
+				Texter::to('+'.$user_country_code.' '.$user_contact_number)->body($message)->setTwilio([
+					'from_number' => '+'.$messageSetting->from_no,
+					'account_sid' => $messageSetting->sid,
+					'auth_token' => $messageSetting->token
+				])->send();
+			} catch (\Throwable $th) {
+				
+			}
+		}
 
 
 		return redirect()->withFlashSuccess('Assign tag to user successfully!')->with('old', $request->all())->back();

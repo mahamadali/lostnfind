@@ -27,6 +27,8 @@
                     <p class="fs-30 mb-2">{{ $plan->transaction->tag_number }}</p>
 
                     <p class="mb-2">Plan activated on {{ date('M d, Y', strtotime($plan->transaction->valid_from)) }}</p>
+
+                    @if(!empty($plan->transaction->valid_to)):
                     
                     @if(strtotime($plan->transaction->valid_to) > strtotime(date('Y-m-d H:i:s'))):
                         <p class="mb-2">Will expire on {{ date('M d, Y', strtotime($plan->transaction->valid_to)) }}</p>
@@ -35,6 +37,10 @@
                        
                             <a href="{{ route('paypal.plan-renew', ['plan_request' => $plan->transaction->user_id]) }}" class="btn btn-primary">Activate</a>
                        
+                    @endif
+
+                    @else
+                    <p class="mb-2">Life Time</p>
                     @endif
                 </div>
                 </div>

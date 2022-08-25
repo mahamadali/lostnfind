@@ -5,7 +5,11 @@
 		<td class="pad">
 			<div style="color:#000000;direction:ltr;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:15px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:18px;">
 				<h5>Hey {{ $purchasePlanRequest->email }}</h5>
-				<p style="margin: 0;">Congratulations! You have successfully purchased <b>{{ $purchasePlanRequest->plan()->first()->title }}</b> for <b>{{ $purchasePlanRequest->category()->first()->title }}</b> for <b>{{ $purchasePlanRequest->plan()->first()->days }}</b> Days @if($purchasePlanRequest->plan()->first()->title != 'Free'): with {{ $purchasePlanRequest->plan()->first()->price }} USD @endif</p>
+				@if($purchasePlanRequest->plan()->first()->title == 'Free'):
+				<p style="margin: 0;">Congratulations! Admin has assigned to you a <b>Free</b> tag</p>
+				@else
+				<p style="margin: 0;">Congratulations! You have successfully purchased <b>{{ $purchasePlanRequest->plan()->first()->title }}</b> for <b>{{ $purchasePlanRequest->category()->first()->title }}</b> for <b>{{ $purchasePlanRequest->plan()->first()->days }}</b> Days with {{ $purchasePlanRequest->plan()->first()->price }} USD</p>
+				@endif
 			</div>
 		</td>
 	</tr>

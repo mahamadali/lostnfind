@@ -19,6 +19,10 @@ return new class
 				'title' => 'finditem',
 				'content' => 'IF YOU FOUND A {{item}} PLEASE ENTER THE TAG BELOW'
 			],
+			[
+				'title' => 'adminfreetag',
+				'content' => 'Admin has assigned to you a free tag. Please check in your mail box.'
+			],
 		], null, $this->table);
 
 	}
