@@ -5,7 +5,7 @@
 		<td class="pad">
 			<div style="color:#000000;direction:ltr;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:15px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:18px;">
 				<h5>Hey Admin</h5>
-				<p style="margin: 0;">Congratulations! User ({{ $purchasePlanRequest->email }}) successfully purchased <b>{{ $purchasePlanRequest->plan()->first()->title }}</b> for <b>{{ $purchasePlanRequest->category()->first()->title }}</b> for <b>{{ $purchasePlanRequest->plan()->first()->days }}</b> Days with {{ $purchasePlanRequest->plan()->first()->price }} USD</p>
+				<p style="margin: 0;">Congratulations! User ({{ $purchasePlanRequest->email }}) successfully purchased <b>{{ $purchasePlanRequest->plan()->first()->title }}</b> for <b>{{ $purchasePlanRequest->category()->first()->title }}</b> for <b>{{ $purchasePlanRequest->plan()->first()->days }}</b> Days @if($purchasePlanRequest->plan()->first()->title != 'Free'): with {{ $purchasePlanRequest->plan()->first()->price }} USD @endif</p>
 			</div>
 		</td>
 	</tr>

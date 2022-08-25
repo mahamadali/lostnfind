@@ -2,9 +2,19 @@
 
 namespace Controllers\Backend;
 
+use Bones\Alert;
 use Bones\Request;
 use Models\Category;
 use Models\Tag;
+use Models\User;
+use Models\Subscription;
+use Models\PurchasePlanRequest;
+use Models\UserSubscription;
+use Mail\PlanSubscribed;
+use Mail\PlanSubscribedAdminNoty;
+
+
+
 
 class TagsController
 {
@@ -140,4 +150,124 @@ class TagsController
         return redirect()->withFlashSuccess($row.' tags imported. '.$existing. ' tags already in system')->back();
         
     }
+
+	public function assignToUser(Request $request, Tag $tag)
+	{
+		$users = User::where('role_id',2)->where('status', 'active')->get();
+
+		
+
+		return render('backend/admin/tags/assign-to-user', [
+			'tag' => $tag,
+            'users' => $users
+		]);
+	}
+
+
+	public function storeAssignToUser(Request $request, Tag $tag)
+	{
+		
+		$validator = $request->validate([
+			'plan_type' => 'required',
+		]);
+        
+		if ($validator->hasError()) {
+			return redirect()->withFlashError(implode('<br>', $validator->errors()))->with('old', $request->all())->back();
+		}
+
+		
+
+		// $data = $request->getOnly(['title', 'description', 'price', 'renew_price', 'days', 'category_id']);
+
+		
+		
+		$renew_price = $request->renew_price ?? null;
+		$user_id = $request->user_id ?? '';
+		$plan_type = $request->plan_type;
+		$expired_date = $request->expired_date ?? null;
+		
+		
+
+		$data = [];
+		$data['title'] = 'Free';
+		$data['description'] = $tag->category->title;
+
+		if($plan_type == 'life_time'){
+			$data['renew_price'] = null;
+			$data['days'] = null;
+		}elseif($plan_type == 365){
+			$data['renew_price'] = $renew_price;
+			$data['days'] = 365;
+		}elseif($plan_type == 'custom'){
+			$data['renew_price'] = $renew_price;
+			$today_date = date('Y-m-d');
+            $valid_to =  date("Y-m-d", strtotime($expired_date));
+			$datediff = strtotime($valid_to) - strtotime($today_date);
+			$date_remain = round($datediff / (60 * 60 * 24));
+			$data['days'] = $date_remain;
+		}
+
+		$data['is_free'] = 1;
+		$data['category_id'] = $tag->category_id;
+		$subscription = Subscription::create($data);
+
+		if(!empty($user_id)){
+			$user_detail = User::where('id',$user_id)->first();
+			$email = $user_detail->email;
+		}else{
+			$email = $request->email;
+		}
+
+		
+		$PurchasePlanRequest = new PurchasePlanRequest();
+		$PurchasePlanRequest->email = $email;
+		$PurchasePlanRequest->plan_id = $subscription->id;
+		$PurchasePlanRequest->category_id = $tag->category_id;
+		$PurchasePlanRequest->status = 'Active';
+		$PurchasePlanRequestInfo = $PurchasePlanRequest->save();
+
+
+		$userSubscription = new UserSubscription();
+		$userSubscription->user_id = $PurchasePlanRequestInfo->id;
+		$userSubscription->plan_id = $subscription->id;
+		$userSubscription->paypal_subscr_id = null;
+		$userSubscription->txn_id = null;
+		$userSubscription->valid_from = date('Y-m-d h:i:s');
+
+		if($plan_type == 'life_time'){
+			$subscr_date_valid_to = null;
+		}elseif($plan_type == 365){
+			$subscr_date_valid_to = date("Y-m-d H:i:s", strtotime(" + 365 days", strtotime(date('Y-m-d h:i:s'))));
+		}elseif($plan_type == 'custom'){
+			$subscr_date_valid_to =  date("Y-m-d h:i:s", strtotime($expired_date));
+		}
+
+
+		$userSubscription->valid_to = $subscr_date_valid_to;
+		$userSubscription->paid_amount = null;
+		$userSubscription->currency_code = null;
+		$userSubscription->payer_name = null;
+		$userSubscription->payer_email = null;
+		$userSubscription->payment_status = null;
+		$userSubscription->payment_method = 'Free';
+		$userSubscription = $userSubscription->save();
+
+
+		// $tag = Tag::where('category_id', $tag->category_id)->where('is_locked', 0)->first();
+		
+
+		$userSubscription->tag_number = $tag->tag_number;
+		$userSubscription->status = 'ACTIVE';
+		$userSubscription->save();
+
+		$tag->is_locked = 1;
+		$tag->save();
+
+		Alert::as(new PlanSubscribed($userSubscription, $PurchasePlanRequestInfo, $tag))->notify();
+		Alert::as(new PlanSubscribedAdminNoty($userSubscription, $PurchasePlanRequestInfo))->notify();
+
+
+		return redirect()->withFlashSuccess('Assign tag to user successfully!')->with('old', $request->all())->back();
+	}
+
 }

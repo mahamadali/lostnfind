@@ -39,7 +39,7 @@ class HomeController
 
     public function pricing()
     {
-        $plans = Subscription::get();
+        $plans = Subscription::where('title','Free','!=')->get();
         return render('frontend/pricing', [
             'plans' => $plans
         ]);

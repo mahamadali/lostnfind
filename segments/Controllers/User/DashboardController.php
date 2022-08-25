@@ -16,6 +16,13 @@ class DashboardController
 
 		$transactions = count(user()->transactions()->get());
 
+		$transactions_count = 0;
+		if(!empty(user()->transactions()->get())){
+			foreach (user()->transactions()->get() as $main_transaction){
+				$transactions_count += count($main_transaction->log_transactions()->get());
+			}
+		}
+
 		$contacts = count(AdditionalContact::where('user_id', auth()->id)->get());
 
 		$userPlans = user()->transactions()->get();
@@ -23,7 +30,7 @@ class DashboardController
 		return render('backend/user/dashboard', [
 			'items' => $items,
 			'contacts' => $contacts,
-			'transactions' => $transactions,
+			'transactions' => $transactions_count,
 			'userPlans' => count($userPlans)
 		]);
 	}

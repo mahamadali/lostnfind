@@ -43,6 +43,11 @@
                 <td>{{ $tag->category->prefix }}</td>
                 <td>{{ $tag->is_locked ? 'Locked' : 'Available' }}</td>
                 <td>
+                  @if(!$tag->is_locked):
+                    <a href="{{ url('admin/tags/assign-to-user/'.$tag->id) }}" class="btn btn-sm btn-success">
+                      <span>Assign To User</span>
+                    </a>   
+                  @endif
                   <a href="{{ url('admin/tags/edit/'.$tag->id) }}" class="btn btn-sm btn-info">
                     <span><i class="ti-pencil"></i></span>
                   </a>

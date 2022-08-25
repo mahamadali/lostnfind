@@ -47,6 +47,10 @@ Router::bunch('/admin', ['as' => 'admin.', 'barrier' => [IsAuthenticated::class]
 		Router::post('/update/{tag}', [ TagsController::class, 'update' ])->name('update');
 		Router::post('/delete/{tag}', [ TagsController::class, 'delete' ])->name('delete');
 		Router::post('/import', [ TagsController::class, 'import' ])->name('import');
+
+		Router::get('/assign-to-user/{tag}', [ TagsController::class, 'assignToUser' ])->name('assign-to-user');
+		Router::post('/store-assign-to-user/{tag}', [ TagsController::class, 'storeAssignToUser' ])->name('store-assign-to-user');
+		
 	});
 
 	Router::bunch('/subscriptions', ['as' => 'subscriptions.'], function() {

@@ -3,6 +3,7 @@
 namespace Models;
 
 use Models\Base\Model;
+use Models\PaymentLog;
 
 class UserSubscription extends Model
 {
@@ -14,6 +15,10 @@ class UserSubscription extends Model
 
 	public function plan_requested_info() {
 		return $this->parallelTo(PurchasePlanRequest::class, 'user_id')->first();
+	}
+
+	public function log_transactions() {
+		return $this->hasMany(PaymentLog::class, 'user_subscription_id');
 	}
 
 }

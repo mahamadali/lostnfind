@@ -20,30 +20,35 @@
           <thead>
             <tr>
               <th>TX ID</th>
-              <th>Payment Id</th>
+              <th>Payer ID</th>
               <th>Payment Method</th>
               <th>Payment Status</th>
               <th>Plan</th>
               <!-- <th>Interval</th> -->
-              <th>Start</th>
-              <th>End</th>
+              <!-- <th>Start</th>
+              <th>End</th> -->
               <th>Amount</th>
             </tr>
           </thead>
           <tbody>
             @if ($totalTransactions > 0):
-              @foreach (user()->transactions()->get() as $transaction):
+              @foreach (user()->transactions()->get() as $main_transaction):
+
+                
+              @foreach($main_transaction->log_transactions()->get() as $transaction):
+                
               <tr>
                 <td>{{ $transaction->txn_id }}</td>
-                <td>{{ $transaction->paypal_subscr_id }}</td>
+                <td>{{ $transaction->paypal_id }}</td>
                 <td>{{ $transaction->payment_method }}</td>
                 <td>{{ $transaction->payment_status }}</td>
-                <td>{{ $transaction->plan()->title }}</td>
-                <!-- <td>{{ $transaction->subscr_interval_count }} {{ $transaction->subscr_interval }}</td> -->
-                <td>{{ date('M d, Y', strtotime($transaction->valid_from)) }}</td>
-                <td>{{ date('M d, Y', strtotime($transaction->valid_to)) }}</td>
-                <td>{{ $transaction->plan()->price }} {{ $transaction->currency_code }}</td>
+                <td>{{ $main_transaction->plan()->title }}</td>
+               <!-- <td>{{ date('M d, Y', strtotime($main_transaction->valid_from)) }}</td>
+                <td>{{ date('M d, Y', strtotime($main_transaction->valid_to)) }}</td>  -->
+                <td>{{ $transaction->paid_amount }} {{ $transaction->currency_code }}</td>
               </tr>
+              @endforeach
+
               @endforeach
             @else
               <tr>

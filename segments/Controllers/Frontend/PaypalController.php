@@ -13,6 +13,7 @@ use Models\Subscription;
 use Models\Tag;
 use Models\UserSubscription;
 use Mail\PlanRenew;
+use Models\PaymentLog;
 
 class PaypalController
 {
@@ -52,7 +53,21 @@ class PaypalController
 
             $userSubscription->tag_number = $tag->tag_number;
             $userSubscription->status = 'ACTIVE';
-            $userSubscription->save();
+            $userSubscriptionInfo = $userSubscription->save();
+
+
+
+            $log = new PaymentLog();
+            $log->user_subscription_id =  $userSubscriptionInfo->id;
+            $log->paypal_id =  $request->PayerID;
+            $log->txn_id =  $request->txn_id;
+            $log->paid_amount =  $request->payment_gross;
+            $log->currency_code =  $request->mc_currency;
+            $log->payer_name =   $request->first_name.' '.$request->last_name;
+            $log->payer_email =  $request->payer_email;
+            $log->payment_status =  $request->payment_status;
+            $log->payment_method =  'paypal';
+            $log->save();
 
             Alert::as(new PlanSubscribed($userSubscription, $purchasePlanRequest, $tag))->notify();
             Alert::as(new PlanSubscribedAdminNoty($userSubscription, $purchasePlanRequest))->notify();
@@ -78,6 +93,18 @@ class PaypalController
             $subscription_availbale->paid_amount = $request->payment_gross;
             $subscription_availbale->status = 'ACTIVE';
             $subscription_availbale->save();
+
+            $log = new PaymentLog();
+            $log->user_subscription_id =  $subscription_availbale->id;
+            $log->paypal_id =  $request->PayerID;
+            $log->txn_id =  $request->txn_id;
+            $log->paid_amount =  $request->payment_gross;
+            $log->currency_code =  $request->mc_currency;
+            $log->payer_name =   $request->first_name.' '.$request->last_name;
+            $log->payer_email =  $request->payer_email;
+            $log->payment_status =  $request->payment_status;
+            $log->payment_method =  'paypal';
+            $log->save();
 
             return render('frontend/payment-form/success', [
                 'plan' => $plan,
@@ -319,7 +346,9 @@ class PaypalController
         $userSubscriptions = UserSubscription::get();
         foreach($userSubscriptions as $userSubscription) {
 
-            if($userSubscription->status == 'ACTIVE') {
+            if($userSubscription->status == 'ACTIVE' && $userSubscription->valid_to != null) {
+
+            
                 $today_date = date('Y-m-d H:i:s');
                 $valid_to =  date("Y-m-d H:i:s", strtotime($userSubscription->valid_to));
                 $before_ten_days_valid_date = date("Y-m-d H:i:s", strtotime(" - 10 days", strtotime($valid_to)));
