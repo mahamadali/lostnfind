@@ -171,7 +171,7 @@ class Mailer extends AutoMethodMap
         try {
             //Server settings
             $mail->SMTPDebug = setting('alert.mail.smtp.debug', false);
-            $mail->isSMTP();
+            // $mail->isSMTP();
             $mail->Host       = setting('alert.mail.smtp.host');
             $mail->SMTPAuth   = true;
             $mail->Username   = setting('alert.mail.smtp.username');
