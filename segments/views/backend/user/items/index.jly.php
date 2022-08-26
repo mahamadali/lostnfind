@@ -48,13 +48,13 @@
                   <a href="{{ url('user/items/edit/'.$item->id) }}" class="btn btn-sm btn-info">
                     <span><i class="ti-pencil"></i></span>
                   </a>
-                  <form method="post" action="{{ route('user.items.delete', ['item' => $item->id]) }}" class="d-inline-block">
+                  <!-- <form method="post" action="{{ route('user.items.delete', ['item' => $item->id]) }}" class="d-inline-block">
                   {{ prevent_csrf() }}
                     <input type="hidden" name="_method" value="DELETE" />
                     <button type="submit" class="btn btn-sm btn-danger">
                       <span><i class="ti-trash"></i></span>
                       </a>
-                  </form>
+                  </form> -->
                 </td>
               </tr>
               @endforeach

@@ -8,7 +8,7 @@ class PreventCSRFToken
 {
     public $excludeRoutes = [
         // define routes to exclude from csrf-token check
-        '/paypal/*'
+        '/paypal/*','paypal/*'
     ];
 
     public function check(Request $request)

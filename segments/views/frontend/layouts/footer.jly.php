@@ -41,14 +41,14 @@
       </p>
     </div>
 
-    <div class="col-lg-3 col-6 footer-links">
+    <div class="col-lg-3 col-12 footer-links">
       <h4>Newsletter</h4>
       <form method="post" action="{{ route('newsletter.store') }}" id="newsletter-form">
       {{ prevent_csrf() }}
       <div class="input-group mb-3">
           <input type="email" class="form-control"name="email" id="newsletter_email" placeholder="Enter your email..." aria-label="Recipient's username" aria-describedby="basic-addon2">
           <div class="input-group-append">
-            <button type="submit" class="btn btn-primary" style="height: -webkit-fill-available;border-radius: 0;">Submit</button>
+            <button type="submit" class="btn btn-primary" style="height:100%;border-radius: 0;">Submit</button>
           </div>
         </div>
       </form> 

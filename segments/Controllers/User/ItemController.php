@@ -79,6 +79,7 @@ class ItemController
 		}
 
         echo json_encode(['status' => 200, 'item' => $item]);
+        exit();
 	}
 
     public function edit(Request $request, Item $item)
@@ -128,6 +129,7 @@ class ItemController
 		}
 
         echo json_encode(['status' => 200, 'item' => $item]);
+        exit();
 
     }
 
