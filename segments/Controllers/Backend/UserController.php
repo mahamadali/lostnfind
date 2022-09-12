@@ -171,6 +171,7 @@ class UserController
             }
         }
 
+		
 		$additionalContacts = AdditionalContact::where('user_id',$user->id)->orderBy('id')->get();
 		$totalContacts = count($additionalContacts);
 

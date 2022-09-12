@@ -11,7 +11,7 @@
 <div class="row">
     @if(!empty($plans)):
         @foreach($plans as $plan): 
-            @if($plan->transaction->owner_id == auth()->id):
+            @if(!empty($plan->transaction->owner_id) && $plan->transaction->owner_id == auth()->id):
                 
             <div class="col-md-4 mb-4 stretch-card transparent">
                 <div class="card card-tale">

@@ -106,7 +106,7 @@
                         <div class="row">
                               @if(!empty($plans)):
                                   @foreach($plans as $plan): 
-                                      @if($plan->transaction->owner_id == $user->id):
+                                      @if(!empty($plan->transaction->owner_id) && $plan->transaction->owner_id == $user->id):
                                       <div class="col-md-4 mb-4 stretch-card transparent">
                                           <div class="card card-tale">
                                           <div class="card-body">
