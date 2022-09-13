@@ -17,7 +17,7 @@ class SubscriptionController
 	
 	public function index(Request $request)
 	{
-		$subscriptions = Subscription::orderBy('id')->get();
+		$subscriptions = Subscription::whereNull('is_free')->orderBy('id')->get();
 
 		return render('backend/admin/subscriptions/list', [
 			'subscriptions' => $subscriptions
